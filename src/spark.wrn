@@ -1,0 +1,6 @@
+declare_annotations
+with_clauses
+hidden_parts
+pragma Pure
+pragma Pack
+representation_clauses
