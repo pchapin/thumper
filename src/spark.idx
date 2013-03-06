@@ -1,6 +1,8 @@
 ASN1                   specification is in asn1.ads
 ASN1.OID               specification is in asn1-oid.ads
 ASN1.OID               body          is in asn1-oid.adb
+BER                    specification is in ber.ads
+BER                    body          is in ber.adb
 Cryptographic_Services specification is in cryptographic_services.ads
 Cryptographic_Services body          is in cryptographic_services.adb
 Messages               specification is in messages.ads
