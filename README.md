@@ -1,7 +1,7 @@
 Thumper
 =======
 
-Thumper is a secure time stamp client/server system that implements RFC-3151. It allows clients
+Thumper is a secure time stamp client/server system that implements RFC-3161. It allows clients
 to obtain cryptographic time stamps that can be used to later verify that certain documents
 existed on or before the time mentioned in the time stamp. Thumper is written in the SPARK
 programming language.
