@@ -4,7 +4,7 @@ project Thumper is
 
    type Runtime_Type is
       ("cert", "default", "full", "hi", "kernel", "kernel-sjlj", "kernel-smp", "pthread", "ravenscar", "ravenscar-apex", "ravenscar-full", "ravenscar-cert", "ravenscar-cert-rtp", "ravenscar-sfp", "rtp", "rtp-smp", "soft-float", "xenomai", "zcx", "zfp");
-   for Languages use ("Ada");
+   for Languages use ("Ada", "Metafile");
    for Source_Dirs use (".", "tests");
    for Object_Dir use "build";
    for Main use ("thumper_server.adb", "thumper_test.adb");

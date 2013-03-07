@@ -1,0 +1,14 @@
+---------------------------------------------------------------------------
+-- FILE       : spark.smf
+-- SUBJECT    : SPARK metafile for the Thumper project.
+-- PROGRAMMER : (C) Copyright 2013 by Peter Chapin and John McCormick
+--
+-- This file contains a list of files that should examine cleanly.
+---------------------------------------------------------------------------
+--asn1-oid.adb
+--ber.adb
+network-addresses.adb
+serial_generator.adb
+--strings.adb
+thumper_server.adb
+--timestamp_maker.adb
