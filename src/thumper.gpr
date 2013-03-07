@@ -2,13 +2,13 @@ with "aunit.gpr";
 
 project Thumper is
 
-   type Runtime_Type is
-      ("cert", "default", "full", "hi", "kernel", "kernel-sjlj", "kernel-smp", "pthread", "ravenscar", "ravenscar-apex", "ravenscar-full", "ravenscar-cert", "ravenscar-cert-rtp", "ravenscar-sfp", "rtp", "rtp-smp", "soft-float", "xenomai", "zcx", "zfp");
    for Languages use ("Ada", "Metafile");
    for Source_Dirs use (".", "tests");
    for Object_Dir use "build";
    for Main use ("thumper_server.adb", "thumper_test.adb");
-   RUNTIME : Runtime_Type := external ("RUNTIME");
+   type Runtime_Type is
+      ("cert", "default", "full", "hi", "kernel", "kernel-sjlj", "kernel-smp", "pthread", "ravenscar", "ravenscar-apex", "ravenscar-full", "ravenscar-cert", "ravenscar-cert-rtp", "ravenscar-sfp", "rtp", "rtp-smp", "soft-float", "xenomai", "zcx", "zfp");
+   Runtime : Runtime_Type := external ("RUNTIME");
 
    package Builder is
       for Default_Switches ("ada") use ("-g", "-gnatQ");
@@ -18,6 +18,51 @@ project Thumper is
       for Default_Switches ("ada") use ("-g", "-gnat95", "-gnato", "-fstack-check");
       for Default_Switches ("c") use ("");
       for Default_Switches ("c++") use ("");
+
+      case Runtime is
+
+         when "cert" =>
+
+         when "default" =>
+
+         when "full" =>
+            for Driver ("metafile") use "";
+
+         when "hi" =>
+
+         when "kernel" =>
+
+         when "kernel-sjlj" =>
+
+         when "kernel-smp" =>
+
+         when "pthread" =>
+
+         when "ravenscar" =>
+
+         when "ravenscar-apex" =>
+
+         when "ravenscar-full" =>
+
+         when "ravenscar-cert" =>
+
+         when "ravenscar-cert-rtp" =>
+
+         when "ravenscar-sfp" =>
+
+         when "rtp" =>
+
+         when "rtp-smp" =>
+
+         when "soft-float" =>
+
+         when "xenomai" =>
+
+         when "zcx" =>
+
+         when "zfp" =>
+
+      end case;
    end Compiler;
 
    package Binder is
@@ -31,7 +76,7 @@ project Thumper is
    package Ide is
       for Default_Switches ("examiner") use ("-index_file=spark.idx", "-config=spark.cfg", "-warning_file=spark.wrn", "-flow_analysis=information", "-vcg");
 
-      case RUNTIME is
+      case Runtime is
 
          when "cert" =>
 
@@ -80,6 +125,10 @@ project Thumper is
    -- package Pretty_Printer is
    --    for Default_Switches ("Ada") use ("");
    -- end Pretty_Printer;
+
+   package Naming is
+     for Body_Suffix("Metafile") use ".smf";
+   end Naming;
 
 end Thumper;
 
