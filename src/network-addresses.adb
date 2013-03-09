@@ -71,6 +71,17 @@ package body Network.Addresses is
    end To_IPv4_Address;
 
 
+   procedure To_IPv4_String
+     (Address         : in  IPv4;
+      Text            : out String;
+      Character_Count : out Natural;
+      Status          : out Status_Type) is
+   begin
+      -- TODO: Finish me!
+      null;
+   end To_IPv4_String;
+
+
    function To_UDPv4_Address(Address : IPv4; Port : Port_Type) return UDPv4 is
       Result : UDPv4;
    begin
@@ -78,5 +89,17 @@ package body Network.Addresses is
       Result.Port := Port;
       return Result;
    end To_UDPv4_Address;
+
+
+   function Get_Port(Endpoint_Address : UDPv4) return Port_Type is
+   begin
+      return Endpoint_Address.Port;
+   end Get_Port;
+
+
+   function Get_IPv4(Endpoint_Address : UDPv4) return IPv4 is
+   begin
+      return Endpoint_Address.Address;
+   end Get_IPv4;
 
 end Network.Addresses;

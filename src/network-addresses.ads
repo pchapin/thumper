@@ -16,7 +16,7 @@ package Network.Addresses is
    type IPv4  is private;
    type UDPv4 is private;
 
-   type Status_Type is (Success, Invalid_Address);
+   type Status_Type is (Success, Invalid_Address, Insufficient_Space);
 
    -- Convert "x.y.z.w" addresses into a suitable binary representation. Returns an 'Invalid_Address' status if the address
    -- is not in an acceptable form. All values x, y, z, and w must be between 0 and 255 in decimal. No leading, trailing,
@@ -26,7 +26,25 @@ package Network.Addresses is
    --# derives Result from Text &
    --#         Status from Text;
 
-   function To_UDPv4_Address(Address : IPv4; Port : Port_Type) return UDPv4;
+   -- Convert the binary representation of an IP address to "x.y.z.w" notation. Character_Count is the number of characters
+   -- in the output string that were used (could be zero if the output string has zero size). Returns 'Insufficient_Space'
+   -- if the output string isn't large enough the receive the result.
+   --
+   procedure To_IPv4_String
+     (Address         : in  IPv4;
+      Text            : out String;
+      Character_Count : out Natural;
+      Status          : out Status_Type);
+   --# derives Text, Character_Count, Status from Address;
+
+   -- Combines an IP address and port number into a UDP endpoint address.
+   function To_UDPv4_Address(Address : in IPv4; Port : in Port_Type) return UDPv4;
+
+   -- Returns the port number associated with a given UDP endpoint address.
+   function Get_Port(Endpoint_Address : in UDPv4) return Port_Type;
+
+   -- Returns the IP address associated with a given UDP endpoint address.
+   function Get_IPv4(Endpoint_Address : in UDPv4) return IPv4;
 
 private
 

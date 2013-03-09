@@ -127,7 +127,8 @@ project Thumper is
    -- end Pretty_Printer;
 
    package Naming is
-     for Body_Suffix("Metafile") use ".smf";
+      for Spec_Suffix("Metafile") use ".sms";
+      for Body_Suffix("Metafile") use ".smf";
    end Naming;
 
 end Thumper;

@@ -12,15 +12,14 @@ with Network.Addresses;
 --# inherit Network.Addresses;
 package Network.Server_Socket
 --# own State; in Input; out Output;
---# initializes State;
 is
 
-   type Status_Type is (Success, Receive_Failure, Send_Failure);
+   type Status_Type is (Success, Create_Failure, Receive_Failure);
 
    procedure Create_Socket(Port : in Addresses.Port_Type; Status : out Status_Type);
-   --# global in out State;
-   --# derives State  from State, Port &
-   --#         Status from State, Port;
+   --# global out State;
+   --# derives State  from Port &
+   --#         Status from Port;
 
    -- This procedure receives a datagram from the given socket into the indicated array.
    procedure Receive
@@ -35,6 +34,7 @@ is
    --#         Status      from Input, State;
 
    -- This procedure sends a datagram to the given socket. There is no error indication.
+   -- TODO: Should Send return a Status value to indicate failure (or maybe we don't care about send failures)?
    procedure Send
      (Address     : in Addresses.UDPv4;
       Data        : in Network.Octet_Array;
