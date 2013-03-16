@@ -67,7 +67,7 @@ package BER is
       Status          : out Status_Type);
    --# derives Tag_Class, Structured_Flag, Tag, Status from Value;
 
-   -- Examines the Message starting at position Offset looking for a BER encoded length. That length is returned in Length.
+   -- Examines the Message starting at position Index looking for a BER encoded length. That length is returned in Length.
    -- The index of the last octet processed as part of the encoded length is returned in Stop.
    --  "Fails" with Indefinite_Length if the encoded length is in the indefinite form. In that case the returned value of
    --     Stop points at the last octet of the encoded length as usual and the returned length is zero.
@@ -77,9 +77,10 @@ package BER is
    --
    procedure Get_Length_Value
      (Message : in  Network.Octet_Array;
-      Offset  : in  Natural;
+      Index   : in  Natural;
       Stop    : out Natural;
       Length  : out Natural;
       Status  : out Status_Type);
-   --# derives Stop, Length, Status from Message, Offset;
+   --# derives Stop, Length, Status from Message, Index;
+   --# pre Message'First <= Index and Index <= Message'Last;
 end BER;
