@@ -177,8 +177,76 @@ package body BER is
       Stop    : out Natural;
       Length  : out Natural;
       Status  : out Status_Type) is
+
+      subtype Length_Of_Length_Type is Positive range 1 .. 127;
+      Length_Of_Length : Length_Of_Length_Type;
+
+      function Convert_Length(Starting : in Natural; Octet_Count : in Length_Of_Length_Type) return Natural
+      --# global in Message;
+      --# pre Message'First < Starting and (Starting + (Octet_Count - 1)) <= Message'Last and Octet_Count <= 4;
+      is
+         Result : Natural := 0;
+      begin
+         for I in Natural range Starting .. Starting + (Octet_Count - 1) loop
+            --# assert Result <= Natural'Last / 256 and Starting = Starting% and Octet_Count = Octet_Count%;
+            Result := Result * 256;
+            Result := Result + Natural(Message(I));
+         end loop;
+         return Result;
+      end Convert_Length;
+
    begin
-      null;
+      -- Check that Offset is really inside the given array!
+      -- TODO: Make this a type error by defining a message array type with a more tightly constrained index type.
+      if Offset < Message'First or Message'Last < Offset then
+         -- The desired response in this case is not specified in the documentation.
+         Stop   := Message'Last;
+         Length := 0;
+         Status := Bad_Length;
+
+      -- Check for indefinite length.
+      elsif Message(Offset) = 2#1000_0000# then
+         Stop   := Offset;
+         Length := 0;
+         Status := Indefinite_Length;
+
+      -- Check for definite length, short form.
+      elsif (Message(Offset) and 2#1000_0000#) = 2#0000_0000# then
+         Stop   := Offset;
+         Length := Natural(Message(Offset));
+         Status := Success;
+
+      -- Check for definite length, long form, reserved value.
+      elsif Message(Offset) = 2#1111_1111# then
+         Stop   := Offset;
+         Length := 0;
+         Status := Bad_Length;
+
+      -- We have definite length, long form, normal value.
+      else
+         Length_Of_Length := Length_Of_Length_Type(Message(Offset) and 2#0111_1111#);
+
+         -- Check that all length octets are in the array.
+         if Offset > Message'Last - Length_Of_Length then
+            -- The desired response in this case is not specified in the documentation.
+            Stop   := Message'Last;
+            Length := 0;
+            Status := Bad_Length;
+
+         -- Check that the value of the length is not too large (here we assume 32 bit Naturals).
+         -- TODO: It is allowed to encode small lengths with a lot of leading zeros so Length_Of_Length > 4 might be ok.
+         elsif Length_Of_Length > 4 or (Length_Of_Length = 4 and (Message(Offset + 1) and 2#1000_0000#) = 2#1000_0000#) then
+            Stop   := Offset + Length_Of_Length;
+            Length := 0;
+            Status := Unimplemented_Length;
+
+         -- Convert the length into a single Natural.
+         else
+            Stop   := Offset + Length_Of_Length;
+            Length := Convert_Length(Offset + 1, Length_Of_Length);
+            Status := Success;
+         end if;
+      end if;
    end Get_Length_Value;
 
 end BER;
