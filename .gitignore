@@ -1,1 +1,2 @@
-Ada/build/*
+Ada/build
+Haskell/.dist-buildwrapper
