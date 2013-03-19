@@ -5,75 +5,85 @@
 <chapter id="Build">
   <title>Building Thumper</title>
 
-  <para>This chapter describes how to build Thumper and its associated documentation. If you are
-    using a binary distribution of Thumper you can skip this section. The tools with specific
-    version numbers shown below are the official tools used by the Thumper contributors. Other
-    tools (or other versions of the same tools) may also work. Obviously the greater the
-    differences between the tools you attempt to use and those listed below the more trouble you
-    are likely to encounter during the build process.</para>
+  <para>This chapter describes how to build Thumper and its associated documentation. The tools
+    with specific version numbers shown below are the official tools used by the Thumper
+    contributors. Other tools (or other versions of the same tools) may also work. Obviously the
+    greater the differences between the tools you attempt to use and those listed below the more
+    trouble you are likely to encounter during the build process.</para>
 
-  <para>The Thumper server is written in SPARK/Ada. The Thumper client is not a security
-    sensitive program and is written in full Ada.</para>
+  <para>Two versions of the Thumper server exist. One is written in SPARK and the other is
+    written in Haskell. The Thumper client is not under active development at this time.</para>
 
-  <variablelist>
-    <title>Build Tools</title>
+  <section>
+    <title>SPARK Build</title>
 
-    <varlistentry>
-      <term>GNAT</term>
-      <listitem>
-        <para>We use the GNAT GPL 2011 Ada compiler from AdaCore. It can be used freely for open
-          source projects such as Thumper. Thumper makes use of some GNAT-specific libraries
-          that are bundled with GNAT but that might not be available with another Ada compiler.
-          These libraries are contained in package <package>GNAT</package> and its child
-          packages.</para>
-      </listitem>
-    </varlistentry>
+    <para>In this section the tools needed to build and test the SPARK version of Thumper are
+      described. If you are interested in only the Haskell version of Thumper you can skip to
+      the following section.</para>
 
-    <varlistentry>
-      <term>SPARK</term>
-      <listitem>
-        <para>We use the SPARK GPL 2011 tools to verify the integrity of the Thumper
-          server.</para>
-      </listitem>
-    </varlistentry>
+    <variablelist>
+      <title>Build Tools</title>
 
-    <varlistentry>
-      <term>GPS</term>
-      <listitem>
-        <para>We use the GPS integrated development environment that comes with GNAT GPL 2011 as
-          our IDE. GPS is able to integrate both Ada development and SPARK analysis.</para>
-      </listitem>
-    </varlistentry>
+      <varlistentry>
+        <term>GNAT</term>
+        <listitem>
+          <para>We use the GNAT GPL 2012 Ada compiler from AdaCore. It can be used freely for
+            open source projects such as Thumper. Thumper makes use of some GNAT-specific
+            libraries that are bundled with GNAT but that might not be available with another
+            Ada compiler. These libraries are contained in package <package>GNAT</package> and
+            its child packages.</para>
+        </listitem>
+      </varlistentry>
 
-    <varlistentry>
-      <term>AUnit</term>
-      <listitem>
-        <para>The Thumper test program makes use of the AUnit unit testing framework. AUnit is
-          maintained by AdaCore and can be downloaded from the same site as GNAT GPL.</para>
-      </listitem>
-    </varlistentry>
+      <varlistentry>
+        <term>SPARK</term>
+        <listitem>
+          <para>We use the SPARK GPL 2012 tools to verify the integrity of the Thumper
+            server.</para>
+        </listitem>
+      </varlistentry>
 
-    <varlistentry>
-      <term>DocBook</term>
-      <listitem>
-        <para>The documentation is written in DocBook. It is an XML format and so is readable in
-          an ordinary text editor. However, if you want to build nicely formatted documentation
-          you will need a tool chain for processing DocBook documents. Several such tool chains
-          exist. This document does not discuss the options any further.</para>
-      </listitem>
-    </varlistentry>
+      <varlistentry>
+        <term>GPS</term>
+        <listitem>
+          <para>We use the GPS integrated development environment that comes with GNAT GPL 2012
+            as our IDE. GPS is able to integrate both Ada development and SPARK analysis.</para>
+        </listitem>
+      </varlistentry>
 
-  </variablelist>
+      <varlistentry>
+        <term>AUnit</term>
+        <listitem>
+          <para>The Thumper test program makes use of the AUnit unit testing framework. AUnit is
+            maintained by AdaCore and can be downloaded from the same site as GNAT GPL.</para>
+        </listitem>
+      </varlistentry>
 
-  <para>To build Thumper install the components listed above and check out the latest Thumper
-    source code from Assembla using the Subversion URL <ulink
-      url="http://subversion.assembla.com/svn/augusta/"/>. Once you have a working copy of the
-    project load the project file <filename>src/thumper.gpr</filename> into GPS. You will find
-    the main files <filename>thumper_server.adb</filename> and
-      <filename>thumper_client.adb</filename>. Build these files to generate the server and
-    client programs respectively.</para>
+      <varlistentry>
+        <term>DocBook</term>
+        <listitem>
+          <para>The documentation is written in DocBook. It is an XML format and so is readable
+            in an ordinary text editor. However, if you want to build nicely formatted
+            documentation you will need a tool chain for processing DocBook documents. Several
+            such tool chains exist. This document does not discuss the options any
+            further.</para>
+        </listitem>
+      </varlistentry>
 
-  <para>To test Thumper, build the main file thumper_test.adb. Executing the resulting program
-    will run all the unit tests and produce a report of the results on the console.</para>
+    </variablelist>
+
+    <para>To build Thumper install the components listed above and check out the latest Thumper
+      source code from GitHub by cloning the URL <ulink
+        url="https://github.com/pchapin/thumper.git"/>. Once you have a working copy of the
+      project load the project file <filename>Ada/thumper.gpr</filename> into GPS. You will find
+      the main files <filename>thumper_server.adb</filename> and
+        <filename>thumper_client.adb</filename>. Build these files to generate the server and
+      client programs respectively. Note that at the time of this writing the client program is
+      only a skeleton.</para>
+
+    <para>To test Thumper, build the main file thumper_test.adb. Executing the resulting program
+      will run all the unit tests and produce a report of the results on the console.</para>
+
+  </section>
 
 </chapter>

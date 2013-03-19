@@ -12,10 +12,10 @@
   <section id="Design.Server">
     <title>Server</title>
 
-    <para>This section details the design of the Thumper server. The server is written in the
-      Ada programming language with security critical components written in SPARK to the
-      greatest degree feasible. All SPARK code is proven free of runtime errors. Proofs (if any)
-      of additional properties are described elsewhere.</para>
+    <para>This section details the design of the Thumper server. The server is written in
+      multiple programming languages, but the high level architecture of the system is the same
+      for all implementations. Detailed design information (specific to each version) is
+      provided in a later section of this document.</para>
 
     <section id="Design.Server.Architecture">
       <title>Architecture</title>
@@ -78,7 +78,7 @@
         network, validates it, and either sends an error response or a time-stamp response as
         appropriate. If a time-stamp response was sent the server updates the time-stamp serial
         number.</para>
-      
+
       <!-- TODO: Create a figure that shows the architecture. -->
     </section>
 

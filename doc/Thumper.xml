@@ -59,14 +59,16 @@ This is the documentation for the Thumper time stamping system. -->
   <preface id="Introduction">
     <title>Introduction</title>
 
-    <para>Thumper is an implementation of the RFC-3161 secure time-stamping service. Both client
-      and server programs are provided. The client is used to request time-stamps and the
-      server, running as a trusted third party, is used to create time-stamps.</para>
+    <para>Thumper is an implementation of the RFC-3161 secure time-stamping service. This
+      project is intended to eventually provide both client and server programs, although at the
+      time of this writing only the server programs are being actively developed. The client is
+      used to request time-stamps and the server, running as a trusted third party, is used to
+      create time-stamps with cryptographic assurance of validity.</para>
 
-    <para>Security sensitive parts of the system are written in SPARK and proved free of
-      run-time errors. Additional security and correctness properties are also proved in some
-      cases. Certain aspects of the user interface code, deemed to be non-critical, are written
-      in full Ada and take advantage of non-verified libraries such as GtkAda.</para>
+    <para>Thumper is also intended to be an educational vehicle for the exploration of high
+      integrity programming techniques. Ultimately Thumper will be implemented in multiple
+      languages using multiple design methodologies. Currently versions in SPARK/Ada and Haskell
+      are under active development.</para>
 
     <!-- Include disclaimer. -->
 
