@@ -77,30 +77,27 @@ package body Network.Addresses is
 
    procedure To_IPv4_String
      (Address         : in  IPv4;
-      Text            : out String;
-      Character_Count : out Natural;
-      Status          : out Status_Type) is
+      Text            : out Address_String_Type;
+      Character_Count : out Address_Length_Type) is
 
       subtype Skip_Type is Positive range 1 .. 4;
 
-      Index   : Positive;       -- Index of where current octet starts in the output string.
+      Index   : Address_String_Index_Type;  -- Index of where current octet starts in the output string.
+      Count   : Natural;        -- Number of characters written to the output so far.
       Skip    : Skip_Type;      -- Number of characters to skip forward after handling the current octet.
-      Space   : Natural;        -- Number of characters left in the output string.
       Value   : Network.Octet;  -- An address octet.
       Digit_2 : Digit_Type;     -- Most significant digit of an address octet (in decimal).
       Digit_1 : Digit_Type;     -- ... etc.
       Digit_0 : Digit_Type;     -- ... etc.
    begin
-      Text            := (others => ' ');  -- Make output all spaces.
-      Character_Count := 0;                -- No characters written to output so far.
-      Status          := Success;          -- Set status to Insufficient_Space when (if) we discover that problem.
+      Text   := Address_String_Type'(others => ' ');  -- Make output all spaces.
+      Count  := 0;                -- No characters written to output so far.
 
       -- For each octet...
       for I in IPv4_Address_Index_Type loop
 
-         -- Compute starting position and remaining space in output string.
-         Index := Text'First + Character_Count;
-         Space := Text'Length - Character_Count;
+         -- Compute starting position in output string.
+         Index := Text'First + Count;
 
          -- Compute the digit characters for this octet.
          Value := Address(I);
@@ -110,43 +107,33 @@ package body Network.Addresses is
          Value   := Value rem 10;
          Digit_0 := Digit_Lookup_Table(Value);
 
-         -- Verify that enough space remains to output the digits of this octet.
-         if (Digit_2 /= '0' and Space < 3) or else
-            (Digit_1 /= '0' and Space < 2) or else
-            (                   Space < 1) then
-
-            Status := Insufficient_Space;
-            exit;
+         -- Output the digits appropriately.
+         if Digit_2 /= '0' then
+            Text(Index + 0) := Digit_2;
+            Text(Index + 1) := Digit_1;
+            Text(Index + 2) := Digit_0;
+            Skip := 3;
+         elsif Digit_1 /= '0' then
+            Text(Index + 0) := Digit_1;
+            Text(Index + 1) := Digit_0;
+            Skip := 2;
          else
-            -- Output the digits appropriately.
-            if Digit_2 /= '0' then
-               Text(Index + 0) := Digit_2;
-               Text(Index + 1) := Digit_1;
-               Text(Index + 2) := Digit_0;
-               Skip := 3;
-            elsif Digit_1 /= '0' then
-               Text(Index + 0) := Digit_1;
-               Text(Index + 1) := Digit_0;
-               Skip := 2;
-            else
-               -- If all three digits are zero this case will correctly place a single '0' into Text.
-               Text(Index + 0) := Digit_0;
-               Skip := 1;
-            end if;
+            -- If all three digits are zero this case will correctly place a single '0' into Text.
+            Text(Index + 0) := Digit_0;
+            Skip := 1;
          end if;
 
          -- Place the dot unless this is the last octet and then only if there is still sufficient space.
-         if I /= IPv4_Address_Index_Type'Last and Text'Length - (Character_Count + Skip) < 1 then
-            Status := Insufficient_Space;
-            exit;
-         elsif I /= IPv4_Address_Index_Type'Last then
+         if I /= IPv4_Address_Index_Type'Last then
             Text(Index + Skip) := '.';
             Skip := Skip + 1;
          end if;
 
-         -- Update Character_Count to reflect the number of characters we just output.
-         Character_Count := Character_Count + Skip;
+         -- Update Count to reflect the number of characters we just output.
+         Count := Count + Skip;
       end loop;
+
+      Character_Count := Count;
    end To_IPv4_String;
 
 

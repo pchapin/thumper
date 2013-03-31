@@ -64,13 +64,12 @@ package body Network.Server_Socket is
 
       IP_String          : String(1 .. 15);
       IP_String_Size     : Natural;
-      Status             : Addresses.Status_Type;
       GNAT_Style_Address : GNAT.Sockets.Sock_Addr_Type;
       Elements           : Ada.Streams.Stream_Element_Array(0 .. Data'Length - 1);
       Last               : Ada.Streams.Stream_Element_Offset;
    begin
-      -- Convert the incoming IP address to GNAT style. This can't fail so we'll ignore Status :)
-      Addresses.To_IPv4_String(Addresses.Get_IPv4(Address), IP_String, IP_String_Size, Status);
+      -- Convert the incoming IP address to GNAT style.
+      Addresses.To_IPv4_String(Addresses.Get_IPv4(Address), IP_String, IP_String_Size);
       GNAT_Style_Address.Addr := GNAT.Sockets.Inet_Addr(IP_String(1 .. IP_String_Size));
       GNAT_Style_Address.Port := GNAT.Sockets.Port_Type(Addresses.Get_Port(Address));
 

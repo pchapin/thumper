@@ -30,12 +30,15 @@ package Network.Addresses is
    -- in the output string that were used (could be zero if the output string has zero size). Returns 'Insufficient_Space'
    -- if the output string isn't large enough the receive the result.
    --
+   subtype Address_String_Index_Type is Positive range 1 .. 15;
+   subtype Address_String_Type is String(Address_String_Index_Type);
+   subtype Address_Length_Type is Natural range 7 .. 15;
+
    procedure To_IPv4_String
      (Address         : in  IPv4;
-      Text            : out String;
-      Character_Count : out Natural;
-      Status          : out Status_Type);
-   --# derives Text, Character_Count, Status from Address;
+      Text            : out Address_String_Type;
+      Character_Count : out Address_Length_Type);
+   --# derives Text, Character_Count from Address;
 
    -- Combines an IP address and port number into a UDP endpoint address.
    function To_UDPv4_Address(Address : in IPv4; Port : in Port_Type) return UDPv4;
