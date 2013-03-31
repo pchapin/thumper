@@ -15,23 +15,24 @@ package body Check_Addresses is
    use Network.Addresses;
    use Network.Addresses.Test;
 
-   procedure Test_IPv4_Conversion(T : in out AUnit.Test_Cases.Test_Case'Class) is
+   procedure Test_To_IPv4_Address(T : in out AUnit.Test_Cases.Test_Case'Class) is
       Address : IPv4;
       Status  : Status_Type;
+
       -- TODO: Create a table of test cases!
    begin
       -- Good addresses should be accepted.
       To_IPv4_Address("155.42.234.60", Address, Status);
-      Assert(Status  = Success, "Failed to convert 155.42.234.60");
-      Assert(Address = (155, 42, 234, 60), "Incorrectly converted 155.42.234.60");
+      Assert(Status  = Success, "Failed to convert 155.42.234.60 to an address");
+      Assert(Address = (155, 42, 234, 60), "Incorrectly converted 155.42.234.60 to an address");
 
       To_IPv4_Address("0.0.0.0", Address, Status);
-      Assert(Status  = Success, "Failed to convert 0.0.0.0");
-      Assert(Address = (0, 0, 0, 0), "Incorrectly converted 0.0.0.0");
+      Assert(Status  = Success, "Failed to convert 0.0.0.0 to an address");
+      Assert(Address = (0, 0, 0, 0), "Incorrectly converted 0.0.0.0 to an address");
 
       To_IPv4_Address("255.255.255.255", Address, Status);
-      Assert(Status  = Success, "Failed to convert 255.255.255.255");
-      Assert(Address = (255, 255, 255, 255), "Incorrectly converted 255.255.255.255");
+      Assert(Status  = Success, "Failed to convert 255.255.255.255 to an address");
+      Assert(Address = (255, 255, 255, 255), "Incorrectly converted 255.255.255.255 to an address");
 
       -- Bad addresses should be rejected.
       To_IPv4_Address("", Address, Status);
@@ -64,12 +65,52 @@ package body Check_Addresses is
       Assert(Status = Invalid_Address, "Converted 0.0.0x.0");
       To_IPv4_Address("0.0.x.0", Address, Status);
       Assert(Status = Invalid_Address, "Converted 0.0.x.0");
-   end Test_IPv4_Conversion;
+   end Test_To_IPv4_Address;
+
+
+   procedure Test_To_IPv4_String(T : in out AUnit.Test_Cases.Test_Case'Class) is
+      Address    : IPv4;
+      Status     : Status_Type;
+      Text       : String(1 .. 15);  -- Big enough for any address.
+      Text_Short : String(1 ..  7);  -- Only big enough for addresses with single digit components.
+      Count      : Natural;
+
+      -- TODO: Create a table of test cases!
+      -- TODO: Can these tests be combined with the "To Address" tests above in a useful way?
+   begin
+      -- Do round trip processing on a few good addresses.
+      To_IPv4_Address("155.42.234.60", Address, Status);
+      Assert(Status = Success, "Failed to convert 155.42.234.60 to an address");
+      To_IPv4_String(Address, Text, Count, Status);
+      Assert(Status = Success, "Failed to convert [155.42.234.60] to a String");
+      Assert(Count  = 13, "Incorrect count returned during conversion of [155.42.234.60] to a String");
+      Assert(Text(1 .. Count) = "155.42.234.60", "Incorrect conversion of [155.42.234.60] to a String");
+
+      To_IPv4_String(Address, Text_Short, Count, Status);
+      Assert(Status = Insufficient_Space, "Incorrect handling of short strings during conversion");
+
+      To_IPv4_Address("0.0.0.0", Address, Status);
+      Assert(Status = Success, "Failed to convert 0.0.0.0 to an address");
+      To_IPv4_String(Address, Text, Count, Status);
+      Assert(Status = Success, "Failed to convert [0.0.0.0] to a String");
+      Assert(Count  = 7, "Incorrect count returned during conversion of [0.0.0.0] to a String");
+      Assert(Text(1 .. Count) = "0.0.0.0", "Incorrect conversion of [0.0.0.0] to a String");
+
+      -- TODO: Also try converting [0.0.0.0] into Text_Short and show that it works.
+
+      To_IPv4_Address("255.255.255.255", Address, Status);
+      Assert(Status = Success, "Failed to convert 255.255.255.255 to an address");
+      To_IPv4_String(Address, Text, Count, Status);
+      Assert(Status = Success, "Failed to convert [255.255.255.255] to a String");
+      Assert(Count  = 15, "Incorrect count returned during conversion of [255.255.255.255] to a String");
+      Assert(Text(1 .. Count) = "255.255.255.255", "Incorrect conversion of [255.255.255.255] to a String");
+   end Test_To_IPv4_String;
 
 
    procedure Register_Tests(T : in out Address_Test) is
    begin
-      AUnit.Test_Cases.Registration.Register_Routine(T, Test_IPv4_Conversion'Access, "IPv4 Conversion");
+      AUnit.Test_Cases.Registration.Register_Routine(T, Test_To_IPv4_Address'Access, "To IPv4 Address");
+      AUnit.Test_Cases.Registration.Register_Routine(T, Test_To_IPv4_String'Access, "To IPv4 String");
    end Register_Tests;
 
 
