@@ -246,4 +246,15 @@ package body BER is
       end if;
    end Get_Length_Value;
 
+
+   procedure Get_Integer_Value
+     (Message : in  Network.Octet_Array;
+      Index   : in  Natural;
+      Stop    : out Natural;
+      Value   : out Integer;
+      Status  : out Status_Type) is
+   begin
+      null;
+   end Get_Integer_Value;
+
 end BER;
