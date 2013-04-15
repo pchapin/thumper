@@ -253,8 +253,67 @@ package body BER is
       Stop    : out Natural;
       Value   : out Integer;
       Status  : out Status_Type) is
+
+      Tag_Class         : Tag_Class_Type;
+      Structured_Flag   : Structured_Flag_Type;
+      Tag               : Leading_Number_Type;
+      Identifier_Status : Status_Type;
+
+
+      -- This procedure is called after the indentifier and length octets have been validated. It extracts the
+      -- actual integer from the message. Length_Stop is the last octet of the length.
+      --
+      procedure Identifier_And_Length_Ok(Length_Stop : in Natural)
+      --# global in Message;
+      --# pre Message'First < Length_Stop and Length_Stop <= Message'Last;
+      is
+      begin
+         null;
+      end Identifier_And_Length_Ok;
+
+
+      -- This procedure is called after the identifier octets have been validated. It extracts the length from
+      -- the message. Identifier_Stop is the last octet of the indentifier.
+      --
+      procedure Identifier_Ok(Identifier_Stop : in Natural)
+      --# global in Message; out Stop, Value, Status;
+      --# derives Stop, Value,Status from Message, Identifier_Stop;
+      --# pre Message'First < Identifier_Stop and Identifier_Stop <= Message'Last;
+      is
+         Length_Stop   : Natural;
+         Length        : Natural;
+         Length_Status : Status_Type;
+      begin
+         Get_Length_Value(Message, Identifier_Stop + 1, Length_Stop, Length, Length_Status);
+         if Length_Status /= Success then
+            Stop   := Length_Stop;
+            Value  := 0;
+            Status := Bad_Value;
+         else
+            -- Leading identifier is ok. Length is ok. Integer value starts at Length_Stop + 1.
+            Identifier_And_Length_Ok(Length_Stop);
+         end if;
+      end Identifier_Ok;
+
    begin
-      null;
+      Split_Leading_Identifier(Message(Index), Tag_Class, Structured_Flag, Tag, Identifier_Status);
+      if Identifier_Status /= Success         or
+         Tag_Class         /= Class_Universal or
+         Structured_Flag   /= Primitive       or
+         Tag               /= Tag_Integer     then
+
+         Stop   := Index;
+         Value  := 0;
+         Status := Bad_Value;
+      else
+         if Index + 1 > Message'Last then
+            Stop   := Index;
+            Value  := 0;
+            Status := Bad_Value;
+         else
+            Identifier_Ok(Index + 1);
+         end if;
+      end if;
    end Get_Integer_Value;
 
 end BER;

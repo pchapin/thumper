@@ -153,11 +153,11 @@ package body Check_BER is
 
          -- Check a few invalid encodings.
          11 => (Input    => (Data => new Array_3_Type'(16#22#, 16#01#, 16#01#), Start => 1),
-                Expected => (Stop => 3, Value => 0, Status => BER.Bad_Value)),
+                Expected => (Stop => 1, Value => 0, Status => BER.Bad_Value)),
          12 => (Input    => (Data => new Array_3_Type'(16#42#, 16#01#, 16#01#), Start => 1),
-                Expected => (Stop => 3, Value => 0, Status => BER.Bad_Value)),
+                Expected => (Stop => 1, Value => 0, Status => BER.Bad_Value)),
          13 => (Input    => (Data => new Array_3_Type'(16#1F#, 16#01#, 16#01#), Start => 1),
-                Expected => (Stop => 3, Value => 0, Status => BER.Bad_Value)),
+                Expected => (Stop => 1, Value => 0, Status => BER.Bad_Value)),
          14 => (Input    => (Data => new Array_3_Type'(16#02#, 16#02#, 16#01#), Start => 1),
                 Expected => (Stop => 3, Value => 0, Status => BER.Bad_Value)),
          15 => (Input    => (Data => new Array_4_Type'(16#02#, 16#02#, 16#00#, 16#01#), Start => 1),
