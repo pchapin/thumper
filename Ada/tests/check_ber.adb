@@ -128,7 +128,7 @@ package body Check_BER is
       subtype Array_6_Type is Network.Octet_Array(1 .. 6);
       subtype Array_7_Type is Network.Octet_Array(1 .. 7);
 
-      Test_Cases : array(1 .. 19) of Test_Case :=
+      Test_Cases : array(1 .. 18) of Test_Case :=
         -- Correctly formatted integer encodings.
         ( 1 => (Input    => (Data => new Array_3_Type'(16#02#, 16#01#, 16#00#), Start => 1),
                 Expected => (Stop => 3, Value => 0, Status => BER.Success)),
@@ -148,30 +148,27 @@ package body Check_BER is
                 Expected => (Stop => 6, Value => 2**31 - 1, Status => BER.Success)),
           9 => (Input    => (Data => new Array_6_Type'(16#02#, 16#04#, 16#80#, 16#00#, 16#00#, 16#00#), Start => 1),
                 Expected => (Stop => 6, Value => -2**31, Status => BER.Success)),
-         10 => (Input    => (Data => new Array_6_Type'(16#02#, 16#04#, 16#FF#, 16#FF#, 16#FF#, 16#FF#), Start => 1),
-                Expected => (Stop => 6, Value => -1, Status => BER.Success)),
 
          -- Check a few invalid encodings.
-         11 => (Input    => (Data => new Array_3_Type'(16#22#, 16#01#, 16#01#), Start => 1),
+         10 => (Input    => (Data => new Array_3_Type'(16#22#, 16#01#, 16#01#), Start => 1),
                 Expected => (Stop => 1, Value => 0, Status => BER.Bad_Value)),
-         12 => (Input    => (Data => new Array_3_Type'(16#42#, 16#01#, 16#01#), Start => 1),
+         11 => (Input    => (Data => new Array_3_Type'(16#42#, 16#01#, 16#01#), Start => 1),
                 Expected => (Stop => 1, Value => 0, Status => BER.Bad_Value)),
-         13 => (Input    => (Data => new Array_3_Type'(16#1F#, 16#01#, 16#01#), Start => 1),
+         12 => (Input    => (Data => new Array_3_Type'(16#1F#, 16#01#, 16#01#), Start => 1),
                 Expected => (Stop => 1, Value => 0, Status => BER.Bad_Value)),
-         14 => (Input    => (Data => new Array_3_Type'(16#02#, 16#02#, 16#01#), Start => 1),
+         13 => (Input    => (Data => new Array_3_Type'(16#02#, 16#02#, 16#01#), Start => 1),
                 Expected => (Stop => 3, Value => 0, Status => BER.Bad_Value)),
-         15 => (Input    => (Data => new Array_4_Type'(16#02#, 16#02#, 16#00#, 16#01#), Start => 1),
+         14 => (Input    => (Data => new Array_4_Type'(16#02#, 16#02#, 16#00#, 16#01#), Start => 1),
                 Expected => (Stop => 4, Value => 0, Status => BER.Bad_Value)),
-         16 => (Input    => (Data => new Array_4_Type'(16#02#, 16#02#, 16#FF#, 16#80#), Start => 1),
+         15 => (Input    => (Data => new Array_4_Type'(16#02#, 16#02#, 16#FF#, 16#80#), Start => 1),
                 Expected => (Stop => 4, Value => 0, Status => BER.Bad_Value)),
+         16 => (Input    => (Data => new Array_6_Type'(16#02#, 16#04#, 16#FF#, 16#FF#, 16#FF#, 16#FF#), Start => 1),
+                Expected => (Stop => 6, Value => 0, Status => BER.Bad_Value)),
 
          -- Check some unimplemented values.
          17 => (Input    => (Data => new Array_7_Type'(16#02#, 16#05#, 16#00#, 16#80#, 16#00#, 16#00#, 16#00#), Start => 1),
                 Expected => (Stop => 7, Value => 0, Status => BER.Unimplemented_Value)),
          18 => (Input    => (Data => new Array_7_Type'(16#02#, 16#05#, 16#FF#, 16#7F#, 16#FF#, 16#FF#, 16#FF#), Start => 1),
-                Expected => (Stop => 7, Value => 0, Status => BER.Unimplemented_Value)),
-               -- Strictly, this next case should work.
-         19 => (Input    => (Data => new Array_7_Type'(16#02#, 16#05#, 16#FF#, 16#FF#, 16#FF#, 16#FF#, 16#FF#), Start => 1),
                 Expected => (Stop => 7, Value => 0, Status => BER.Unimplemented_Value)));
 
       Test_Stop   : Natural;

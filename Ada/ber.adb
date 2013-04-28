@@ -263,12 +263,36 @@ package body BER is
       -- This procedure is called after the indentifier and length octets have been validated. It extracts the
       -- actual integer from the message. Length_Stop is the last octet of the length.
       --
-      procedure Identifier_And_Length_Ok(Length_Stop : in Natural)
-      --# global in Message;
-      --# pre Message'First < Length_Stop and Length_Stop <= Message'Last;
+      procedure Identifier_And_Length_Ok(Length : in Natural; Length_Stop : in Natural)
+      --# global in Message; out Stop, Status, Value;
+      --# derives Stop   from Length_Stop, Length &
+      --#         Status from &
+      --#         Value  from Length_Stop, Length, Message;
+      --# pre Length <= 4 and Message'First < Length_Stop and Length_Stop <= Message'Last;
       is
+         Result : Integer := 0;
       begin
-         null;
+         Stop   := Length_Stop + Length;
+         Status := Success;
+
+         -- If the most significant bit is 0, then the value is positive.
+         if (Message(Length_Stop + 1) and 16#80#) = 0 then
+            for I in Natural range 1 .. Length loop
+               Result := 256*Result + Integer(Message(Length_Stop + I));
+            end loop;
+            Value := Result;
+         else
+            -- For negative values, invert the bits.
+            for I in Natural range 1 .. Length loop
+               Result := 256*Result + Integer(Message(Length_Stop + I) xor 16#FF#);
+            end loop;
+            -- We have to handle Integer'Last as a special case due to the asymmetry of 2's complement representations.
+            if Result = Integer'Last then
+               Value := Integer'First;
+            else
+               Value := -(Result + 1);
+            end if;
+         end if;
       end Identifier_And_Length_Ok;
 
 
@@ -278,7 +302,7 @@ package body BER is
       procedure Identifier_Ok(Identifier_Stop : in Natural)
       --# global in Message; out Stop, Value, Status;
       --# derives Stop, Value,Status from Message, Identifier_Stop;
-      --# pre Message'First < Identifier_Stop and Identifier_Stop <= Message'Last;
+      --# pre Message'First <= Identifier_Stop and Identifier_Stop < Message'Last;
       is
          Length_Stop   : Natural;
          Length        : Natural;
@@ -286,12 +310,33 @@ package body BER is
       begin
          Get_Length_Value(Message, Identifier_Stop + 1, Length_Stop, Length, Length_Status);
          if Length_Status /= Success then
+            -- We couldn't decode the length.
             Stop   := Length_Stop;
+            Value  := 0;
+            Status := Bad_Value;
+         elsif Length_Stop + Length > Message'Last then
+            -- The value goes off the end of the message.
+            Stop   := Message'Last;
+            Value  := 0;
+            Status := Bad_Value;
+         elsif Length > 4 then
+            -- The length implies too large a value.
+            Stop   := Length_Stop + Length;
+            Value  := 0;
+            Status := Unimplemented_Value;
+         elsif Length >= 2 and then (Message(Length_Stop + 1) = 16#00# and (Message(Length_Stop + 2) and 16#80#) = 16#00#) then
+            -- The value has too many leading zeros. (Should this check be moved to Identifier_And_Length_Ok?
+            Stop   := Length_Stop + Length;
+            Value  := 0;
+            Status := Bad_Value;
+         elsif Length >= 2 and then (Message(Length_Stop + 1) = 16#FF# and (Message(Length_Stop + 2)  or 16#7F#) = 16#FF#) then
+            -- The value has too many leading ones. (Should this check be moved to Identifier_And_Length_Ok?
+            Stop   := Length_Stop + Length;
             Value  := 0;
             Status := Bad_Value;
          else
             -- Leading identifier is ok. Length is ok. Integer value starts at Length_Stop + 1.
-            Identifier_And_Length_Ok(Length_Stop);
+            Identifier_And_Length_Ok(Length, Length_Stop);
          end if;
       end Identifier_Ok;
 
@@ -311,7 +356,7 @@ package body BER is
             Value  := 0;
             Status := Bad_Value;
          else
-            Identifier_Ok(Index + 1);
+            Identifier_Ok(Index);
          end if;
       end if;
    end Get_Integer_Value;
