@@ -11,11 +11,11 @@ project Thumper is
    Runtime : Runtime_Type := external ("RUNTIME");
 
    package Builder is
-      for Default_Switches ("ada") use ("-g", "-gnatQ");
+      for Default_Switches ("ada") use ("-g", "-gnat2012", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
    end Builder;
 
    package Compiler is
-      for Default_Switches ("ada") use ("-g", "-gnat95", "-gnato", "-fstack-check");
+      for Default_Switches ("ada") use ("-g", "-gnat2012", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
       for Default_Switches ("c") use ("");
       for Default_Switches ("c++") use ("");
 

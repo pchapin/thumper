@@ -120,8 +120,9 @@ package body BER is
          31 => Tag_EXTENDED_TAG);
 
       procedure Set_Tag_Class
-      --# global in Value; out Tag_Class;
-      --# derives Tag_Class from Value;
+      -- with
+      --   Global  => (Input => Value, Output => Tag_Class),
+      --   Depends => (Tag_Class => Value)
       is
       begin
          -- Deal with the class.
@@ -135,8 +136,9 @@ package body BER is
       end Set_Tag_Class;
 
       procedure Set_Structured_Flag
-      --# global in Value; out Structured_Flag;
-      --# derives Structured_Flag from Value;
+      -- with
+      --   Global  => (Input => Value, Output => Structured_Flag),
+      --   Depends => (Structured_Flag => Value)
       is
       begin
          -- Deal with the structured flag.
@@ -148,9 +150,9 @@ package body BER is
       end Set_Structured_Flag;
 
       procedure Set_Tag
-      --# global in Value; out Tag; in out Status;
-      --# derives Tag    from Value &
-      --#         Status from Value, Status;
+      -- with
+      --   Global  => (Input => Value, Output => Tag, In_Out => Status),
+      --   Depends => (Tag => Value, Status => Value, Status)
       is
          Tag_Value : Leading_Number_Range_Type;
       begin
@@ -182,19 +184,22 @@ package body BER is
       Length_Of_Length : Length_Of_Length_Type;
 
       function Convert_Length(Starting : in Natural; Octet_Count : in Length_Of_Length_Type) return Natural
-      --# global in Message;
-      --# pre Message'First < Starting and (Starting + (Octet_Count - 1)) <= Message'Last and
-      --#      Octet_Count <= 4 and
-      --#    ((Octet_Count  = 4) -> (Message(Starting) < 128));
+      -- with
+      --   Global => (Input => Message),
+      --   Pre => Message'First < Starting and (Starting + (Octet_Count - 1)) <= Message'Last and
+      --          Octet_Count <= 4 and
+      --         (if Octet_Count = 4 then Message(Starting) < 128)
       is
          Result : Natural := 0;
       begin
          for I in Length_Of_Length_Type range 1 .. Octet_Count loop
-            --# assert 1 <= I and I <= 4 and
-            --#    Message'First < Starting and (Starting + (Octet_Count - 1)) <= Message'Last and
-            --#    ((Octet_Count < 4) -> (Result < 256**(I - 1))) and
-            --#    ((Octet_Count = 4) -> ((I = 1 -> Result < 1) and (I > 1 -> Result < 128*256**(I - 2)))) and
-            --#    Starting = Starting% and Octet_Count = Octet_Count%;
+         --    pragma Loop_Invariant(Check =>
+         --        1 <= I and I <= 4 and
+         --        Message'First < Starting and (Starting + (Octet_Count - 1)) <= Message'Last and
+         --        (if Octet_Count < 4 then (Result < 256**(I - 1))) and
+         --        (if Octet_Count = 4 then ((if I = 1 then Result < 1) and (if I > 1 then Result < 128*256**(I - 2)))) and
+         --        Starting = Starting'Loop_Entry and Octet_Count = Octet_Count'Loop_Entry)
+
             Result := (Result * 256) + Natural(Message(Starting + (I - 1)));
          end loop;
          return Result;
@@ -221,7 +226,7 @@ package body BER is
 
       -- We have definite length, long form, normal value.
       else
-         --# check Message(Index) - 128 >= 1;
+         pragma Assert(Check => Message(Index) - 128 >= 1);
          Length_Of_Length := Length_Of_Length_Type(Message(Index) and 2#0111_1111#);
 
          -- Check that all length octets are in the array.
@@ -260,15 +265,16 @@ package body BER is
       Identifier_Status : Status_Type;
 
 
-      -- This procedure is called after the indentifier and length octets have been validated. It extracts the
-      -- actual integer from the message. Length_Stop is the last octet of the length.
+      -- This procedure is called after the indentifier and length octets have been validated. It extracts the actual integer
+      -- from the message. Length_Stop is the last octet of the length.
       --
       procedure Identifier_And_Length_Ok(Length : in Natural; Length_Stop : in Natural)
-      --# global in Message; out Stop, Status, Value;
-      --# derives Stop   from Length_Stop, Length &
-      --#         Status from &
-      --#         Value  from Length_Stop, Length, Message;
-      --# pre Length <= 4 and Message'First < Length_Stop and Length_Stop <= Message'Last;
+      -- with
+      --   Global  => (Input => Message, Output => Stop, Status, Value),
+      --   Depends => (Stop   => Length_Stop, Length,
+      --               Status => null,
+      --               Value  => Length_Stop, Length, Message),
+      --   Pre => Length <= 4 and Message'First < Length_Stop and Length_Stop <= Message'Last
       is
          Result : Integer := 0;
       begin
@@ -296,13 +302,14 @@ package body BER is
       end Identifier_And_Length_Ok;
 
 
-      -- This procedure is called after the identifier octets have been validated. It extracts the length from
-      -- the message. Identifier_Stop is the last octet of the indentifier.
+      -- This procedure is called after the identifier octets have been validated. It extracts the length from the message.
+      -- Identifier_Stop is the last octet of the indentifier.
       --
       procedure Identifier_Ok(Identifier_Stop : in Natural)
-      --# global in Message; out Stop, Value, Status;
-      --# derives Stop, Value,Status from Message, Identifier_Stop;
-      --# pre Message'First <= Identifier_Stop and Identifier_Stop < Message'Last;
+      -- with
+      --   Global  => (Input => Message, Output => Stop, Value, Status),
+      --   Depends => (Stop, Value, Status => Message, Identifier_Stop),
+      --   Pre => Message'First <= Identifier_Stop and Identifier_Stop < Message'Last
       is
          Length_Stop   : Natural;
          Length        : Natural;
