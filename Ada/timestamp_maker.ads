@@ -7,11 +7,16 @@
 --
 --      Peter Chapin <PChapin@vtc.vsc.edu>
 ---------------------------------------------------------------------------
+with BER;
 with Cryptographic_Services;
 with Messages;
+with Network;
 with Serial_Generator;
 
---# inherit Cryptographic_Services, Messages, Serial_Generator;
+use type BER.Status_Type;
+use type Network.Octet;
+
+--# inherit BER, Cryptographic_Services, Messages, Network, Serial_Generator;
 package Timestamp_Maker is
 
    type Status_Type is (Success, Bad_Request);
