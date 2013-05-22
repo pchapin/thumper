@@ -2,11 +2,30 @@ name:           Thumper
 version:        0.1
 cabal-version:  >=1.2
 build-type:     Simple
-author:         peter
+author:         Peter C. Chapin
+license:        GPL-3
+maintainer:     Peter C. Chapin <PChapin@vtc.vsc.edu>
+homepage:       https://github.com/pchapin/thumper
+synopsis:       Secure Timestamp server implementing RFC-3161
+tested-with:    GHC==7.4.1
+copyright:      2013
 
 executable Thumper
   hs-source-dirs:  src
   main-is:         Main.hs
   build-depends:   base >= 4
   ghc-options:     -Wall
+  other-modules:   ASN1
+
+test-suite CheckASN1
+  type:            exitcode-stdio-1.0
+  main-is:         CheckASN1.hs
+  ghc-options:     -Wall -rtsopts
+  build-depends:   base >= 4, HTF > 0.9
+  other-modules:   
+                  ASN1,
+                  ASN1Test
+  hs-source-dirs:  
+                  check,
+                  src
 
