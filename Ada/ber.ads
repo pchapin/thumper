@@ -12,6 +12,7 @@ use type Network.Octet;
 
 --# inherit Network;
 package BER is
+   pragma SPARK_Mode;
 
    -- Used to indicate the success or value of the subprograms in this package.
    type Status_Type is
@@ -75,9 +76,9 @@ package BER is
       Tag_Class       : out Tag_Class_Type;
       Structured_Flag : out Structured_Flag_Type;
       Tag             : out Leading_Number_Type;
-      Status          : out Status_Type);
-   -- with
-   --   Depends => (Tag_Class, Structured_Flag, Tag, Status => Value);
+      Status          : out Status_Type)
+   with
+     Depends => ( (Tag_Class, Structured_Flag, Tag, Status) => Value);
 
    -- <summary>Examines the Message starting at positin Index looking for a BER encoded length.</summary>
    --
@@ -101,7 +102,7 @@ package BER is
       Length  : out Natural;
       Status  : out Status_Type)
    with
-   --   Depends => (Stop, Length, Status => Message, Index),
+     Depends => ( (Stop, Length, Status) => (Message, Index) ),
      Pre => Message'First <= Index and Index <= Message'Last;
 
 
@@ -126,7 +127,7 @@ package BER is
       Value   : out Integer;
       Status  : out Status_Type)
    with
-   --   Depends => (Stop, value, Status => Message, Index),
+     Depends => ( (Stop, value, Status) => (Message, Index) ),
      Pre => Message'First <= Index and Index <= Message'Last;
 
 end BER;
