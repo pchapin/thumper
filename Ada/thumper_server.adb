@@ -7,12 +7,12 @@
 --
 --      Peter Chapin <PChapin@vtc.vsc.edu>
 ---------------------------------------------------------------------------
+with Ada.Text_IO;
 with Cryptographic_Services;
 with Messages;
 with Network.Addresses;
 with Network.Server_Socket;
 with Serial_Generator;
-with SPARK_IO;
 with Timestamp_Maker;
 
 use type Cryptographic_Services.Status_Type;
@@ -27,19 +27,14 @@ use type Timestamp_Maker.Status_Type;
 --#         Network.Addresses,
 --#         Network.Server_Socket,
 --#         Serial_Generator,
---#         SPARK_IO,
 --#         Timestamp_Maker;
 --# main_program;
 procedure Thumper_Server
 --# global in     Network.Server_Socket.Input, Cryptographic_Services.Key;
 --#           out Network.Server_Socket.Output, Serial_Generator.Current_Number;
---#        in out Network.Server_Socket.State, SPARK_IO.State, SPARK_IO.Inputs, SPARK_IO.Outputs;
+--#        in out Network.Server_Socket.State;
 --# derives Network.Server_Socket.State     from Cryptographic_Services.Key, Network.Server_Socket.State &
---#         Network.Server_Socket.Output    from Cryptographic_Services.Key, Network.Server_Socket.State, Network.Server_Socket.Input &
---#         Serial_Generator.Current_Number from SPARK_IO.State, SPARK_IO.Inputs &
---#         SPARK_IO.State                  from SPARK_IO.State &
---#         SPARK_IO.Inputs                 from SPARK_IO.Inputs &
---#         SPARK_IO.Outputs                from Cryptographic_Services.Key, Network.Server_Socket.State, Network.Server_Socket.Input, SPARK_IO.Outputs;
+--#         Network.Server_Socket.Output    from Cryptographic_Services.Key, Network.Server_Socket.State, Network.Server_Socket.Input;
 is
    Serial_Status    : Serial_Generator.Status_Type;
    Crypto_Status    : Cryptographic_Services.Status_Type;
@@ -55,26 +50,17 @@ begin
    -- Be sure the serial generator is working.
    Serial_Generator.Initialize(Serial_Status);
    if Serial_Status /= Serial_Generator.Success then
-      SPARK_IO.Put_Line
-        (File => SPARK_IO.Standard_Output,
-         Item => "Unable to intialize the serial generator (no serial number file?)",
-         Stop => 0);
+      Ada.Text_IO.Put_Line("Unable to intialize the serial generator (no serial number file?)");
    else
       -- Be sure the key is available.
       Cryptographic_Services.Validate_Key(Crypto_Status);
       if Crypto_Status /= Cryptographic_Services.Success then
-         SPARK_IO.Put_Line
-           (File => SPARK_IO.Standard_Output,
-            Item => "Unable to intialize the cryptographic library (no private key?)",
-            Stop => 0);
+         Ada.Text_IO.Put_Line("Unable to intialize the cryptographic library (no private key?)");
       else
          -- Create the socket. The port should be 318, but a value above 1024 allows for easier testing by non-root users.
          Network.Server_Socket.Create_Socket(1318, Network_Status);
          if Network_Status /= Network.Server_Socket.Success then
-            SPARK_IO.Put_Line
-              (File => SPARK_IO.Standard_Output,
-               Item => "Unable to create the server socket. Aborting!",
-               Stop => 0);
+            Ada.Text_IO.Put_Line("Unable to create the server socket. Aborting!");
          else
             -- Service clients infinitely (or maybe I need a way to cleanly shut the server down?).
             loop
@@ -82,10 +68,7 @@ begin
 
                -- Ignore bad receives (should we log them?)
                if Network_Status = Network.Server_Socket.Success then
-                  SPARK_IO.Put_Line
-                    (File => SPARK_IO.Standard_Output,
-                     Item => "Handling a message from a client...",
-                     Stop => 0);
+                  Ada.Text_IO.Put_Line("Handling a message from a client...");
                   Timestamp_Maker.Create_Timestamp
                     (Request_Message, Request_Count, Response_Message, Response_Count, Timestamp_Status);
 

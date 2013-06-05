@@ -7,51 +7,46 @@
 --
 --      Peter Chapin <PChapin@vtc.vsc.edu>
 ---------------------------------------------------------------------------
+with Ada.Integer_Text_IO;
 
 package body Serial_Generator is
 
    Current_Number : Serial_Number_Type;
 
    procedure Initialize(Status : out Status_Type) is
-      Number_File        : SPARK_IO.File_Type;
-      Number_File_Status : SPARK_IO.File_Status;
+      Number_File        : Ada.Text_IO.File_Type;
+      Number_File_Status : Boolean := True;  -- Was an error code from SPARK_IO.Open.
       Raw_Number         : Integer;  -- TODO: We should really read Serial_Number_Type values from the file.
-      Read_Success       : Boolean;
+      Read_Success       : Boolean := True;  -- Was an error code from SPARK_IO.Get_Integer.
    begin
       Current_Number := 0;
       Status := Bad_Number;
-      SPARK_IO.Open(Number_File, SPARK_IO.In_File, "serial-number.txt", "", Number_File_Status);
-      if Number_File_Status = SPARK_IO.Ok then
-         SPARK_IO.Get_Integer(Number_File, Raw_Number, 0, Read_Success);
+      Ada.Text_IO.Open(Number_File, Ada.Text_IO.In_File, "serial-number.txt");
+      if Number_File_Status then
+         Ada.Integer_Text_IO.Get(Number_File, Raw_Number);
          if Read_Success and then Raw_Number >= 0 then
             Current_Number := Serial_Number_Type(Raw_Number);
             Status := Success;
          end if;
-         --# accept flow_message, 10, Number_File, "Close sets Number_File to an invalid value";
-         --# accept flow_message, 10, Number_File_Status, "Failure when closing an input file has no bad effects";
-         SPARK_IO.Close(Number_File, Number_File_Status);
-         --# end accept;
-         --# end accept;
+         Ada.Text_IO.Close(Number_File);
       end if;
    end Initialize;
 
 
    procedure Advance(Status : out Status_Type) is
-      Number_File        : SPARK_IO.File_Type;
-      Number_File_Status : SPARK_IO.File_Status;
+      Number_File        : Ada.Text_IO.File_Type;
+      Number_File_Status : Boolean := True;  -- Was an error code from SPARK_IO.Open.
       Raw_Number         : Integer;  -- TODO: We should really write Serial_Number_Type values to the file.
    begin
       Status := Bad_Update;
       if Current_Number /= Serial_Number_Type'Last then
          Current_Number := Current_Number + 1;
-         SPARK_IO.Open(Number_File, SPARK_IO.Out_File, "serial-number.txt", "", Number_File_Status);
-         if Number_File_Status = SPARK_IO.Ok and then Current_Number <= Serial_Number_Type(Integer'Last) then
+         Ada.Text_IO.Open(Number_File, Ada.Text_IO.Out_File, "serial-number.txt");
+         if Number_File_Status and then Current_Number <= Serial_Number_Type(Integer'Last) then
             Raw_Number := Integer(Current_Number);
-            SPARK_IO.Put_Integer(Number_File, Raw_Number, 0, 10);
-            --# accept flow_message, 10, Number_File, "Close sets Number_File to an invalid value";
-            SPARK_IO.Close(Number_File, Number_File_Status);
-            --# end accept;
-            if Number_File_Status = SPARK_IO.Ok then
+            Ada.Integer_Text_IO.Put(Number_File, Raw_Number);
+            Ada.Text_IO.Close(Number_File);
+            if Number_File_Status then
                Status := Success;
             end if;
          end if;

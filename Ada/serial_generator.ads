@@ -9,11 +9,8 @@
 --
 --      Peter Chapin <PChapin@vtc.vsc.edu>
 ---------------------------------------------------------------------------
-with SPARK_IO;
+with Ada.Text_IO;
 
-use type SPARK_IO.File_Status;
-
---# inherit SPARK_IO;
 package Serial_Generator
 --# own Current_Number;
 is

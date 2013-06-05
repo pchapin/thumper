@@ -63,7 +63,7 @@ package BER is
       Tag_BMP_String,
       Tag_EXTENDED_TAG);
 
-   -- <summary>Constructs an identifier octet from its constituent parts.</summary.
+   -- <summary>Constructs an identifier octet from its constituent parts.</summary>.
    function Make_Leading_Identifier
      (Tag_Class       : Tag_Class_Type;
       Structured_Flag : Structured_Flag_Type;
