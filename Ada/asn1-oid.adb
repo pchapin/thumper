@@ -16,9 +16,12 @@ package body ASN1.OID is
 
    procedure To_Object_Identifier(Separates : in Components_Type; Result : out Object_Identifier; Status : out Status_Type) is
 
+
       function Bad_First_Level(Root : Component) return Boolean
-      --# return X => (not X -> (Root = 0 or Root = 1 or Root = 2));
-      is
+      with
+        Post => (if not Bad_First_Level'Result then (Root = 0 or Root = 1 or Root = 2));
+
+      function Bad_First_Level(Root : Component) return Boolean is
          Is_Bad : Boolean := False;
       begin
          if Root /= 0 and Root /= 1 and Root /= 2 then
@@ -27,11 +30,15 @@ package body ASN1.OID is
          return Is_Bad;
       end Bad_First_Level;
 
+
       function Bad_Second_Level(Root : Component; Second : Component) return Boolean
-      --# return X => (not X -> ( (Root = 0 -> Second < 40) and
-      --#                         (Root = 1 -> Second < 40) and
-      --#                         (Root = 2 -> Second <= Second_Level_Component_Type'Last) ) );
-      is
+      with
+        Post => (if not Bad_Second_Level'Result then
+                   ( (if Root = 0 then Second < 40) and
+                     (if Root = 1 then Second < 40) and
+                     (if Root = 2 then Second <= Second_Level_Component_Type'Last) ) );
+
+      function Bad_Second_Level(Root : Component; Second : Component) return Boolean is
          Is_Bad : Boolean := False;
       begin
          case Root is
@@ -85,9 +92,11 @@ package body ASN1.OID is
          Result(Result'First) := Identifier.Root_Component;
          Result(Result'First + 1) := Identifier.Second_Level_Component;
          for I in Other_Count_Type range 1 .. Identifier.Other_Component_Count loop
-            --# assert I <= Identifier.Other_Component_Count and
-            --#        Identifier.Other_Component_Count + 2 <= Result'Length and
-            --#        Identifier = Identifier%;
+            pragma Loop_Invariant(Check =>
+               I <= Identifier.Other_Component_Count                 and
+               Identifier.Other_Component_Count + 2 <= Result'Length and
+               Identifier = Identifier'Loop_Entry);
+
             Result((Result'First + 2) + (I - 1)) := Identifier.Other_Components(I);
          end loop;
          Number_Of_Components := Identifier.Other_Component_Count + 2;

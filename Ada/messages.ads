@@ -9,7 +9,6 @@
 ---------------------------------------------------------------------------
 with Network;
 
---# inherit Network;
 package Messages is
 
    subtype Index_Type is Positive range 1 .. 512;

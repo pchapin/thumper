@@ -7,7 +7,7 @@ project Thumper is
    for Main use ("thumper_server.adb", "thumper_test.adb");
    type Runtime_Type is
       ("cert", "default", "full", "hi", "kernel", "kernel-sjlj", "kernel-smp", "pthread", "ravenscar", "ravenscar-apex", "ravenscar-full", "ravenscar-cert", "ravenscar-cert-rtp", "ravenscar-sfp", "rtp", "rtp-smp", "soft-float", "xenomai", "zcx", "zfp");
-   Runtime : Runtime_Type := external ("RUNTIME");
+   Runtime : Runtime_Type := external ("RUNTIME", "full");
 
    package Builder is
       for Default_Switches ("ada") use ("-g", "-gnat2012", "-gnata", "-gnato", "-fstack-check", "-gnatQ");

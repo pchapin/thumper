@@ -9,7 +9,6 @@
 ---------------------------------------------------------------------------
 with Network;
 
---# inherit Network;
 package ASN1.OID is
 
    -- Components_Type holds object identifiers as an array of component values.
@@ -23,9 +22,8 @@ package ASN1.OID is
    type Object_Identifier is private;
 
    -- Converts an OID in the form of separate components into an abstract object identifier.
-   procedure To_Object_Identifier(Separates : in Components_Type; Result : out Object_Identifier; Status : out Status_Type);
-   --# derives Result from Separates &
-   --#         Status from Separates;
+   procedure To_Object_Identifier(Separates : in Components_Type; Result : out Object_Identifier; Status : out Status_Type)
+   with Depends => ( (Result, Status) => Separates);
 
    -- Returns the number of components inside the given object identifier.
    function Component_Count(Identifier : Object_Identifier) return Component_Count_Type;
@@ -35,18 +33,16 @@ package ASN1.OID is
    -- returned. Unused space in the Result array is filled with zero component values.
    --
    procedure To_Separates
-     (Identifier : Object_Identifier; Result : out Components_Type; Number_Of_Components : out Component_Count_Type);
-   --# derives Result               from Identifier &
-   --#         Number_Of_Components from Identifier;
+     (Identifier : Object_Identifier; Result : out Components_Type; Number_Of_Components : out Component_Count_Type)
+   with Depends => ( (Result, Number_Of_Components) => Identifier );
 
    -- Converts an object identifier into an array of raw bytes. Returns in the Octet_Count parameter the number of bytes
    -- used. If there is a problem with the conversion (for example, due to lack of space) a count of zero is returned. Unused
    -- space in the Result array is filled with zero byte values.
    --
    procedure To_Octet_Array
-     (Identifier : in Object_Identifier; Result : out Network.Octet_Array; Octet_Count : out Natural);
-   --# derives Result      from Identifier &
-   --#         Octet_Count from Identifier;
+     (Identifier : in Object_Identifier; Result : out Network.Octet_Array; Octet_Count : out Natural)
+   with Depends => ( (Result, Octet_Count) => Identifier );
 
 private
 
