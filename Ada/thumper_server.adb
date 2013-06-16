@@ -21,21 +21,7 @@ use type Network.Server_Socket.Status_Type;
 use type Serial_Generator.Status_Type;
 use type Timestamp_Maker.Status_Type;
 
---# inherit Cryptographic_Services,
---#         Messages,
---#         Network,
---#         Network.Addresses,
---#         Network.Server_Socket,
---#         Serial_Generator,
---#         Timestamp_Maker;
---# main_program;
-procedure Thumper_Server
---# global in     Network.Server_Socket.Input, Cryptographic_Services.Key;
---#           out Network.Server_Socket.Output, Serial_Generator.Current_Number;
---#        in out Network.Server_Socket.State;
---# derives Network.Server_Socket.State     from Cryptographic_Services.Key, Network.Server_Socket.State &
---#         Network.Server_Socket.Output    from Cryptographic_Services.Key, Network.Server_Socket.State, Network.Server_Socket.Input;
-is
+procedure Thumper_Server is
    Serial_Status    : Serial_Generator.Status_Type;
    Crypto_Status    : Cryptographic_Services.Status_Type;
    Network_Status   : Network.Server_Socket.Status_Type;

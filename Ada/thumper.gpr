@@ -10,7 +10,7 @@ project Thumper is
    Runtime : Runtime_Type := external ("RUNTIME", "full");
 
    package Builder is
-      for Default_Switches ("ada") use ("-g", "-gnat2012", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
+      for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ", "-gnatd.V");
    end Builder;
 
    package Compiler is
@@ -20,65 +20,65 @@ project Thumper is
       case Runtime is
 
          when "cert" =>
-            for Default_Switches ("ada") use ("-g", "-gnat2012", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
+            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ", "-gnatd.V");
 
          when "default" =>
-            for Default_Switches ("ada") use ("-g", "-gnat2012", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
+            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ", "-gnatd.V");
 
          when "full" =>
             for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ", "-gnatd.V");
             for Driver ("metafile") use "";
 
          when "hi" =>
-            for Default_Switches ("ada") use ("-g", "-gnat2012", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
+            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ", "-gnatd.V");
 
          when "kernel" =>
-            for Default_Switches ("ada") use ("-g", "-gnat2012", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
+            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ", "-gnatd.V");
 
          when "kernel-sjlj" =>
-            for Default_Switches ("ada") use ("-g", "-gnat2012", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
+            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ", "-gnatd.V");
 
          when "kernel-smp" =>
-            for Default_Switches ("ada") use ("-g", "-gnat2012", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
+            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ", "-gnatd.V");
 
          when "pthread" =>
-            for Default_Switches ("ada") use ("-g", "-gnat2012", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
+            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ", "-gnatd.V");
 
          when "ravenscar" =>
-            for Default_Switches ("ada") use ("-g", "-gnat2012", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
+            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ", "-gnatd.V");
 
          when "ravenscar-apex" =>
-            for Default_Switches ("ada") use ("-g", "-gnat2012", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
+            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ", "-gnatd.V");
 
          when "ravenscar-full" =>
-            for Default_Switches ("ada") use ("-g", "-gnat2012", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
+            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ", "-gnatd.V");
 
          when "ravenscar-cert" =>
-            for Default_Switches ("ada") use ("-g", "-gnat2012", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
+            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ", "-gnatd.V");
 
          when "ravenscar-cert-rtp" =>
-            for Default_Switches ("ada") use ("-g", "-gnat2012", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
+            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ", "-gnatd.V");
 
          when "ravenscar-sfp" =>
-            for Default_Switches ("ada") use ("-g", "-gnat2012", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
+            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ", "-gnatd.V");
 
          when "rtp" =>
-            for Default_Switches ("ada") use ("-g", "-gnat2012", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
+            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ", "-gnatd.V");
 
          when "rtp-smp" =>
-            for Default_Switches ("ada") use ("-g", "-gnat2012", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
+            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ", "-gnatd.V");
 
          when "soft-float" =>
-            for Default_Switches ("ada") use ("-g", "-gnat2012", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
+            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ", "-gnatd.V");
 
          when "xenomai" =>
-            for Default_Switches ("ada") use ("-g", "-gnat2012", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
+            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ", "-gnatd.V");
 
          when "zcx" =>
-            for Default_Switches ("ada") use ("-g", "-gnat2012", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
+            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ", "-gnatd.V");
 
          when "zfp" =>
-            for Default_Switches ("ada") use ("-g", "-gnat2012", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
+            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ", "-gnatd.V");
       end case;
    end Compiler;
 
@@ -90,125 +90,71 @@ project Thumper is
       for Default_Switches ("ada") use ("-g");
    end Linker;
 
-   package Ide is
-      for Default_Switches ("examiner") use ("-index_file=spark.idx", "-config=spark.cfg", "-warning_file=spark.wrn", "-flow_analysis=information", "-vcg");
-
-      case Runtime is
-
-         when "cert" =>
-
-         when "default" =>
-
-         when "full" =>
-            for Default_Switches ("sparksimp") use ("-victor");
-
-         when "hi" =>
-
-         when "kernel" =>
-
-         when "kernel-sjlj" =>
-
-         when "kernel-smp" =>
-
-         when "pthread" =>
-
-         when "ravenscar" =>
-
-         when "ravenscar-apex" =>
-
-         when "ravenscar-full" =>
-
-         when "ravenscar-cert" =>
-
-         when "ravenscar-cert-rtp" =>
-
-         when "ravenscar-sfp" =>
-
-         when "rtp" =>
-
-         when "rtp-smp" =>
-
-         when "soft-float" =>
-
-         when "xenomai" =>
-
-         when "zcx" =>
-
-         when "zfp" =>
-
-      end case;
-   end Ide;
-
    -- package Pretty_Printer is
    --    for Default_Switches ("Ada") use ("");
    -- end Pretty_Printer;
 
-   package Naming is
-      for Spec_Suffix ("metafile") use ".sms";
-      for Body_Suffix ("metafile") use ".smf";
-   end Naming;
-
    case Runtime is
 
       when "cert" =>
-         for Languages use ("Ada", "Metafile");
+         for Languages use ("Ada");
 
       when "default" =>
-         for Languages use ("Ada", "Metafile");
+         for Languages use ("Ada");
 
       when "full" =>
          for Languages use ("Ada");
 
       when "hi" =>
-         for Languages use ("Ada", "Metafile");
+         for Languages use ("Ada");
 
       when "kernel" =>
-         for Languages use ("Ada", "Metafile");
+         for Languages use ("Ada");
 
       when "kernel-sjlj" =>
-         for Languages use ("Ada", "Metafile");
+         for Languages use ("Ada");
 
       when "kernel-smp" =>
-         for Languages use ("Ada", "Metafile");
+         for Languages use ("Ada");
 
       when "pthread" =>
-         for Languages use ("Ada", "Metafile");
+         for Languages use ("Ada");
 
       when "ravenscar" =>
-         for Languages use ("Ada", "Metafile");
+         for Languages use ("Ada");
 
       when "ravenscar-apex" =>
-         for Languages use ("Ada", "Metafile");
+         for Languages use ("Ada");
 
       when "ravenscar-full" =>
-         for Languages use ("Ada", "Metafile");
+         for Languages use ("Ada");
 
       when "ravenscar-cert" =>
-         for Languages use ("Ada", "Metafile");
+         for Languages use ("Ada");
 
       when "ravenscar-cert-rtp" =>
-         for Languages use ("Ada", "Metafile");
+         for Languages use ("Ada");
 
       when "ravenscar-sfp" =>
-         for Languages use ("Ada", "Metafile");
+         for Languages use ("Ada");
 
       when "rtp" =>
-         for Languages use ("Ada", "Metafile");
+         for Languages use ("Ada");
 
       when "rtp-smp" =>
-         for Languages use ("Ada", "Metafile");
+         for Languages use ("Ada");
 
       when "soft-float" =>
-         for Languages use ("Ada", "Metafile");
+         for Languages use ("Ada");
 
       when "xenomai" =>
-         for Languages use ("Ada", "Metafile");
+         for Languages use ("Ada");
 
       when "zcx" =>
-         for Languages use ("Ada", "Metafile");
+         for Languages use ("Ada");
 
       when "zfp" =>
-         for Languages use ("Ada", "Metafile");
+         for Languages use ("Ada");
 
    end case;
 

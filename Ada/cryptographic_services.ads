@@ -9,16 +9,17 @@
 ---------------------------------------------------------------------------
 with Network;
 
---# inherit Network;
 package Cryptographic_Services
---# own Key;
---# initializes Key;
+with
+  Abstract_State => Key
+--  Initializes => Key
 is
    type Status_Type is (Success, Bad_Key, Insufficient_Space);
 
-   procedure Validate_Key(Status : out Status_Type);
-   --# global in Key;
-   --# derives Status from Key;
+   procedure Validate_Key(Status : out Status_Type)
+   with
+     Global => (Input => Key),
+     Depends => (Status => Key);
 
    -- Computes the signature of Data using a constant private key that is internal to this package, putting the result in
    -- Signature. The number of octets used are written to Octet_Count. Fails with Insufficient_Space if the Signature array
@@ -28,10 +29,9 @@ is
      (Data        : in  Network.Octet_Array;
       Signature   : out Network.Octet_Array;
       Octet_Count : out Natural;
-      Status      : out Status_Type);
-   --# global in Key;
-   --# derives Signature   from Data, Key &
-   --#         Octet_Count from Data &
-   --#         Status      from Data;
+      Status      : out Status_Type)
+   with
+     Global => (Input => Key),
+     Depends => (Signature => (Data, Key), (Octet_Count, Status) => Data);
 
 end Cryptographic_Services;

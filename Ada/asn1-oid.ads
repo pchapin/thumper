@@ -23,7 +23,8 @@ package ASN1.OID is
 
    -- Converts an OID in the form of separate components into an abstract object identifier.
    procedure To_Object_Identifier(Separates : in Components_Type; Result : out Object_Identifier; Status : out Status_Type)
-   with Depends => ( (Result, Status) => Separates);
+   with
+     Depends => ( (Result, Status) => Separates);
 
    -- Returns the number of components inside the given object identifier.
    function Component_Count(Identifier : Object_Identifier) return Component_Count_Type;
@@ -34,7 +35,8 @@ package ASN1.OID is
    --
    procedure To_Separates
      (Identifier : Object_Identifier; Result : out Components_Type; Number_Of_Components : out Component_Count_Type)
-   with Depends => ( (Result, Number_Of_Components) => Identifier );
+   with
+     Depends => ( (Result, Number_Of_Components) => Identifier );
 
    -- Converts an object identifier into an array of raw bytes. Returns in the Octet_Count parameter the number of bytes
    -- used. If there is a problem with the conversion (for example, due to lack of space) a count of zero is returned. Unused
@@ -42,7 +44,8 @@ package ASN1.OID is
    --
    procedure To_Octet_Array
      (Identifier : in Object_Identifier; Result : out Network.Octet_Array; Octet_Count : out Natural)
-   with Depends => ( (Result, Octet_Count) => Identifier );
+   with
+     Depends => ( (Result, Octet_Count) => Identifier );
 
 private
 

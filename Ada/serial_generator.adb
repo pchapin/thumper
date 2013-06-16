@@ -9,7 +9,10 @@
 ---------------------------------------------------------------------------
 with Ada.Integer_Text_IO;
 
-package body Serial_Generator is
+package body Serial_Generator
+--with
+--  Refined_State => (Number => Current_Number)
+is
 
    Current_Number : Serial_Number_Type;
 

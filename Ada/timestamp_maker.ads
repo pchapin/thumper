@@ -16,7 +16,6 @@ with Serial_Generator;
 use type BER.Status_Type;
 use type Network.Octet;
 
---# inherit BER, Cryptographic_Services, Messages, Network, Serial_Generator;
 package Timestamp_Maker is
 
    type Status_Type is (Success, Bad_Request);
@@ -26,10 +25,11 @@ package Timestamp_Maker is
       Request_Count    : in  Messages.Count_Type;
       Response_Message : out Messages.Message;
       Response_Count   : out Messages.Count_Type;
-      Status           : out Status_Type);
-   --# global in Cryptographic_Services.Key, Serial_Generator.Current_Number;
-   --# derives Response_Message from Request_Message, Request_Count, Serial_Generator.Current_Number, Cryptographic_Services.Key &
-   --#         Response_Count   from Request_Message, Request_Count, Serial_Generator.Current_Number &
-   --#         Status           from Request_Message, Request_Count;
+      Status           : out Status_Type)
+   with
+     Global  => (Input            => (Cryptographic_Services.Key, Serial_Generator.Number)),
+     Depends => (Response_Message => (Request_Message, Request_Count, Serial_Generator.Number, Cryptographic_Services.Key),
+                 Response_Count   => (Request_Message, Request_Count, Serial_Generator.Number),
+                 Status           => (Request_Message, Request_Count));
 
 end Timestamp_Maker;
