@@ -7,7 +7,6 @@
 --
 --      Peter Chapin <PChapin@vtc.vsc.edu>
 ---------------------------------------------------------------------------
-
 package body BER is
 
    function Make_Leading_Identifier
@@ -15,21 +14,17 @@ package body BER is
       Structured_Flag : Structured_Flag_Type;
       Tag             : Leading_Number_Type) return Network.Octet is
 
-      type Tag_Class_Lookup_Type is array(Tag_Class_Type) of Network.Octet;
-      type Structured_Flag_Lookup_Type is array(Structured_Flag_Type) of Network.Octet;
-      type Leading_Number_Lookup_Type is array(Leading_Number_Type) of Network.Octet;
-
-      Tag_Class_Lookup_Table : constant Tag_Class_Lookup_Type := Tag_Class_Lookup_Type'
+      Tag_Class_Lookup_Table : constant array(Tag_Class_Type) of Network.Octet :=
         (Class_Universal        => 2#0000_0000#,
          Class_Application      => 2#0100_0000#,
          Class_Context_Specific => 2#1000_0000#,
          Class_Private          => 2#1100_0000#);
 
-      Structured_Flag_Lookup_Table : constant Structured_Flag_Lookup_Type := Structured_Flag_Lookup_Type'
+      Structured_Flag_Lookup_Table : constant array(Structured_Flag_Type) of Network.Octet :=
         (Primitive              => 2#0000_0000#,
          Constructed            => 2#0010_0000#);
 
-      Leading_Number_Lookup_Table : constant Leading_Number_Lookup_Type := Leading_Number_Lookup_Type'
+      Leading_Number_Lookup_Table : constant array(Leading_Number_Type) of Network.Octet :=
         (Tag_Reserved           =>  0,
          Tag_Boolean            =>  1,
          Tag_Integer            =>  2,
@@ -84,8 +79,7 @@ package body BER is
       Status          : out Status_Type) is
 
       subtype Leading_Number_Range_Type is Network.Octet range 0 .. 31;
-      type Leading_Number_Lookup_Type is array(Leading_Number_Range_Type) of Leading_Number_Type;
-      Leading_Number_Lookup_Table : constant Leading_Number_Lookup_Type := Leading_Number_Lookup_Type'
+      Leading_Number_Lookup_Table : constant array(Leading_Number_Range_Type) of Leading_Number_Type :=
         ( 0 => Tag_Reserved,
           1 => Tag_Boolean,
           2 => Tag_Integer,
@@ -119,8 +113,9 @@ package body BER is
          30 => Tag_BMP_String,
          31 => Tag_EXTENDED_TAG);
 
-      procedure Set_Tag_Class(Value : in Network.Octet; Tag_Class : out Tag_Class_Type)
+      procedure Set_Tag_Class
       with
+        Global => (Input => Value, Output => Tag_Class),
         Depends => (Tag_Class => Value)
       is
       begin
@@ -134,8 +129,9 @@ package body BER is
          end case;
       end Set_Tag_Class;
 
-      procedure Set_Structured_Flag(Value : in Network.Octet; Structured_Flag : out Structured_Flag_Type)
+      procedure Set_Structured_Flag
       with
+        Global => (Input => Value, Output => Structured_Flag),
         Depends => (Structured_Flag => Value)
       is
       begin
@@ -147,8 +143,9 @@ package body BER is
          end case;
       end Set_Structured_Flag;
 
-      procedure Set_Tag(Value : in Network.Octet; Tag : out Leading_Number_Type; Status : in out Status_Type)
+      procedure Set_Tag
       with
+        Global => (Input => Value, Output => Tag, In_Out => Status),
         Depends => (Tag => Value, Status => Value)
       is
          Tag_Value : Leading_Number_Range_Type;
@@ -164,9 +161,9 @@ package body BER is
    begin
       Status := Success;
 
-      Set_Tag_Class(Value, Tag_Class);
-      Set_Structured_Flag(Value, Structured_Flag);
-      Set_Tag(Value, Tag, Status);
+      Set_Tag_Class;
+      Set_Structured_Flag;
+      Set_Tag;
    end Split_Leading_Identifier;
 
 
@@ -180,15 +177,13 @@ package body BER is
       subtype Length_Of_Length_Type is Positive range 1 .. 127;
       Length_Of_Length : Length_Of_Length_Type;
 
-      function Convert_Length
-        (Message : in Network.Octet_Array; Starting : in Natural; Octet_Count : in Length_Of_Length_Type) return Natural
+      function Convert_Length(Starting : in Natural; Octet_Count : in Length_Of_Length_Type) return Natural
       with
+        Global => (Input => Message),
         Pre => Message'First < Starting and (Starting + (Octet_Count - 1)) <= Message'Last and
                Octet_Count <= 4 and
-              (if Octet_Count = 4 then Message(Starting) < 128);
-
-      function Convert_Length
-        (Message : in Network.Octet_Array; Starting : in Natural; Octet_Count : in Length_Of_Length_Type) return Natural is
+              (if Octet_Count = 4 then Message(Starting) < 128)
+      is
          Result : Natural := 0;
       begin
          for I in Length_Of_Length_Type range 1 .. Octet_Count loop
@@ -244,7 +239,7 @@ package body BER is
          -- Convert the length into a single Natural.
          else
             Stop   := Index + Length_Of_Length;
-            Length := Convert_Length(Message, Index + 1, Length_Of_Length);
+            Length := Convert_Length(Index + 1, Length_Of_Length);
             Status := Success;
          end if;
       end if;
@@ -268,26 +263,15 @@ package body BER is
       -- from the message. Length_Stop is the last octet of the length.
       --
       procedure Identifier_And_Length_Ok
-        (Message     : in  Network.Octet_Array;
-         Length      : in  Natural;
-         Length_Stop : in  Natural;
-         Stop        : out Natural;
-         Value       : out Integer;
-         Status      : out Status_Type)
+        (Length      : in  Natural;
+         Length_Stop : in  Natural)
       with
+        Global => ( Input => Message, Output => (Stop, Value, Status) ),
         Depends => (Stop   => (Length_Stop, Length),
                     Status => null,
                     Value  => (Length_Stop, Length, Message) ),
-        Pre => Length <= 4 and Message'First < Length_Stop and Length_Stop <= Message'Last;
-
-      procedure Identifier_And_Length_Ok
-        (Message     : in  Network.Octet_Array;
-         Length      : in  Natural;
-         Length_Stop : in  Natural;
-         Stop        : out Natural;
-         Value       : out Integer;
-         Status      : out Status_Type) is
-
+        Pre => Length <= 4 and Message'First < Length_Stop and Length_Stop <= Message'Last
+      is
          Result : Integer := 0;
       begin
          Stop   := Length_Stop + Length;
@@ -317,23 +301,12 @@ package body BER is
       -- This procedure is called after the identifier octets have been validated. It extracts the length from the message.
       -- Identifier_Stop is the last octet of the indentifier.
       --
-      procedure Identifier_Ok
-        (Message         : in  Network.Octet_Array;
-         Identifier_Stop : in  Natural;
-         Stop            : out Natural;
-         Value           : out Integer;
-         Status          : out Status_Type)
+      procedure Identifier_Ok(Identifier_Stop : in Natural)
       with
+        Global => ( Input => Message, Output => (Stop, Value, Status) ),
         Depends => ( (Stop, Value, Status) => (Message, Identifier_Stop) ),
-        Pre => Message'First <= Identifier_Stop and Identifier_Stop < Message'Last;
-
-      procedure Identifier_Ok
-        (Message         : in  Network.Octet_Array;
-         Identifier_Stop : in  Natural;
-         Stop            : out Natural;
-         Value           : out Integer;
-         Status          : out Status_Type) is
-
+        Pre => Message'First <= Identifier_Stop and Identifier_Stop < Message'Last
+      is
          Length_Stop   : Natural;
          Length        : Natural;
          Length_Status : Status_Type;
@@ -366,7 +339,7 @@ package body BER is
             Status := Bad_Value;
          else
             -- Leading identifier is ok. Length is ok. Integer value starts at Length_Stop + 1.
-            Identifier_And_Length_Ok(Message, Length, Length_Stop, Stop, Value, Status);
+            Identifier_And_Length_Ok(Length, Length_Stop);
          end if;
       end Identifier_Ok;
 
@@ -386,7 +359,7 @@ package body BER is
             Value  := 0;
             Status := Bad_Value;
          else
-            Identifier_Ok(Message, Index, Stop, Value, Status);
+            Identifier_Ok(Index);
          end if;
       end if;
    end Get_Integer_Value;

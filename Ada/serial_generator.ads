@@ -22,7 +22,7 @@ is
    procedure Initialize(Status : out Status_Type)
    with
      Global => (Output => Number),
-     Depends => ( (Number, Status) => null);
+     Depends => (Number => null, Status => null);
 
    -- Computes (and saves) the next serial number. Fails with Bad_Update if a new serial number couldn't be calculated.
    procedure Advance(Status : out Status_Type)

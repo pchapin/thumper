@@ -15,7 +15,7 @@
 ---------------------------------------------------------------------------
 
 package body Cryptographic_Services is
-
+pragma SPARK_Mode(Off);
 
    procedure Validate_Key(Status : out Status_Type) is
    begin

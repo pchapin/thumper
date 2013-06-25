@@ -10,13 +10,17 @@
 with Ada.Integer_Text_IO;
 
 package body Serial_Generator
---with
---  Refined_State => (Number => Current_Number)
+with
+  Refined_State => (Number => Current_Number)
 is
 
    Current_Number : Serial_Number_Type;
 
-   procedure Initialize(Status : out Status_Type) is
+   procedure Initialize(Status : out Status_Type)
+   with
+     Refined_Global => (Output => Current_Number),
+     Refined_Depends => (Current_Number => null)
+   is
       Number_File        : Ada.Text_IO.File_Type;
       Number_File_Status : Boolean := True;  -- Was an error code from SPARK_IO.Open.
       Raw_Number         : Integer;  -- TODO: We should really read Serial_Number_Type values from the file.
@@ -36,7 +40,11 @@ is
    end Initialize;
 
 
-   procedure Advance(Status : out Status_Type) is
+   procedure Advance(Status : out Status_Type)
+   with
+     Refined_Global => (In_Out => Current_Number),
+     Refined_Depends => (Current_Number =>+ null, Status => Current_Number)
+   is
       Number_File        : Ada.Text_IO.File_Type;
       Number_File_Status : Boolean := True;  -- Was an error code from SPARK_IO.Open.
       Raw_Number         : Integer;  -- TODO: We should really write Serial_Number_Type values to the file.
@@ -57,7 +65,10 @@ is
    end Advance;
 
 
-   function Get return Serial_Number_Type is
+   function Get return Serial_Number_Type
+   with
+     Refined_Global => (Input => Current_Number)
+   is
    begin
       return Current_Number;
    end Get;

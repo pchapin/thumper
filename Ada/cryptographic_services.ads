@@ -11,8 +11,8 @@ with Network;
 
 package Cryptographic_Services
 with
-  Abstract_State => Key
---  Initializes => Key
+  Abstract_State => Key,
+  Initializes => Key
 is
    type Status_Type is (Success, Bad_Key, Insufficient_Space);
 
