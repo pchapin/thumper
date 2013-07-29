@@ -11,15 +11,14 @@ with Network;
 
 package Cryptographic_Services
 with
-  Abstract_State => Key,
-  Initializes => Key
+  Abstract_State => Key
 is
    type Status_Type is (Success, Bad_Key, Insufficient_Space);
 
-   procedure Validate_Key(Status : out Status_Type)
+   procedure Initialize(Status : out Status_Type)
    with
-     Global => (Input => Key),
-     Depends => (Status => Key);
+     Global => (Output => Key),
+     Depends => ((Key, Status) => null);
 
    -- Computes the signature of Data using a constant private key that is internal to this package, putting the result in
    -- Signature. The number of octets used are written to Octet_Count. Fails with Insufficient_Space if the Signature array

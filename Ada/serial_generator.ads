@@ -22,13 +22,13 @@ is
    procedure Initialize(Status : out Status_Type)
    with
      Global => (Output => Number),
-     Depends => (Number => null, Status => null);
+     Depends => ((Number, Status) => null);
 
    -- Computes (and saves) the next serial number. Fails with Bad_Update if a new serial number couldn't be calculated.
    procedure Advance(Status : out Status_Type)
    with
      Global => (In_Out => Number),
-     Depends => (Number =>+ null, Status => Number);
+     Depends => ((Number, Status) => Number);
 
    -- Returns the current serial number.
    function Get return Serial_Number_Type

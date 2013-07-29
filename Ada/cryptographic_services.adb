@@ -14,21 +14,33 @@
 --      Peter Chapin <PChapin@vtc.vsc.edu>
 ---------------------------------------------------------------------------
 
-package body Cryptographic_Services is
-pragma SPARK_Mode(Off);
+package body Cryptographic_Services
+  with Refined_State => (Key => Raw_Key)
+is
 
-   procedure Validate_Key(Status : out Status_Type) is
+   Raw_Key : Integer;
+
+   procedure Initialize(Status : out Status_Type)
+   with
+     Refined_Global => (Output => Raw_Key),
+     Refined_Depends => ((Raw_Key, Status) => null)
+   is
    begin
       -- TODO: Read the key from the file system.
-      Status := Success;
-   end Validate_Key;
+      Raw_Key := 0;
+      Status  := Success;
+   end Initialize;
 
 
    procedure Make_Signature
      (Data        : in  Network.Octet_Array;
       Signature   : out Network.Octet_Array;
       Octet_Count : out Natural;
-      Status      : out Status_Type) is
+      Status      : out Status_Type)
+   with
+     Refined_Global => (Input => Raw_Key),
+     Refined_Depends => (Signature => (Data, Raw_Key), (Octet_Count, Status) => Data)
+   is
    begin
       -- Create a fake signature of 20 bytes (all zeros).
       if Signature'Length < 20 then
@@ -42,6 +54,5 @@ pragma SPARK_Mode(Off);
          Status := Success;
       end if;
    end Make_Signature;
-
 
 end Cryptographic_Services;

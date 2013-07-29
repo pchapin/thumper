@@ -39,7 +39,7 @@ begin
       Ada.Text_IO.Put_Line("Unable to intialize the serial generator (no serial number file?)");
    else
       -- Be sure the key is available.
-      Cryptographic_Services.Validate_Key(Crypto_Status);
+      Cryptographic_Services.Initialize(Crypto_Status);
       if Crypto_Status /= Cryptographic_Services.Success then
          Ada.Text_IO.Put_Line("Unable to intialize the cryptographic library (no private key?)");
       else
