@@ -1,2 +1,7 @@
+
+# Build artifacts.
 Ada/build
 Haskell/.dist-buildwrapper
+
+# Location for the Python RFC-3161 package.
+rfc3161-*.*.*

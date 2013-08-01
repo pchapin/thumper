@@ -3,19 +3,20 @@
   "http://www.docbook.org/xml/4.5/docbookx.dtd">
   
 <chapter id="Build">
-  <title>Building Thumper</title>
+  <title>Building and Testing Thumper</title>
 
-  <para>This chapter describes how to build Thumper and its associated documentation. The tools
-    with specific version numbers shown below are the official tools used by the Thumper
-    contributors. Other tools (or other versions of the same tools) may also work. Obviously the
-    greater the differences between the tools you attempt to use and those listed below the more
-    trouble you are likely to encounter during the build process.</para>
+  <para>This chapter describes how to build Thumper and its associated documentation. We also
+    outline how to test Thumper. The tools with specific version numbers shown below are the
+    official tools used by the Thumper contributors. Other tools (or other versions of the same
+    tools) may also work. Obviously the greater the differences between the tools you attempt to
+    use and those listed below the more trouble you are likely to encounter during the build
+    process.</para>
 
-  <para>Two versions of the Thumper server exist. One is written in SPARK and the other is
+  <para>Two versions of the Thumper server exist. One is written in SPARK 2014 and the other is
     written in Haskell. The Thumper client is not under active development at this time.</para>
 
   <section>
-    <title>SPARK Build</title>
+    <title>SPARK 2014 Build</title>
 
     <para>In this section the tools needed to build and test the SPARK version of Thumper are
       described. If you are interested in only the Haskell version of Thumper you can skip to
@@ -27,7 +28,7 @@
       <varlistentry>
         <term>GNAT</term>
         <listitem>
-          <para>We use the GNAT GPL 2012 Ada compiler from AdaCore. It can be used freely for
+          <para>We use the GNAT GPL 2014 Ada compiler from AdaCore. It can be used freely for
             open source projects such as Thumper. Thumper makes use of some GNAT-specific
             libraries that are bundled with GNAT but that might not be available with another
             Ada compiler. These libraries are contained in package <package>GNAT</package> and
@@ -38,7 +39,7 @@
       <varlistentry>
         <term>SPARK</term>
         <listitem>
-          <para>We use the SPARK GPL 2012 tools to verify the integrity of the Thumper
+          <para>We use the SPARK GPL 2014 tools to verify the integrity of the Thumper
             server.</para>
         </listitem>
       </varlistentry>
@@ -46,7 +47,7 @@
       <varlistentry>
         <term>GPS</term>
         <listitem>
-          <para>We use the GPS integrated development environment that comes with GNAT GPL 2012
+          <para>We use the GPS integrated development environment that comes with GNAT GPL 2014
             as our IDE. GPS is able to integrate both Ada development and SPARK analysis.</para>
         </listitem>
       </varlistentry>
@@ -55,7 +56,21 @@
         <term>AUnit</term>
         <listitem>
           <para>The Thumper test program makes use of the AUnit unit testing framework. AUnit is
-            maintained by AdaCore and can be downloaded from the same site as GNAT GPL.</para>
+            maintained by AdaCore and is part of the GNAT GPL 2014 distribution.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Python RFC-3161</term>
+        <listitem>
+          <para>To exercise the server without a specific client we make use of the Python
+            RFC-3161 implementation <ulink url="https://pypi.python.org/pypi/rfc3161"
+              >here</ulink>. We recommend that this package be downloaded and unpacked into a
+            folder such as <filename>rfc3161-x.y.z</filename> off the root of your working copy.
+            Various scripts and paths assume this location for a suitable version x.y.z
+            (currently 0.1.6 at the time of this writing). The Python RFC-3161 package requires
+            the pyasn1 package as a prerequisite. You can install that package using the command
+              <command>pypm install pyasn1</command></para>
         </listitem>
       </varlistentry>
 
