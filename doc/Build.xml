@@ -69,8 +69,37 @@
             folder such as <filename>rfc3161-x.y.z</filename> off the root of your working copy.
             Various scripts and paths assume this location for a suitable version x.y.z
             (currently 0.1.6 at the time of this writing). The Python RFC-3161 package requires
-            the pyasn1 package as a prerequisite. You can install that package using the command
-              <command>pypm install pyasn1</command></para>
+            the pyasn1 package as a prerequisite. Specific instructions for setting this up on
+            Windows are as follows. Similar steps may be required on Linux and other systems but
+            the details will need adjusting.</para>
+          <itemizedlist>
+            <listitem>
+              <para>Download and install the latest Python 2.x version from the <ulink
+                  url="http://www.python.org">Python home page</ulink>.</para>
+            </listitem>
+            <listitem>
+              <para>Download and install the setuptools package from <ulink
+                  url="https://pypi.python.org/pypi/setuptools">here</ulink>. For Windows this
+                entails downloading the <filename>ez_setup.py</filename> script and executing
+                it. Be sure to use an Administrator enabled command prompt to do this. When the
+                script completes you should have the program
+                  <filename>easy_install.exe</filename> in the <filename>Scripts</filename>
+                folder of your Python installation.</para>
+            </listitem>
+            <listitem>
+              <para>Using an Administrator enabled command prompt, go into your
+                  <filename>Scripts</filename> folder and run <command>easy_install
+                  pyasn1</command>. This installs the pyasn1 package into your Python
+                installation. See the <ulink url="https://pypi.python.org/pypi/pyasn1/">pyasn1
+                  page</ulink> for more information.</para>
+            </listitem>
+            <listitem>
+              <para>Using a normal command prompt run the command <command>python</command> to
+                start a Python interpreter (you may have to add your Python installation folder
+                to the PATH first). Type <command>import pyasn1</command> to verify that the
+                package is accessible.</para>
+            </listitem>
+          </itemizedlist>
         </listitem>
       </varlistentry>
 
