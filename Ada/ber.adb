@@ -146,7 +146,7 @@ package body BER is
       procedure Set_Tag
       with
         Global => (Input => Value, Output => Tag, In_Out => Status),
-        Depends => (Tag => Value, Status => Value)
+        Depends => (Tag => Value, Status =>+ Value)
       is
          Tag_Value : Leading_Number_Range_Type;
       begin

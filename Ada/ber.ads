@@ -10,7 +10,6 @@
 with Network;
 use type Network.Octet;
 
---# inherit Network;
 package BER is
    pragma SPARK_Mode;
 

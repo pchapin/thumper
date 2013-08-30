@@ -39,7 +39,7 @@ is
       Status      : out Status_Type)
    with
      Refined_Global => (Input => Raw_Key),
-     Refined_Depends => (Signature => (Data, Raw_Key), (Octet_Count, Status) => Data)
+     Refined_Depends => (Signature => (Data, Raw_Key), (Octet_Count, Status) => (Data, Signature))
    is
    begin
       -- Create a fake signature of 20 bytes (all zeros).

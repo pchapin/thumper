@@ -31,6 +31,6 @@ is
       Status      : out Status_Type)
    with
      Global => (Input => Key),
-     Depends => (Signature => (Data, Key), (Octet_Count, Status) => Data);
+     Depends => (Signature => (Data, Key), (Octet_Count, Status) => (Data, Signature));
 
 end Cryptographic_Services;
