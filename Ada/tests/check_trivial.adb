@@ -1,7 +1,7 @@
 ---------------------------------------------------------------------------
 -- FILE    : check_trivial.adb
 -- SUBJECT : Package containing tests of nothing in particular.
--- AUTHOR  : (C) Copyright 2012 by Peter C. Chapin
+-- AUTHOR  : (C) Copyright 2014 by Peter C. Chapin
 --
 -- Please send comments or bug reports to
 --

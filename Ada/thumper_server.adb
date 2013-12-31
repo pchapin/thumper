@@ -1,7 +1,7 @@
 ---------------------------------------------------------------------------
 -- FILE    : thumper_server.adb
 -- SUBJECT : Main procedure of the Thumper server.
--- AUTHOR  : (C) Copyright 2013 by Peter Chapin and John McCormick
+-- AUTHOR  : (C) Copyright 2014 by Peter Chapin
 --
 -- Please send comments or bug reports to
 --
@@ -22,15 +22,38 @@ use type Serial_Generator.Status_Type;
 use type Timestamp_Maker.Status_Type;
 
 procedure Thumper_Server is
-   Serial_Status    : Serial_Generator.Status_Type;
-   Crypto_Status    : Cryptographic_Services.Status_Type;
-   Network_Status   : Network.Server_Socket.Status_Type;
-   Client_Address   : Network.Addresses.UDPv4;
-   Request_Message  : Messages.Message;
-   Request_Count    : Messages.Count_Type;
-   Response_Message : Messages.Message;
-   Response_Count   : Messages.Count_Type;
-   Timestamp_Status : Timestamp_Maker.Status_Type;
+
+   procedure Service_Clients is
+      Client_Address   : Network.Addresses.UDPv4;
+      Request_Message  : Messages.Message;
+      Request_Count    : Messages.Count_Type;
+      Response_Message : Messages.Message;
+      Response_Count   : Messages.Count_Type;
+
+      Network_Status   : Network.Server_Socket.Status_Type;
+      Timestamp_Status : Timestamp_Maker.Status_Type;
+   begin
+      -- Service clients infinitely (or maybe I need a way to cleanly shut the server down?).
+      loop
+         Network.Server_Socket.Receive(Request_Message, Request_Count, Client_Address, Network_Status);
+
+         -- Ignore bad receives (should we log them?)
+         if Network_Status = Network.Server_Socket.Success then
+            Ada.Text_IO.Put_Line("Handling a message from a client...");
+            Timestamp_Maker.Create_Timestamp
+              (Request_Message, Request_Count, Response_Message, Response_Count, Timestamp_Status);
+
+            -- Ignore bad time-stamp creation operations (should we log them?)
+            if Timestamp_Status = Timestamp_Maker.Success then
+               Network.Server_Socket.Send(Client_Address, Response_Message, Response_Count);
+            end if;
+         end if;
+      end loop;
+   end Service_Clients;
+
+   Serial_Status  : Serial_Generator.Status_Type;
+   Crypto_Status  : Cryptographic_Services.Status_Type;
+   Network_Status : Network.Server_Socket.Status_Type;
 begin
 
    -- Be sure the serial generator is working.
@@ -48,22 +71,7 @@ begin
          if Network_Status /= Network.Server_Socket.Success then
             Ada.Text_IO.Put_Line("Unable to create the server socket. Aborting!");
          else
-            -- Service clients infinitely (or maybe I need a way to cleanly shut the server down?).
-            loop
-               Network.Server_Socket.Receive(Request_Message, Request_Count, Client_Address, Network_Status);
-
-               -- Ignore bad receives (should we log them?)
-               if Network_Status = Network.Server_Socket.Success then
-                  Ada.Text_IO.Put_Line("Handling a message from a client...");
-                  Timestamp_Maker.Create_Timestamp
-                    (Request_Message, Request_Count, Response_Message, Response_Count, Timestamp_Status);
-
-                  -- Ignore bad time-stamp creation operations (should we log them?)
-                  if Timestamp_Status = Timestamp_Maker.Success then
-                     Network.Server_Socket.Send(Client_Address, Response_Message, Response_Count);
-                  end if;
-               end if;
-            end loop;
+            Service_Clients;
          end if;
       end if;
    end if;

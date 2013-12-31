@@ -1,7 +1,7 @@
 ---------------------------------------------------------------------------
 -- FILE    : timestamp_maker.adb
 -- SUBJECT : Specification of a package that encapsulates the work of creating a time stamp.
--- AUTHOR  : (C) Copyright 2013 by Peter Chapin and John McCormick
+-- AUTHOR  : (C) Copyright 2014 by Peter Chapin
 --
 -- Please send comments or bug reports to
 --

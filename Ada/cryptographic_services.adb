@@ -1,7 +1,7 @@
 ---------------------------------------------------------------------------
 -- FILE    : cryptographic_services.adb
 -- SUBJECT : Body of a package to abstract the crypto needed by Thumper.
--- AUTHOR  : (C) Copyright 2013 by Peter Chapin and John McCormick
+-- AUTHOR  : (C) Copyright 2014 by Peter Chapin
 --
 -- The implementation of this package is not SPARK.
 --

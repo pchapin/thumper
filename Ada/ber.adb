@@ -1,7 +1,7 @@
 ---------------------------------------------------------------------------
 -- FILE    : ber.adb
 -- SUBJECT : Body of a package that encapsulates subprograms that handle the basic encoding rules.
--- AUTHOR  : (C) Copyright 2013 by Peter Chapin and John McCormick
+-- AUTHOR  : (C) Copyright 2014 by Peter Chapin
 --
 -- Please send comments or bug reports to
 --

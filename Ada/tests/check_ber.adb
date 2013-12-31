@@ -1,7 +1,7 @@
 ---------------------------------------------------------------------------
 -- FILE    : check_ber.adb
 -- SUBJECT : Package containing tests of the ASN.1 Basic Encoding Rules.
--- AUTHOR  : (C) Copyright 2013 by Peter Chapin and John McCormick
+-- AUTHOR  : (C) Copyright 2014 by Peter Chapin
 --
 -- Please send comments or bug reports to
 --

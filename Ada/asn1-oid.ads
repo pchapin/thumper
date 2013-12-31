@@ -1,7 +1,7 @@
 ---------------------------------------------------------------------------
 -- FILE    : asn1-oid.ads
 -- SUBJECT : Specification of Object Identifier package.
--- AUTHOR  : (C) Copyright 2013 by Peter C. Chapin
+-- AUTHOR  : (C) Copyright 2014 by Peter C. Chapin
 --
 -- Please send comments or bug reports to
 --

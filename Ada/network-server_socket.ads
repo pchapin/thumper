@@ -1,7 +1,7 @@
 ---------------------------------------------------------------------------
 -- FILE    : network-server_socket.ads
 -- SUBJECT : Specification of a boundary variable package represening the server socket.
--- AUTHOR  : (C) Copyright 2013 by Peter C. Chapin
+-- AUTHOR  : (C) Copyright 2014 by Peter C. Chapin
 --
 -- Please send comments or bug reports to
 --

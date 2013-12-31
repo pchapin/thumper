@@ -1,7 +1,7 @@
 ---------------------------------------------------------------------------
 -- FILE    : network-addresses-test.ads
 -- SUBJECT : Specification of a package that supports testing network addresses.
--- AUTHOR  : (C) Copyright 2013 by Peter Chapin and John McCormick
+-- AUTHOR  : (C) Copyright 2014 by Peter Chapin
 --
 -- Please send comments or bug reports to
 --
