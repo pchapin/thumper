@@ -7,6 +7,8 @@
 --
 --      Peter C. Chapin <PChapin@vtc.vsc.edu>
 ---------------------------------------------------------------------------
+pragma SPARK_Mode(Off);
+
 with Ada.Streams;
 with GNAT.Sockets;
 

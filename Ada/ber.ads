@@ -11,7 +11,6 @@ with Network;
 use type Network.Octet;
 
 package BER is
-   pragma SPARK_Mode;
 
    -- Used to indicate the success or value of the subprograms in this package.
    type Status_Type is

@@ -7,6 +7,7 @@
 --
 --      Peter Chapin <PChapin@vtc.vsc.edu>
 ---------------------------------------------------------------------------
+
 package body BER is
 
    function Make_Leading_Identifier
@@ -180,8 +181,7 @@ package body BER is
       function Convert_Length(Starting : in Natural; Octet_Count : in Length_Of_Length_Type) return Natural
       with
         Global => (Input => Message),
-        Pre => Message'First < Starting and (Starting + (Octet_Count - 1)) <= Message'Last and
-               Octet_Count <= 4 and
+        Pre => (Message'First < Starting and (Starting + (Octet_Count - 1)) <= Message'Last and Octet_Count <= 4) and then
               (if Octet_Count = 4 then Message(Starting) < 128)
       is
          Result : Natural := 0;

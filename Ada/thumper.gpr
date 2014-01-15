@@ -10,7 +10,7 @@ project Thumper is
    Runtime : Runtime_Type := external ("RUNTIME", "full");
 
    package Builder is
-      for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ", "-gnatd.V");
+      for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
    end Builder;
 
    package Compiler is
@@ -21,65 +21,65 @@ project Thumper is
       case Runtime is
 
          when "cert" =>
-            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ", "-gnatd.V");
+            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
 
          when "default" =>
-            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ", "-gnatd.V");
+            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
 
          when "full" =>
-            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ", "-gnatd.V");
+            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
             for Driver ("metafile") use "";
 
          when "hi" =>
-            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ", "-gnatd.V");
+            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
 
          when "kernel" =>
-            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ", "-gnatd.V");
+            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
 
          when "kernel-sjlj" =>
-            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ", "-gnatd.V");
+            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
 
          when "kernel-smp" =>
-            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ", "-gnatd.V");
+            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
 
          when "pthread" =>
-            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ", "-gnatd.V");
+            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
 
          when "ravenscar" =>
-            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ", "-gnatd.V");
+            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
 
          when "ravenscar-apex" =>
-            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ", "-gnatd.V");
+            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
 
          when "ravenscar-full" =>
-            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ", "-gnatd.V");
+            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
 
          when "ravenscar-cert" =>
-            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ", "-gnatd.V");
+            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
 
          when "ravenscar-cert-rtp" =>
-            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ", "-gnatd.V");
+            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
 
          when "ravenscar-sfp" =>
-            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ", "-gnatd.V");
+            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
 
          when "rtp" =>
-            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ", "-gnatd.V");
+            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
 
          when "rtp-smp" =>
-            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ", "-gnatd.V");
+            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
 
          when "soft-float" =>
-            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ", "-gnatd.V");
+            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
 
          when "xenomai" =>
-            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ", "-gnatd.V");
+            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
 
          when "zcx" =>
-            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ", "-gnatd.V");
+            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
 
          when "zfp" =>
-            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ", "-gnatd.V");
+            for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
       end case;
    end Compiler;
 
