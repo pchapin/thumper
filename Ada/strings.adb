@@ -10,16 +10,22 @@
 
 package body Strings is
 
-   Not_Implemented : exception;
-
    ---------------------
    -- Public Subprograms
    ---------------------
 
    procedure To_Octet_Array
-     (Text : in String; Data : out Network.Octet_Array; Octet_Count : out Natural; Complete : out Boolean) is
+     (Text : in String; Data : out Network.Octet_Array; Octet_Count : out Natural) is
    begin
-      raise Not_Implemented;
+      Data := (others => 0);
+      Octet_Count := Text'Length;
+      if Data'Length < Octet_Count then
+         Octet_Count := Data'Length;
+      end if;
+
+      for I in Natural range 1 .. Octet_Count loop
+         Data(Data'First + I - 1) := Character'Pos(Text(Text'First + I - 1));
+      end loop;
    end To_Octet_Array;
 
 end Strings;

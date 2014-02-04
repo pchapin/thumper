@@ -16,7 +16,7 @@ is
 
    type Status_Type is (Success, Create_Failure, Receive_Failure);
 
-   procedure Create_Socket(Port : in Addresses.Port_Type; Status : out Status_Type);
+   procedure Create_And_Bind_Socket(Port : in Addresses.Port_Type; Status : out Status_Type);
 --   with
 --     Global => (Output => State),
 --     Depends => ( (State, Status) => Port );

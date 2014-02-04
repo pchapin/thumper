@@ -37,8 +37,10 @@ procedure Thumper_Server is
       loop
          Network.Server_Socket.Receive(Request_Message, Request_Count, Client_Address, Network_Status);
 
-         -- Ignore bad receives (should we log them?)
-         if Network_Status = Network.Server_Socket.Success then
+         -- Ignore bad receives (Should we log them? Right now it's easy to get in an infinite loop here)
+         if Network_Status /= Network.Server_Socket.Success then
+            Ada.Text_IO.Put_Line("Receive from socket failed!");
+         else
             Ada.Text_IO.Put_Line("Handling a message from a client...");
             Timestamp_Maker.Create_Timestamp
               (Request_Message, Request_Count, Response_Message, Response_Count, Timestamp_Status);
@@ -59,15 +61,15 @@ begin
    -- Be sure the serial generator is working.
    Serial_Generator.Initialize(Serial_Status);
    if Serial_Status /= Serial_Generator.Success then
-      Ada.Text_IO.Put_Line("Unable to intialize the serial generator (no serial number file?)");
+      Ada.Text_IO.Put_Line("Unable to intialize the serial generator! (no serial number file?)");
    else
       -- Be sure the key is available.
       Cryptographic_Services.Initialize(Crypto_Status);
       if Crypto_Status /= Cryptographic_Services.Success then
-         Ada.Text_IO.Put_Line("Unable to intialize the cryptographic library (no private key?)");
+         Ada.Text_IO.Put_Line("Unable to intialize the cryptographic library! (no private key?)");
       else
          -- Create the socket. The port should be 318, but a value above 1024 allows for easier testing by non-root users.
-         Network.Server_Socket.Create_Socket(1318, Network_Status);
+         Network.Server_Socket.Create_And_Bind_Socket(1318, Network_Status);
          if Network_Status /= Network.Server_Socket.Success then
             Ada.Text_IO.Put_Line("Unable to create the server socket. Aborting!");
          else

@@ -18,14 +18,16 @@ package body Network.Server_Socket is
    -- A single global socket.
    Socket : GNAT.Sockets.Socket_Type;
 
-   procedure Create_Socket(Port : in Addresses.Port_Type; Status : out Status_Type) is
+   procedure Create_And_Bind_Socket(Port : in Addresses.Port_Type; Status : out Status_Type) is
    begin
       GNAT.Sockets.Create_Socket(Socket, GNAT.Sockets.Family_Inet, GNAT.Sockets.Socket_Datagram);
+      GNAT.Sockets.Bind_Socket
+        (Socket, (Family => GNAT.Sockets.Family_Inet, Addr => GNAT.Sockets.Any_Inet_Addr, Port => GNAT.Sockets.Port_Type(Port)));
       Status := Success;
    exception
       when others =>
          Status := Create_Failure;
-   end Create_Socket;
+   end Create_And_Bind_Socket;
 
 
    procedure Receive
@@ -54,7 +56,9 @@ package body Network.Server_Socket is
 
       Status := Success;
    exception
-      when others =>
+      when GNAT.Sockets.Socket_Error =>
+         -- TODO: Probably should also give Data and Address "null" values in case of failure.
+         Octet_Count := 0;
          Status := Receive_Failure;
    end Receive;
 
