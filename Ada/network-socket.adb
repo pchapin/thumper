@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
--- FILE    : network-server_socket.adb
--- SUBJECT : Body of a boundary variable package represening the server socket.
+-- FILE    : network-socket.adb
+-- SUBJECT : Body of a boundary variable package representing a single socket.
 -- AUTHOR  : (C) Copyright 2014 by Peter C. Chapin
 --
 -- Please send comments or bug reports to
@@ -12,11 +12,22 @@ pragma SPARK_Mode(Off);
 with Ada.Streams;
 with GNAT.Sockets;
 
-package body Network.Server_Socket is
+package body Network.Socket is
    use type Ada.Streams.Stream_Element_Offset;
 
    -- A single global socket.
    Socket : GNAT.Sockets.Socket_Type;
+
+
+   procedure Create_Socket(Status : out Status_Type) is
+   begin
+      GNAT.Sockets.Create_Socket(Socket, GNAT.Sockets.Family_Inet, GNAT.Sockets.Socket_Datagram);
+      Status := Success;
+   exception
+      when others =>
+         Status := Create_Failure;
+   end Create_Socket;
+
 
    procedure Create_And_Bind_Socket(Port : in Addresses.Port_Type; Status : out Status_Type) is
    begin
@@ -100,4 +111,4 @@ package body Network.Server_Socket is
       GNAT.Sockets.Close_Socket(Socket);
    end Close;
 
-end Network.Server_Socket;
+end Network.Socket;

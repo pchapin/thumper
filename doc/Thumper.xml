@@ -17,7 +17,7 @@
 
 <!-- FILE        : Thumper.xml
      SUBJECT     : Master document for the Thumper documentation set.
-     AUTHOR      : (C) Copyright 2013 by Peter C. Chapin <PChapin@vtc.vsc.edu>
+     AUTHOR      : (C) Copyright 2014 by Peter C. Chapin <PChapin@vtc.vsc.edu>
 
 This is the documentation for the Thumper time stamping system. -->
 
@@ -59,14 +59,13 @@ This is the documentation for the Thumper time stamping system. -->
   <preface id="Introduction">
     <title>Introduction</title>
 
-    <para>Thumper is an implementation of the RFC-3161 secure time-stamping service. This
-      project is intended to eventually provide both client and server programs, although at the
-      time of this writing only the server programs are being actively developed. The client is
-      used to request time-stamps and the server, running as a trusted third party, is used to
-      create time-stamps with cryptographic assurance of validity.</para>
+    <para>Thumper is an implementation of the RFC-3161 secure time-stamping service. The client
+      is used to request time-stamps for documents provided as files, and can also verify those
+      time stamps. The server, running as a trusted third party, is used to create time-stamps
+      with cryptographic assurance of validity.</para>
 
-    <para>Thumper is also intended to be an educational vehicle for the exploration of high
-      integrity programming techniques. Ultimately Thumper will be implemented in multiple
+    <para>The primary purpose of Thumper is as an educational vehicle for the exploration of
+      high integrity programming techniques. Ultimately Thumper will be implemented in multiple
       languages using multiple design methodologies. Currently versions in SPARK/Ada and Haskell
       are under active development.</para>
 

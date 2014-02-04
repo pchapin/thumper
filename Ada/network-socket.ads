@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
--- FILE    : network-server_socket.ads
--- SUBJECT : Specification of a boundary variable package represening the server socket.
+-- FILE    : network-socket.ads
+-- SUBJECT : Specification of a boundary variable package representing a single socket.
 -- AUTHOR  : (C) Copyright 2014 by Peter C. Chapin
 --
 -- Please send comments or bug reports to
@@ -9,17 +9,24 @@
 ---------------------------------------------------------------------------
 with Network.Addresses;
 
-package Network.Server_Socket
+package Network.Socket
 --with
 --  Abstract_State => (State, (Network_Stack with External))
 is
 
    type Status_Type is (Success, Create_Failure, Receive_Failure);
 
+   -- This procedure creates a socket without binding it to a specified port.
+   procedure Create_Socket(Status : out Status_Type);
+--   with
+--     Global => (In_Out => State),
+--     Depends => ( (State, Status) => State );
+
+   -- This procedure creates a socket and binds it to the specified port.
    procedure Create_And_Bind_Socket(Port : in Addresses.Port_Type; Status : out Status_Type);
 --   with
---     Global => (Output => State),
---     Depends => ( (State, Status) => Port );
+--     Global => (In_Out => State),
+--     Depends => ( (State, Status) => (State, Port) );
 
    -- This procedure receives a datagram from the given socket into the indicated array.
    procedure Receive
@@ -48,4 +55,4 @@ is
 --     Global => (In_Out => State),
 --     Depends => (State =>+ null);
 
-end Network.Server_Socket;
+end Network.Socket;

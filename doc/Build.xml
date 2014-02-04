@@ -63,6 +63,12 @@
       <varlistentry>
         <term>Python RFC-3161</term>
         <listitem>
+          <para><emphasis>Note that Python RFC-3161 assumes the communication with the server
+              takes place over an HTTP connection. Thus it is not suitable for testing a UDP
+              based server such as is found in the current implementation of Thumper. A future
+              version of Thumper may support other transport modes, however. In that case this
+              package may be more useful.</emphasis></para>
+
           <para>To exercise the server without a specific client we make use of the Python
             RFC-3161 implementation <ulink url="https://pypi.python.org/pypi/rfc3161"
               >here</ulink>. We recommend that this package be downloaded and unpacked into a
