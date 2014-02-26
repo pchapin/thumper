@@ -13,11 +13,11 @@ package ASN1.OID is
 
    -- Components_Type holds object identifiers as an array of component values.
    Maximum_Component_Count : constant := 15;
-   type    Component  is range 0 .. Integer'Last;
+   type    Component_Type       is range 0 .. Integer'Last;
    subtype Component_Count_Type is Integer range 0 .. Maximum_Component_Count;
    subtype Component_Index_Type is Integer range 1 .. Maximum_Component_Count;
-   type    Components_Type is array(Component_Index_Type range <>) of Component;
-   type    Status_Type is (Success, Invalid_Root, Invalid_Second_Level, Insufficient_Space);
+   type    Components_Type      is array(Component_Index_Type range <>) of Component_Type;
+   type    Status_Type          is (Success, Invalid_Root, Invalid_Second_Level, Insufficient_Space);
 
    type Object_Identifier is private;
 
@@ -36,16 +36,17 @@ package ASN1.OID is
    procedure To_Separates
      (Identifier : Object_Identifier; Result : out Components_Type; Number_Of_Components : out Component_Count_Type)
    with
-     Depends => ( (Result, Number_Of_Components) => Identifier );
+     Depends => ( (Result, Number_Of_Components) => (Identifier, Result) );
 
    -- Converts an object identifier into an array of raw bytes. Returns in the Octet_Count parameter the number of bytes
    -- used. If there is a problem with the conversion (for example, due to lack of space) a count of zero is returned. Unused
-   -- space in the Result array is filled with zero byte values.
+   -- space in the Result array is filled with zero byte values; although if a failure occurs the Result array has an
+   -- indeterminate value.
    --
    procedure To_Octet_Array
      (Identifier : in Object_Identifier; Result : out Network.Octet_Array; Octet_Count : out Natural)
    with
-     Depends => ( (Result, Octet_Count) => Identifier );
+     Depends => ( (Result, Octet_Count) => (Result, Identifier) );
 
 private
 
@@ -55,11 +56,11 @@ private
    -- Rule: If the first OID subcomponent is 0 or 1. The second subcomponent is 0 .. 39
    --       Thus if first OID subcomponent is 2, the second subcomponent must be 175 at most. (2*40 + 175 = 255)
 
-   subtype Root_Component_Type is Component range 0 .. 2;
-   subtype Second_Level_Component_Type is Component range 0 .. 175;
-   subtype Other_Index_Type is Component_Index_Type range 1 .. Component_Index_Type'Last - 2;
-   subtype Other_Count_Type is Integer range 0 .. Other_Index_Type'Last;
-   type    Other_Components_Type is array(Other_Index_Type) of Component;
+   subtype Root_Component_Type         is Component_Type range 0 .. 2;
+   subtype Second_Level_Component_Type is Component_Type range 0 .. 175;
+   subtype Other_Index_Type            is Component_Index_Type range 1 .. Component_Index_Type'Last - 2;
+   subtype Other_Count_Type            is Integer range 0 .. Other_Index_Type'Last;
+   type    Other_Components_Type       is array(Other_Index_Type) of Component_Type;
 
    type Object_Identifier is
       record

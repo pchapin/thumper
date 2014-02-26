@@ -18,6 +18,6 @@ package Strings is
    procedure To_Octet_Array
      (Text : in String; Data : out Network.Octet_Array; Octet_Count : out Natural)
    with
-     Depends => ( Data => Text, Octet_Count => (Text, Data) );
+     Depends => ( Data => (Text, Data), Octet_Count => (Text, Data) );
 
 end Strings;

@@ -24,7 +24,7 @@ package body Strings is
       end if;
 
       for I in Natural range 1 .. Octet_Count loop
-         Data(Data'First + I - 1) := Character'Pos(Text(Text'First + I - 1));
+         Data(Data'First + (I - 1)) := Character'Pos(Text(Text'First + (I - 1)));
       end loop;
    end To_Octet_Array;
 
