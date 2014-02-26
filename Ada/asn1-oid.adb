@@ -172,7 +172,7 @@ package body ASN1.OID is
             end loop;
 
             -- Set MSB of each unit to 1 except for the last one.
-            for Index in Natural range Result'First + 1 .. Result_Index - 1 loop
+            for Index in Natural range Start_Index .. Result_Index - 1 loop
                Result(Index) := Result(Index) + 128;
             end loop;
          end loop;
