@@ -22,8 +22,9 @@ package Network.Addresses is
    -- or embedded non-digits allowed.
    --
    procedure To_IPv4_Address(Text : in String; Result : out IPv4; Status : out Status_Type)
-   with
-     Depends => ( (Result, Status) => Text );
+     with
+       Global => null,
+       Depends => ( (Result, Status) => Text );
 
    -- Convert the binary representation of an IP address to "x.y.z.w" notation. Character_Count is the number of characters
    -- in the output string that were used (could be zero if the output string has zero size). Returns 'Insufficient_Space'
@@ -37,8 +38,9 @@ package Network.Addresses is
      (Address         : in  IPv4;
       Text            : out Address_String_Type;
       Character_Count : out Address_Length_Type)
-   with
-     Depends => ( (Text, Character_Count) => Address );
+     with
+       Global => null,
+       Depends => ( (Text, Character_Count) => Address );
 
    -- Combines an IP address and port number into a UDP endpoint address.
    function To_UDPv4_Address(Address : in IPv4; Port : in Port_Type) return UDPv4;

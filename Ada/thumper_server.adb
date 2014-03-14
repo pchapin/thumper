@@ -23,15 +23,18 @@ use type Timestamp_Maker.Status_Type;
 
 procedure Thumper_Server
   with
-    Global => (Output => (Cryptographic_Services.Key, Serial_Generator.Number),
-               In_Out => SPARK.Text_IO.Standard_Output),
-    Depends => ((Cryptographic_Services.Key, Serial_Generator.Number) => null)
+    Global => (In_Out => (SPARK.Text_IO.Standard_Output, Network.Socket.State, Network.Socket.Network_Stack),
+               Output => (Cryptographic_Services.Key, Serial_Generator.Number)),
+    Depends => ((Cryptographic_Services.Key, Serial_Generator.Number) => null,
+                 Network.Socket.State =>+ null,
+                 Network.Socket.Network_Stack =>+ (Network.Socket.State, SPARK.Text_IO.Standard_Output),
+                 SPARK.Text_IO.Standard_Output =>+ (Network.Socket.State, Network.Socket.Network_Stack))
 is
 
    procedure Service_Clients
      with
-       Global => (Input => (Cryptographic_Services.Key, Serial_Generator.Number),
-                  In_Out => SPARK.Text_IO.Standard_Output)
+       Global => (Input  => (Cryptographic_Services.Key, Serial_Generator.Number, Network.Socket.State),
+                  In_Out => (SPARK.Text_IO.Standard_Output, Network.Socket.Network_Stack))
    is
       Client_Address   : Network.Addresses.UDPv4;
       Request_Message  : Messages.Message;
@@ -67,13 +70,15 @@ is
    Network_Status : Network.Socket.Status_Type;
 begin
 
-   -- Be sure the serial generator is working.
+   -- Do low level "from scratch" initializations.
    Serial_Generator.Initialize(Serial_Status);
+   Cryptographic_Services.Initialize(Crypto_Status);
+
+   -- Check initialization results.
    if Serial_Status /= Serial_Generator.Success then
       SPARK.Text_IO.Put_Line("Unable to intialize the serial generator! (no serial number file?)");
    else
       -- Be sure the key is available.
-      Cryptographic_Services.Initialize(Crypto_Status);
       if Crypto_Status /= Cryptographic_Services.Success then
          SPARK.Text_IO.Put_Line("Unable to intialize the cryptographic library! (no private key?)");
       else

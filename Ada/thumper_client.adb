@@ -17,17 +17,19 @@ use type Network.Socket.Status_Type;
 
 procedure Thumper_Client
   with
-    Global => (In_Out => SPARK.Text_IO.Standard_Output)
+    Global => (In_Out => (SPARK.Text_IO.Standard_Output, Network.Socket.State, Network.Socket.Network_Stack))
 is
 
    procedure Make_Request
      with
-       Global => (In_Out => SPARK.Text_IO.Standard_Output)
+       Global => (Input  => Network.Socket.State,
+                  In_Out => (SPARK.Text_IO.Standard_Output, Network.Socket.Network_Stack))
    is
       Local_Host      : Network.Addresses.IPv4;
       Request_Message : Messages.Message;
       Address_Status  : Network.Addresses.Status_Type;
    begin
+      Request_Message := (others => 0);
       Network.Addresses.To_IPv4_Address("127.0.0.1", Local_Host, Address_Status);
       if Address_Status /= Network.Addresses.Success then
          SPARK.Text_IO.Put_Line("Failed to convert target address to binary form!");

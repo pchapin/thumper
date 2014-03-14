@@ -124,7 +124,7 @@ package body Network.Addresses is
             Skip := 1;
          end if;
 
-         -- Place the dot unless this is the last octet and then only if there is still sufficient space.
+         -- Place the dot unless this is the last octet.
          if I /= IPv4_Address_Index_Type'Last then
             Text(Index + Skip) := '.';
             Skip := Skip + 1;

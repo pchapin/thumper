@@ -11,7 +11,8 @@ with Network.Addresses;
 
 package Network.Socket
   with
-     Abstract_State => (State, (Network_Stack with External))
+     Abstract_State => (State, (Network_Stack with External)),
+     Initializes => (State, Network_Stack)
 is
 
    type Status_Type is (Success, Create_Failure, Receive_Failure);
