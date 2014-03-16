@@ -11,6 +11,8 @@
 ---------------------------------------------------------------------------
 with Ada.Text_IO;
 
+-- TODO: Add dependencies related to SPARK.Text_IO.Modular_IO. This has to be done "manually" because SPARK mode is off in the
+-- body of this package (see comments at the top of serial_generator.adb for more information).
 package Serial_Generator
 with
   Abstract_State => Number
@@ -24,7 +26,8 @@ is
      Global => (Output => Number),
      Depends => ((Number, Status) => null);
 
-   -- Computes (and saves) the next serial number. Fails with Bad_Update if a new serial number couldn't be calculated.
+   -- Computes (and saves) the next serial number. Fails with Bad_Update if a new serial number couldn't be saved or if the
+   -- serial number is already at its maximum value and can't be advanced.
    procedure Advance(Status : out Status_Type)
    with
      Global => (In_Out => Number),
