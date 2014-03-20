@@ -11,8 +11,8 @@
 ---------------------------------------------------------------------------
 with Ada.Text_IO;
 
--- TODO: Add dependencies related to SPARK.Text_IO.Modular_IO. This has to be done "manually" because SPARK mode is off in the
--- body of this package (see comments at the top of serial_generator.adb for more information).
+-- TODO: Add dependencies related to SPARK.Text_IO.Modular_IO.
+-- This has to be done "manually" because SPARK mode is off in the body of this package.
 package Serial_Generator
 with
   Abstract_State => Number
