@@ -19,9 +19,11 @@ procedure Thumper_Client
   with
     Global => (In_Out => (SPARK.Text_IO.Standard_Output, Network.Socket.State, Network.Socket.Network_Stack))
 is
+   use type SPARK.Text_IO.File_Status;
 
    procedure Make_Request
      with
+       Pre => SPARK.Text_IO.Status(SPARK.Text_IO.Standard_Output) = SPARK.Text_IO.Success,
        Global => (Input  => Network.Socket.State,
                   In_Out => (SPARK.Text_IO.Standard_Output, Network.Socket.Network_Stack))
    is
@@ -41,10 +43,12 @@ is
 
    Network_Status : Network.Socket.Status_Type;
 begin
-   Network.Socket.Create_Socket(Network_Status);
-   if Network_Status /= Network.Socket.Success then
-      SPARK.Text_IO.Put_Line("Unable to create the client socket. Aborting!");
-   else
-      Make_Request;
+   if SPARK.Text_IO.Status(SPARK.Text_IO.Standard_Output) = SPARK.Text_IO.Success then
+     Network.Socket.Create_Socket(Network_Status);
+     if Network_Status /= Network.Socket.Success then
+        SPARK.Text_IO.Put_Line("Unable to create the client socket. Aborting!");
+      else
+         Make_Request;
+      end if;
    end if;
 end Thumper_Client;

@@ -24,15 +24,13 @@ use type Timestamp_Maker.Status_Type;
 procedure Thumper_Server
   with
     Global => (In_Out => (SPARK.Text_IO.Standard_Output, Network.Socket.State, Network.Socket.Network_Stack),
-               Output => (Cryptographic_Services.Key, Serial_Generator.Number)),
-    Depends => ((Cryptographic_Services.Key, Serial_Generator.Number) => null,
-                 Network.Socket.State =>+ null,
-                 Network.Socket.Network_Stack =>+ (Network.Socket.State, SPARK.Text_IO.Standard_Output),
-                 SPARK.Text_IO.Standard_Output =>+ (Network.Socket.State, Network.Socket.Network_Stack))
+               Output => (Cryptographic_Services.Key, Serial_Generator.Number))
 is
+   use type SPARK.Text_IO.File_Status;
 
    procedure Service_Clients
      with
+       Pre => SPARK.Text_IO.Status(SPARK.Text_IO.Standard_Output) = SPARK.Text_IO.Success,
        Global => (Input  => (Cryptographic_Services.Key, Serial_Generator.Number, Network.Socket.State),
                   In_Out => (SPARK.Text_IO.Standard_Output, Network.Socket.Network_Stack))
    is
@@ -50,6 +48,7 @@ is
          Network.Socket.Receive(Request_Message, Request_Count, Client_Address, Network_Status);
 
          -- Ignore bad receives (Should we log them? Right now it's easy to get in an infinite loop here)
+         -- TODO: What happens if Standard_Output enters an error state? Right now the preconditions on Put_Line might fail.
          if Network_Status /= Network.Socket.Success then
             SPARK.Text_IO.Put_Line("Receive from socket failed!");
          else
@@ -74,20 +73,22 @@ begin
    Serial_Generator.Initialize(Serial_Status);
    Cryptographic_Services.Initialize(Crypto_Status);
 
-   -- Check initialization results.
-   if Serial_Status /= Serial_Generator.Success then
-      SPARK.Text_IO.Put_Line("Unable to intialize the serial generator! (no serial number file?)");
-   else
-      -- Be sure the key is available.
-      if Crypto_Status /= Cryptographic_Services.Success then
-         SPARK.Text_IO.Put_Line("Unable to intialize the cryptographic library! (no private key?)");
+   if SPARK.Text_IO.Status(SPARK.Text_IO.Standard_Output) = SPARK.Text_IO.Success then
+      -- Check initialization results.
+      if Serial_Status /= Serial_Generator.Success then
+         SPARK.Text_IO.Put_Line("Unable to intialize the serial generator! (no serial number file?)");
       else
-         -- Create the socket. The port should be 318, but a value above 1024 allows for easier testing by non-root users.
-         Network.Socket.Create_And_Bind_Socket(318, Network_Status);
-         if Network_Status /= Network.Socket.Success then
-            SPARK.Text_IO.Put_Line("Unable to create the server socket. Aborting!");
+         -- Be sure the key is available.
+         if Crypto_Status /= Cryptographic_Services.Success then
+            SPARK.Text_IO.Put_Line("Unable to intialize the cryptographic library! (no private key?)");
          else
-            Service_Clients;
+            -- Create the socket. The port should be 318, but a value above 1024 allows for easier testing by non-root users.
+            Network.Socket.Create_And_Bind_Socket(318, Network_Status);
+            if Network_Status /= Network.Socket.Success then
+               SPARK.Text_IO.Put_Line("Unable to create the server socket. Aborting!");
+            else
+               Service_Clients;
+            end if;
          end if;
       end if;
    end if;

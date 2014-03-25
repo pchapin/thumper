@@ -27,8 +27,7 @@ package Network.Addresses is
        Depends => ( (Result, Status) => Text );
 
    -- Convert the binary representation of an IP address to "x.y.z.w" notation. Character_Count is the number of characters
-   -- in the output string that were used (could be zero if the output string has zero size). Returns 'Insufficient_Space'
-   -- if the output string isn't large enough the receive the result.
+   -- in the output string that were used.
    --
    subtype Address_String_Index_Type is Positive range 1 .. 15;
    subtype Address_String_Type is String(Address_String_Index_Type);

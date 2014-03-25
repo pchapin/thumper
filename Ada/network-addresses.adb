@@ -91,11 +91,12 @@ package body Network.Addresses is
       Digit_1 : Digit_Type;     -- ... etc.
       Digit_0 : Digit_Type;     -- ... etc.
    begin
-      Text   := Address_String_Type'(others => ' ');  -- Make output all spaces.
-      Count  := 0;                -- No characters written to output so far.
+      Text  := Address_String_Type'(others => ' ');  -- Make output all spaces.
+      Count := 0;                -- No characters written to output so far.
 
       -- For each octet...
       for I in IPv4_Address_Index_Type loop
+         pragma Loop_Invariant(Count >= 2*(I-1) and Count <= 4*(I-1));
 
          -- Compute starting position in output string.
          Index := Text'First + Count;
@@ -129,6 +130,8 @@ package body Network.Addresses is
             Text(Index + Skip) := '.';
             Skip := Skip + 1;
          end if;
+
+         pragma Assert(if I < IPv4_Address_Index_Type'Last then Skip <= 4 else Skip <= 3);
 
          -- Update Count to reflect the number of characters we just output.
          Count := Count + Skip;
