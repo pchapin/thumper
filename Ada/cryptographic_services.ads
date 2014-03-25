@@ -13,7 +13,10 @@ package Cryptographic_Services
 with
   Abstract_State => Key
 is
-   type Status_Type is (Success, Bad_Key, Insufficient_Space);
+   type Status_Type is (Success, Bad_Key);
+
+   subtype Signature_Index_Type is Natural range 1 .. 20;
+   subtype Signature_Type is Network.Octet_Array(Signature_Index_Type);
 
    procedure Initialize(Status : out Status_Type)
    with
@@ -21,16 +24,14 @@ is
      Depends => ((Key, Status) => null);
 
    -- Computes the signature of Data using a constant private key that is internal to this package, putting the result in
-   -- Signature. The number of octets used are written to Octet_Count. Fails with Insufficient_Space if the Signature array
-   -- is not large enough to hold the signature. Fails with Bad_Key if the key is invalid.
+   -- Signature. Fails with Bad_Key if the key is invalid.
    --
    procedure Make_Signature
-     (Data        : in  Network.Octet_Array;
-      Signature   : out Network.Octet_Array;
-      Octet_Count : out Natural;
-      Status      : out Status_Type)
+     (Data      : in  Network.Octet_Array;
+      Signature : out Signature_Type;
+      Status    : out Status_Type)
    with
      Global => (Input => Key),
-     Depends => (Signature => (Data, Key), (Octet_Count, Status) => (Data, Signature));
+     Depends => (Signature => (Data, Key), Status => Key);
 
 end Cryptographic_Services;

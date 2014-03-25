@@ -6,8 +6,7 @@
 -- The implementation of this package is not SPARK.
 --
 -- Ultimately this package should be implemented by calling into an appropriate cryptographic library. For now it
--- uses a fake key and creates fake digital signatures. Notice that because this package is not SPARK, the Examiner
--- can't check the correctness of the annotations in the specification. It's up to the programmer to get them right.
+-- uses a fake key and creates fake digital signatures.
 --
 -- Please send comments or bug reports to
 --
@@ -17,8 +16,9 @@
 package body Cryptographic_Services
   with Refined_State => (Key => Raw_Key)
 is
+   use type Network.Octet;
 
-   Raw_Key : Integer;
+   Raw_Key : Network.Octet := 0;
 
    procedure Initialize(Status : out Status_Type)
    with
@@ -27,30 +27,39 @@ is
    is
    begin
       -- TODO: Read the key from the file system.
-      Raw_Key := 0;
+      Raw_Key := 42;
       Status  := Success;
    end Initialize;
 
 
    procedure Make_Signature
      (Data        : in  Network.Octet_Array;
-      Signature   : out Network.Octet_Array;
-      Octet_Count : out Natural;
+      Signature   : out Signature_Type;
       Status      : out Status_Type)
    with
      Refined_Global => (Input => Raw_Key),
-     Refined_Depends => (Signature => (Data, Raw_Key), (Octet_Count, Status) => (Data, Signature))
+     Refined_Depends => (Signature => (Data, Raw_Key), Status => Raw_Key)
    is
+      I : Natural;
+      J : Signature_Index_Type;
    begin
-      -- Create a fake signature of 20 bytes (all zeros).
-      if Signature'Length < 20 then
-         Octet_Count := 0;
-         Status := Insufficient_Space;
+      -- Create a fake signature of 20 bytes.
+      if Raw_Key = 0 then
+         Signature := (others => 0);
+         Status := Bad_Key;
       else
-         for I in 1 .. 20 loop
-            Signature(Signature'First + (I - 1)) := 0;
+         Signature := (others => Raw_Key);
+         I := Data'First;
+         J := Signature_Index_Type'First;
+         while I <= Data'Last loop
+            Signature(J) := Signature(J) + Data(I);
+            I := I + 1;
+            if J < Signature_Index_Type'Last then
+               J := J + 1;
+            else
+               J := Signature_Index_Type'First;
+            end if;
          end loop;
-         Octet_Count := 20;
          Status := Success;
       end if;
    end Make_Signature;
