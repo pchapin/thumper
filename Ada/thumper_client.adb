@@ -7,25 +7,23 @@
 --
 --      Peter Chapin <PChapin@vtc.vsc.edu>
 ---------------------------------------------------------------------------
-with SPARK.Text_IO;
 with Messages;
 with Network.Addresses;
 with Network.Socket;
+with Wrapper_IO;
 
 use type Network.Addresses.Status_Type;
 use type Network.Socket.Status_Type;
 
 procedure Thumper_Client
   with
-    Global => (In_Out => (SPARK.Text_IO.Standard_Output, Network.Socket.State, Network.Socket.Network_Stack))
+    Global => (In_Out => (Wrapper_IO.IO_Subsystem, Network.Socket.State, Network.Socket.Network_Stack))
 is
-   use type SPARK.Text_IO.File_Status;
 
    procedure Make_Request
      with
-       Pre => SPARK.Text_IO.Status(SPARK.Text_IO.Standard_Output) = SPARK.Text_IO.Success,
        Global => (Input  => Network.Socket.State,
-                  In_Out => (SPARK.Text_IO.Standard_Output, Network.Socket.Network_Stack))
+                  In_Out => (Wrapper_IO.IO_Subsystem, Network.Socket.Network_Stack))
    is
       Local_Host      : Network.Addresses.IPv4;
       Request_Message : Messages.Message;
@@ -34,7 +32,7 @@ is
       Request_Message := (others => 0);
       Network.Addresses.To_IPv4_Address("127.0.0.1", Local_Host, Address_Status);
       if Address_Status /= Network.Addresses.Success then
-         SPARK.Text_IO.Put_Line("Failed to convert target address to binary form!");
+         Wrapper_IO.Put_Line("Failed to convert target address to binary form!");
       else
          Request_Message(1) := Character'Pos('X');
          Network.Socket.Send(Network.Addresses.To_UDPv4_Address(Local_Host, 318), Request_Message, 1);
@@ -43,12 +41,10 @@ is
 
    Network_Status : Network.Socket.Status_Type;
 begin
-   if SPARK.Text_IO.Status(SPARK.Text_IO.Standard_Output) = SPARK.Text_IO.Success then
-     Network.Socket.Create_Socket(Network_Status);
-     if Network_Status /= Network.Socket.Success then
-        SPARK.Text_IO.Put_Line("Unable to create the client socket. Aborting!");
-      else
-         Make_Request;
-      end if;
+   Network.Socket.Create_Socket(Network_Status);
+   if Network_Status /= Network.Socket.Success then
+      Wrapper_IO.Put_Line("Unable to create the client socket. Aborting!");
+   else
+      Make_Request;
    end if;
 end Thumper_Client;

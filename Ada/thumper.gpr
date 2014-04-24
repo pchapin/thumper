@@ -1,5 +1,4 @@
 with "aunit.gpr";
-with "SPARK_IO/spark_io.gpr";
 
 project Thumper is
 
