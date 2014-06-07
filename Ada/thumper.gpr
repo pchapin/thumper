@@ -29,5 +29,59 @@ project Thumper is
       for Default_Switches ("ada") use ("-g");
    end Linker;
 
+   package Prove is
+
+      case Runtime is
+
+         when "cert" =>
+
+         when "default" =>
+
+         when "full" =>
+            for Switches use ("-j4", "--timeout=10");
+
+         when "hi" =>
+
+         when "kernel" =>
+
+         when "kernel-sjlj" =>
+
+         when "kernel-smp" =>
+
+         when "pthread" =>
+
+         when "sjlj" =>
+
+         when "ravenscar" =>
+
+         when "ravenscar-apex" =>
+
+         when "ravenscar-full" =>
+
+         when "ravenscar-cert" =>
+
+         when "ravenscar-cert-rci" =>
+
+         when "ravenscar-cert-rtp" =>
+
+         when "ravenscar-sfp" =>
+
+         when "rtp" =>
+
+         when "rtp-smp" =>
+
+         when "soft-float" =>
+
+         when "xenomai" =>
+
+         when "zcx" =>
+
+         when "zfp" =>
+
+         when "minimal" =>
+
+      end case;
+   end Prove;
+
 end Thumper;
 
