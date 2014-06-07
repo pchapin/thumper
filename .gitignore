@@ -2,9 +2,10 @@
 # Build artifacts.
 Ada/build
 Haskell/.dist-buildwrapper
+Scala/build
+
+# User specific configuration
+Scala/.idea/workspace.xml
 
 # Location for the Python RFC-3161 package.
 rfc3161-*.*.*
-
-# Location for the SPARK_IO source code.
-Ada/SPARK_IO
