@@ -12,9 +12,9 @@
     use and those listed below the more trouble you are likely to encounter during the build
     process.</para>
 
-  <para>Three versions of the Thumper exist. They are written in SPARK 2014, Haskell, and Scala.
-    Both a client and a server are provided in each language. At the time of this writing the
-    SPARK 2014 version is the most mature.</para>
+  <para>Two versions of the Thumper exist. They are written in SPARK/Ada and Scala. Both a
+    client and a server are provided in each language. At the time of this writing the SPARK/Ada
+    version is the most mature.</para>
 
   <section>
     <title>SPARK Build</title>
@@ -135,16 +135,10 @@
       will run all the unit tests and produce a report of the results on the console.</para>
 
   </section>
-  
-  <section>
-    <title>Haskell Build</title>
-    
-    <para><emphasis>TODO: Finish me!</emphasis></para>
-  </section>
-  
+
   <section>
     <title>Scala Build</title>
-    
+
     <para><emphasis>TODO: Finish me!</emphasis></para>
   </section>
 

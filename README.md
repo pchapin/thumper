@@ -5,7 +5,8 @@ Thumper is a secure time stamp client/server system that implements RFC-3161. It
 to obtain cryptographic time stamps that can be used to later verify that certain documents
 existed on or before the time mentioned in the time stamp. Thumper is written in multiple
 programming languages, and used as a vehicle for exploring high integrity programming
-techniques. Currently versions in SPARK/Ada, Haskell, and Scala are provided.
+techniques. Currently versions in SPARK/Ada and Scala are provided. The system is most mature in
+SPARK/Ada.
 
 The system is intended to satisfy two major goals.
 
@@ -17,5 +18,5 @@ The system is intended to satisfy two major goals.
 
 See the documentation in the doc folder for more information.
 
-Please send questions/comments to  
-Peter C. Chapin <PChapin@vtc.vsc.edu>
+Peter C. Chapin  
+PChapin@vtc.vsc.edu

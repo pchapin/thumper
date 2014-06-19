@@ -66,8 +66,8 @@ This is the documentation for the Thumper time stamping system. -->
 
     <para>The primary purpose of Thumper is as an educational vehicle for the exploration of
       high integrity programming techniques. Ultimately Thumper will be implemented in multiple
-      languages using multiple design methodologies. Currently versions in SPARK/Ada, Haskell,
-      and Scala are under active development.</para>
+      languages using multiple design methodologies. Currently versions in SPARK/Ada and Scala
+      are under active development. The SPARK/Ada version is the most mature.</para>
 
     <!-- Include disclaimer. -->
 
