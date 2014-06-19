@@ -1,7 +1,6 @@
 
 # Build artifacts.
 Ada/build
-Haskell/.dist-buildwrapper
 Scala/build
 
 # User specific configuration
