@@ -12,6 +12,7 @@
 --
 --      Peter Chapin <PChapin@vtc.vsc.edu>
 ---------------------------------------------------------------------------
+pragma SPARK_Mode(On);
 
 package body Cryptographic_Services
   with Refined_State => (Key => Raw_Key)

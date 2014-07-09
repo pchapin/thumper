@@ -7,6 +7,8 @@
 --
 --      Peter Chapin <PChapin@vtc.vsc.edu>
 ---------------------------------------------------------------------------
+pragma SPARK_Mode(On);
+
 with ASN1.BER;
 with Cryptographic_Services;
 with Messages;

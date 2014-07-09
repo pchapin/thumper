@@ -17,7 +17,6 @@ project Thumper is
    package Compiler is
       for Default_Switches ("c") use ("");
       for Default_Switches ("c++") use ("");
-      for Local_Configuration_Pragmas use "config.gnat";
       for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
    end Compiler;
 

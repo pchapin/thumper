@@ -7,6 +7,7 @@
 --
 --      Peter Chapin <PChapin@vtc.vsc.edu>
 ---------------------------------------------------------------------------
+pragma SPARK_Mode(On);
 
 package Network.Addresses is
 

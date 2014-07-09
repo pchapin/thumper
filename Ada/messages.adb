@@ -7,10 +7,12 @@
 --
 --      Peter Chapin <PChapin@vtc.vsc.edu>
 ---------------------------------------------------------------------------
+pragma SPARK_Mode(On);
+
 package body Messages is
 
    function From_Network(Low_Level : Network_Message) return Message is
-      Result : Message := (others => 16#00#);
+      Result : Message;
    begin
       for I in Low_Level'Range loop
          Result(I) := ASN1.Octet(Low_Level(I));
@@ -19,7 +21,7 @@ package body Messages is
    end From_Network;
 
    function To_Network(High_Level : Message) return Network_Message is
-      Result : Network_Message := (others => 16#00#);
+      Result : Network_Message;
    begin
       for I in High_Level'Range loop
          Result(I) := Network.Octet(High_Level(I));

@@ -7,6 +7,8 @@
 --
 --      Peter Chapin <PChapin@vtc.vsc.edu>
 ---------------------------------------------------------------------------
+pragma SPARK_Mode(On);
+
 with Network;
 
 package Cryptographic_Services

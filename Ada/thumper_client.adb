@@ -7,6 +7,8 @@
 --
 --      Peter Chapin <PChapin@vtc.vsc.edu>
 ---------------------------------------------------------------------------
+pragma SPARK_Mode(On);
+
 with Messages;
 with Network.Addresses;
 with Network.Socket;

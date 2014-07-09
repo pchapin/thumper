@@ -9,7 +9,7 @@
 --
 --      Peter Chapin <PChapin@vtc.vsc.edu>
 ---------------------------------------------------------------------------
-with Ada.Text_IO;
+pragma SPARK_Mode(On);
 
 package Serial_Generator
 with

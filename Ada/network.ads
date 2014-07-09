@@ -7,6 +7,7 @@
 --
 --      Peter C. Chapin <PChapin@vtc.vsc.edu>
 ---------------------------------------------------------------------------
+pragma SPARK_Mode(On);
 
 package Network is
    pragma Pure;

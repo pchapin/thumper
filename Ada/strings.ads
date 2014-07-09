@@ -7,6 +7,8 @@
 --
 --      Peter C. Chapin <PChapin@vtc.vsc.edu>
 ---------------------------------------------------------------------------
+pragma SPARK_Mode(On);
+
 with Network;
 
 package Strings is
