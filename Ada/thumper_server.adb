@@ -33,8 +33,12 @@ is
                   In_Out => (Wrapper_IO.IO_Subsystem, Network.Socket.Network_Stack))
    is
       Client_Address   : Network.Addresses.UDPv4;
+
+      Network_Request  : Messages.Network_Message;
       Request_Message  : Messages.Message;
       Request_Count    : Messages.Count_Type;
+
+      Network_Response : Messages.Network_Message;
       Response_Message : Messages.Message;
       Response_Count   : Messages.Count_Type;
 
@@ -43,7 +47,7 @@ is
    begin
       -- Service clients infinitely (or maybe I need a way to cleanly shut the server down?).
       loop
-         Network.Socket.Receive(Request_Message, Request_Count, Client_Address, Network_Status);
+         Network.Socket.Receive(Network_Request, Request_Count, Client_Address, Network_Status);
 
          -- Ignore bad receives (Should we log them? Right now it's easy to get in an infinite loop here)
          -- TODO: What happens if Standard_Output enters an error state? Right now the preconditions on Put_Line might fail.
@@ -51,12 +55,13 @@ is
             Wrapper_IO.Put_Line("Receive from socket failed!");
          else
             Wrapper_IO.Put_Line("Handling a message from a client...");
-            Timestamp_Maker.Create_Timestamp
-              (Request_Message, Request_Count, Response_Message, Response_Count, Timestamp_Status);
+            Request_Message := Messages.From_Network(Network_Request);
+            Timestamp_Maker.Create_Timestamp(Request_Message, Request_Count, Response_Message, Response_Count, Timestamp_Status);
 
             -- Ignore bad time-stamp creation operations (should we log them?)
             if Timestamp_Status = Timestamp_Maker.Success then
-               Network.Socket.Send(Client_Address, Response_Message, Response_Count);
+               Network_Response := Messages.To_Network(Response_Message);
+               Network.Socket.Send(Client_Address, Network_Response, Response_Count);
             end if;
          end if;
       end loop;

@@ -16,6 +16,10 @@ The system is intended to satisfy two major goals.
 2. To allow students to obtain strong time stamps of their work that can be used to prove it was
    completed on time.
 
+Note that the Ada version of Thumper requires access to a supporting project providing ASN.1
+support. That project can be found at https://github.com/pchapin/asn1. It should be cloned into
+a sibling folder of the Thumper top level folder.
+
 See the documentation in the doc folder for more information.
 
 Peter C. Chapin  

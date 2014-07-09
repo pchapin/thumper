@@ -7,13 +7,13 @@
 --
 --      Peter Chapin <PChapin@vtc.vsc.edu>
 ---------------------------------------------------------------------------
-with BER;
+with ASN1.BER;
 with Cryptographic_Services;
 with Messages;
 with Network;
 with Serial_Generator;
 
-use type BER.Status_Type;
+use type ASN1.BER.Status_Type;
 use type Network.Octet;
 
 package Timestamp_Maker is

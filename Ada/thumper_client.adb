@@ -26,7 +26,7 @@ is
                   In_Out => (Wrapper_IO.IO_Subsystem, Network.Socket.Network_Stack))
    is
       Local_Host      : Network.Addresses.IPv4;
-      Request_Message : Messages.Message;
+      Request_Message : Messages.Network_Message;
       Address_Status  : Network.Addresses.Status_Type;
    begin
       Request_Message := (others => 0);

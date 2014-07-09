@@ -8,7 +8,6 @@
 --      Peter Chapin <PChapin@vtc.vsc.edu>
 ---------------------------------------------------------------------------
 with Check_Addresses;
-with Check_BER;
 with Check_Trivial;
 
 package body Primary_Suite is
@@ -20,14 +19,12 @@ package body Primary_Suite is
    -- The various tests in this suite. Low level tests should be done first.
    Test_0 : aliased Check_Trivial.Trivial_Test;
    Test_1 : aliased Check_Addresses.Address_Test;
-   Test_2 : aliased Check_BER.BER_Test;
 
    -- Function to return an access to the configured suite
    function Suite return Access_Test_Suite is
    begin
       Add_Test(Suite_Object'Access, Test_0'Access);
       Add_Test(Suite_Object'Access, Test_1'Access);
-      Add_Test(Suite_Object'Access, Test_2'Access);
       return Suite_Object'Access;
    end Suite;
 

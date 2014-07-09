@@ -1,11 +1,11 @@
 with "aunit.gpr";
+with "../../ASN.1/src/asn1.gpr";
 
 project Thumper is
 
    for Source_Dirs use (".", "tests");
    for Object_Dir use "build";
-   type Runtime_Type is
-      ("cert", "default", "full", "hi", "kernel", "kernel-sjlj", "kernel-smp", "pthread", "ravenscar", "ravenscar-apex", "ravenscar-full", "ravenscar-cert", "ravenscar-cert-rtp", "ravenscar-sfp", "rtp", "rtp-smp", "soft-float", "xenomai", "zcx", "zfp");
+   type Runtime_Type is ("full");
    Runtime : Runtime_Type := external ("RUNTIME", "full");
    for Main use ("thumper_client.adb", "thumper_server.adb", "thumper_test.adb");
    for Languages use ("Ada");
@@ -30,57 +30,7 @@ project Thumper is
    end Linker;
 
    package Prove is
-
-      case Runtime is
-
-         when "cert" =>
-
-         when "default" =>
-
-         when "full" =>
-            for Switches use ("-j4", "--timeout=10");
-
-         when "hi" =>
-
-         when "kernel" =>
-
-         when "kernel-sjlj" =>
-
-         when "kernel-smp" =>
-
-         when "pthread" =>
-
-         when "sjlj" =>
-
-         when "ravenscar" =>
-
-         when "ravenscar-apex" =>
-
-         when "ravenscar-full" =>
-
-         when "ravenscar-cert" =>
-
-         when "ravenscar-cert-rci" =>
-
-         when "ravenscar-cert-rtp" =>
-
-         when "ravenscar-sfp" =>
-
-         when "rtp" =>
-
-         when "rtp-smp" =>
-
-         when "soft-float" =>
-
-         when "xenomai" =>
-
-         when "zcx" =>
-
-         when "zfp" =>
-
-         when "minimal" =>
-
-      end case;
+      for Switches use ("-j4", "--timeout=10");
    end Prove;
 
 end Thumper;

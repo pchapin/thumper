@@ -20,8 +20,8 @@
     <title>SPARK Build</title>
 
     <para>In this section the tools needed to build and test the SPARK version of Thumper are
-      described. If you are interested in only the Haskell or Scala versions of Thumper you can
-      skip to the following section(s).</para>
+      described. If you are interested in only the Scala version of Thumper you can skip to the
+      following section.</para>
 
     <variablelist>
       <title>Build Tools</title>
@@ -63,11 +63,13 @@
       <varlistentry>
         <term>Python RFC-3161</term>
         <listitem>
-          <para><emphasis>Note that Python RFC-3161 assumes the communication with the server
-              takes place over an HTTP connection. Thus it is not suitable for testing a UDP
-              based server such as is found in the current implementation of Thumper. A future
-              version of Thumper may support other transport modes, however. In that case this
-              package may be more useful.</emphasis></para>
+          <para>
+            <emphasis>Note that Python RFC-3161 assumes the communication with the server takes
+              place over an HTTP connection. Thus it is not suitable for testing a UDP based
+              server such as is found in the current implementation of Thumper. A future version
+              of Thumper may support other transport modes, however. In that case this package
+              may be more useful.</emphasis>
+          </para>
 
           <para>To exercise the server without a specific client one could make use of the
             Python RFC-3161 implementation <ulink url="https://pypi.python.org/pypi/rfc3161"
@@ -122,11 +124,14 @@
 
     </variablelist>
 
-    <para>To build Thumper install the components listed above and check out the latest Thumper
-      source code from GitHub by cloning the URL <ulink
-        url="https://github.com/pchapin/thumper.git"/>. Once you have a working copy of the
-      project load the project file <filename>Ada/thumper.gpr</filename> into GPS. You will find
-      the main files <filename>thumper_server.adb</filename> and
+    <para>To build Thumper install the components listed above and also check out the supporting
+      ASN.1 project from GitHub by cloning the URL <ulink
+        url="https://github.com/pchapin/asn1.git"/>. You must clone the ASN.1 library into a
+      sibling folder of the Thumper top level folder in order for the Thumper project file to
+      work as provided.</para>
+
+    <para>Load the project file <filename>Ada/thumper.gpr</filename> into GPS. You will find the
+      main files <filename>thumper_server.adb</filename> and
         <filename>thumper_client.adb</filename>. Build these files to generate the server and
       client programs respectively. Note that at the time of this writing the client program is
       only a skeleton.</para>
@@ -139,7 +144,9 @@
   <section>
     <title>Scala Build</title>
 
-    <para><emphasis>TODO: Finish me!</emphasis></para>
+    <para>
+      <emphasis>TODO: Finish me!</emphasis>
+    </para>
   </section>
 
 </chapter>
