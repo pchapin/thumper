@@ -124,9 +124,9 @@
 
     </variablelist>
 
-    <para>To build Thumper install the components listed above and also check out the supporting
-      ASN.1 project from GitHub by cloning the URL <ulink
-        url="https://github.com/pchapin/asn1.git"/>. You must clone the ASN.1 library into a
+    <para>To build Thumper install the components listed above and also check out the Hermes
+      project providing ASN.1 support from GitHub by cloning the URL <ulink
+        url="https://github.com/pchapin/hermes.git"/>. You must clone the Hermes library into a
       sibling folder of the Thumper top level folder in order for the Thumper project file to
       work as provided.</para>
 

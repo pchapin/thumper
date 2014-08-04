@@ -15,7 +15,7 @@ package body Messages is
       Result : Message;
    begin
       for I in Low_Level'Range loop
-         Result(I) := ASN1.Octet(Low_Level(I));
+         Result(I) := Hermes.Octet(Low_Level(I));
       end loop;
       return Result;
    end From_Network;

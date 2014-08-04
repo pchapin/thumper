@@ -1,5 +1,5 @@
 with "aunit.gpr";
-with "../../ASN.1/src/asn1.gpr";
+with "../../Hermes/src/hermes.gpr";
 
 project Thumper is
 

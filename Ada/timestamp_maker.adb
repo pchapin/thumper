@@ -10,7 +10,7 @@
 pragma SPARK_Mode(On);
 
 package body Timestamp_Maker is
-   use type ASN1.Octet;
+   use type Hermes.Octet;
 
    type Imprint is
       record
@@ -45,7 +45,7 @@ package body Timestamp_Maker is
       Version         : Integer;
       Imprint_Stop    : Messages.Index_Type;
       Message_Imprint : Imprint;
-      Decode_Status   : ASN1.BER.Status_Type;
+      Decode_Status   : Hermes.BER.Status_Type;
       Imprint_Status  : Status_Type;
    begin
       -- TODO: All these complex nested conditionals are nasty. Come up with a better way to handle this.
@@ -58,8 +58,8 @@ package body Timestamp_Maker is
          Result := False;
       else
          -- Get the length of the sequence.
-         ASN1.BER.Get_Length_Value(Request_Message, Request_Message'First + 1, Length_Stop, Length, Decode_Status);
-         if Decode_Status /= ASN1.BER.Success then
+         Hermes.BER.Get_Length_Value(Request_Message, Request_Message'First + 1, Length_Stop, Length, Decode_Status);
+         if Decode_Status /= Hermes.BER.Success then
             -- Can't decode the sequence length.
             Result := False;
          elsif Length_Stop + Length /= Request_Message'Last then
@@ -67,8 +67,8 @@ package body Timestamp_Maker is
             Result := False;
          else
             -- Get the version number.
-            ASN1.BER.Get_Integer_Value(Request_Message, Length_Stop + 1, Version_Stop, Version, Decode_Status);
-            if Decode_Status /= ASN1.BER.Success then
+            Hermes.BER.Get_Integer_Value(Request_Message, Length_Stop + 1, Version_Stop, Version, Decode_Status);
+            if Decode_Status /= Hermes.BER.Success then
                -- Can't decode the version.
                Result := False;
             elsif Version /= 1 then
