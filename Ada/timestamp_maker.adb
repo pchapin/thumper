@@ -17,7 +17,7 @@ package body Timestamp_Maker is
          X : Integer; -- TODO: Replace with appropriate content.
       end record;
 
-   -- Extracts the message imprint from the request. The meaning of the parameters are as follows.
+   -- Extracts message imprint from request. The meaning of the parameters are as follows.
    --   Request_Message : The full message array.
    --   Request_Count   : The number of bytes in Request_Message that are meaningful.
    --   Index           : The first position in Request_Message where the imprint starts.
@@ -37,7 +37,10 @@ package body Timestamp_Maker is
    end Get_Message_Imprint;
 
 
-   function Valid_Request(Request_Message : in Messages.Message; Request_Count : in Messages.Count_Type) return Boolean is
+   function Valid_Request
+     (Request_Message : in Messages.Message;
+      Request_Count   : in Messages.Count_Type) return Boolean is
+
       Result          : Boolean := True;
       Length_Stop     : Messages.Index_Type;
       Length          : Natural;
@@ -48,17 +51,20 @@ package body Timestamp_Maker is
       Decode_Status   : Hermes.BER.Status_Type;
       Imprint_Status  : Status_Type;
    begin
-      -- TODO: All these complex nested conditionals are nasty. Come up with a better way to handle this.
+      -- TODO: All these complex nested conditionals are nasty. Come up with a better way to
+      -- handle this.
 
       if Request_Count <= 2 then
-         -- The message is too short. It can't possibly make sense. This check ensures certain array accesses below will work.
+         -- The message is too short. It can't possibly make sense. This check ensures certain
+         -- array accesses below will work.
          Result := False;
       elsif Request_Message(Request_Message'First) /= 16#30# then
          -- The message is not a sequence.
          Result := False;
       else
          -- Get the length of the sequence.
-         Hermes.BER.Get_Length_Value(Request_Message, Request_Message'First + 1, Length_Stop, Length, Decode_Status);
+         Hermes.BER.Get_Length_Value
+           (Request_Message, Request_Message'First + 1, Length_Stop, Length, Decode_Status);
          if Decode_Status /= Hermes.BER.Success then
             -- Can't decode the sequence length.
             Result := False;
@@ -67,7 +73,8 @@ package body Timestamp_Maker is
             Result := False;
          else
             -- Get the version number.
-            Hermes.BER.Get_Integer_Value(Request_Message, Length_Stop + 1, Version_Stop, Version, Decode_Status);
+            Hermes.BER.Get_Integer_Value
+              (Request_Message, Length_Stop + 1, Version_Stop, Version, Decode_Status);
             if Decode_Status /= Hermes.BER.Success then
                -- Can't decode the version.
                Result := False;
@@ -77,7 +84,13 @@ package body Timestamp_Maker is
             else
                -- Get the message imprint.
                Get_Message_Imprint
-                 (Request_Message, Request_Count, Version_Stop + 1, Imprint_Stop, Message_Imprint, Imprint_Status);
+                 (Request_Message => Request_Message,
+                  Request_Count   => Request_Count,
+                  Index           => Version_Stop + 1,
+                  Stop            => Imprint_Stop,
+                  Message_Imprint => Message_Imprint,
+                  Imprint_Status  => Imprint_Status);
+
                if Imprint_Status /= Success then
                   -- Can't decode the imprint.
                   Result := False;

@@ -18,17 +18,17 @@ package Network.Addresses is
 
    type Status_Type is (Success, Invalid_Address, Insufficient_Space);
 
-   -- Convert "x.y.z.w" addresses into a suitable binary representation. Returns an 'Invalid_Address' status if the address
-   -- is not in an acceptable form. All values x, y, z, and w must be between 0 and 255 in decimal. No leading, trailing,
-   -- or embedded non-digits allowed.
+   -- Convert "x.y.z.w" addresses into a suitable binary representation. Returns an Invalid
+   -- Address status if the address is not in an acceptable form. All values x, y, z, and w must
+   -- be between 0 and 255 in decimal. No leading, trailing or embedded non-digits allowed.
    --
    procedure To_IPv4_Address(Text : in String; Result : out IPv4; Status : out Status_Type)
      with
        Global => null,
        Depends => ( (Result, Status) => Text );
 
-   -- Convert the binary representation of an IP address to "x.y.z.w" notation. Character_Count is the number of characters
-   -- in the output string that were used.
+   -- Convert the binary representation of an IP address to "x.y.z.w" notation. Character_Count
+   -- is the number of characters in the output string that were used.
    --
    subtype Address_String_Index_Type is Positive range 1 .. 15;
    subtype Address_String_Type is String(Address_String_Index_Type);

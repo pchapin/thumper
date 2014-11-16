@@ -21,7 +21,8 @@ package body Network.Socket is
 
    procedure Create_Socket(Status : out Status_Type) is
    begin
-      GNAT.Sockets.Create_Socket(Socket, GNAT.Sockets.Family_Inet, GNAT.Sockets.Socket_Datagram);
+      GNAT.Sockets.Create_Socket
+        (Socket, GNAT.Sockets.Family_Inet, GNAT.Sockets.Socket_Datagram);
       Status := Success;
    exception
       when others =>
@@ -31,9 +32,12 @@ package body Network.Socket is
 
    procedure Create_And_Bind_Socket(Port : in Addresses.Port_Type; Status : out Status_Type) is
    begin
-      GNAT.Sockets.Create_Socket(Socket, GNAT.Sockets.Family_Inet, GNAT.Sockets.Socket_Datagram);
+      GNAT.Sockets.Create_Socket
+        (Socket, GNAT.Sockets.Family_Inet, GNAT.Sockets.Socket_Datagram);
       GNAT.Sockets.Bind_Socket
-        (Socket, (Family => GNAT.Sockets.Family_Inet, Addr => GNAT.Sockets.Any_Inet_Addr, Port => GNAT.Sockets.Port_Type(Port)));
+        (Socket, (Family => GNAT.Sockets.Family_Inet,
+                  Addr   => GNAT.Sockets.Any_Inet_Addr,
+                  Port   => GNAT.Sockets.Port_Type(Port)));
       Status := Success;
    exception
       when others =>
@@ -61,9 +65,11 @@ package body Network.Socket is
       end loop;
       Octet_Count := Natural((Last - Elements'First) + 1);
 
-      -- Convert the GNAT style address to an IP address. The address should be valid so conversion can't fail.
-      Addresses.To_IPv4_Address(GNAT.Sockets.Image(GNAT_Style_Address.Addr), IP_Address, Address_Status);
-      Address := Addresses.To_UDPv4_Address(IP_Address, Addresses.Port_Type(GNAT_Style_Address.Port));
+      -- Convert GNAT address to an IP address. The address should be valid so conversion can't fail.
+      Addresses.To_IPv4_Address
+        (GNAT.Sockets.Image(GNAT_Style_Address.Addr), IP_Address, Address_Status);
+      Address :=
+        Addresses.To_UDPv4_Address(IP_Address, Addresses.Port_Type(GNAT_Style_Address.Port));
 
       Status := Success;
    exception
@@ -96,7 +102,8 @@ package body Network.Socket is
            Ada.Streams.Stream_Element(Data(I));
       end loop;
 
-      -- Send the datagram. If the entire datagram didn't send, that's the best we can do so we'll ignore Last.
+      -- Send the datagram.
+      -- If the entire datagram didn't send, that's the best we can do so we'll ignore Last.
       GNAT.Sockets.Send_Socket(Socket, Elements, Last, GNAT_Style_Address);
    exception
       when others =>
@@ -107,7 +114,8 @@ package body Network.Socket is
 
    procedure Close is
    begin
-      -- TODO: This returns State to it's uninitialized value. This isn't properly reflected by the annotations.
+      -- TODO: This returns State to it's uninitialized value.
+      -- This isn't properly reflected by the annotations.
       GNAT.Sockets.Close_Socket(Socket);
    end Close;
 

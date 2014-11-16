@@ -84,9 +84,9 @@ package body Network.Addresses is
 
       subtype Skip_Type is Positive range 1 .. 4;
 
-      Index   : Address_String_Index_Type;  -- Index of where current octet starts in the output string.
+      Index   : Address_String_Index_Type;  -- Index of where current octet starts in output.
       Count   : Natural;        -- Number of characters written to the output so far.
-      Skip    : Skip_Type;      -- Number of characters to skip forward after handling the current octet.
+      Skip    : Skip_Type;      -- Number of characters to skip after handling current octet.
       Value   : Network.Octet;  -- An address octet.
       Digit_2 : Digit_Type;     -- Most significant digit of an address octet (in decimal).
       Digit_1 : Digit_Type;     -- ... etc.
@@ -121,7 +121,7 @@ package body Network.Addresses is
             Text(Index + 1) := Digit_0;
             Skip := 2;
          else
-            -- If all three digits are zero this case will correctly place a single '0' into Text.
+            -- If all three digits are zero, correctly place a single '0' into Text.
             Text(Index + 0) := Digit_0;
             Skip := 1;
          end if;

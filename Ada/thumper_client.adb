@@ -18,8 +18,8 @@ use type Network.Addresses.Status_Type;
 use type Network.Socket.Status_Type;
 
 procedure Thumper_Client
-  with
-    Global => (In_Out => (Wrapper_IO.IO_Subsystem, Network.Socket.State, Network.Socket.Network_Stack))
+  with Global =>
+    (In_Out => (Wrapper_IO.IO_Subsystem, Network.Socket.State, Network.Socket.Network_Stack))
 is
 
    procedure Make_Request
@@ -37,7 +37,8 @@ is
          Wrapper_IO.Put_Line("Failed to convert target address to binary form!");
       else
          Request_Message(1) := Character'Pos('X');
-         Network.Socket.Send(Network.Addresses.To_UDPv4_Address(Local_Host, 318), Request_Message, 1);
+         Network.Socket.Send
+           (Network.Addresses.To_UDPv4_Address(Local_Host, 318), Request_Message, 1);
       end if;
    end Make_Request;
 

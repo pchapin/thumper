@@ -5,8 +5,8 @@
 --
 -- The implementation of this package is not SPARK.
 --
--- Ultimately this package should be implemented by calling into an appropriate cryptographic library. For now it
--- uses a fake key and creates fake digital signatures.
+-- Ultimately this package should be implemented by calling into an appropriate cryptographic
+-- library. For now it uses a fake key and creates fake digital signatures.
 --
 -- Please send comments or bug reports to
 --

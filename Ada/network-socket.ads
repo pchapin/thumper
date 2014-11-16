@@ -43,7 +43,8 @@ is
 
 
    -- This procedure sends a datagram to the given socket. There is no error indication.
-   -- TODO: Should Send return a Status value to indicate failure (or maybe we don't care about send failures)?
+   -- TODO: Should Send return a Status value to indicate failure (or maybe we don't care about
+   -- send failures)?
    procedure Send
      (Address     : in Addresses.UDPv4;
       Data        : in Network.Octet_Array;
@@ -52,7 +53,7 @@ is
        Global => (Input => State, Output => Network_Stack),
        Depends => ( Network_Stack => (Address, Data, Octet_Count, State) );
 
-   -- This procedure closes the indicated socket. After being closed the socket should not be used.
+   -- This procedure closes indicated socket. After being closed the socket should not be used.
    procedure Close
      with
        Global => (In_Out => State),

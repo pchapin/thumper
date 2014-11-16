@@ -15,7 +15,8 @@ with
   Initializes => IO_Subsystem
 is
 
-   -- Outputs the given text to the standard output device. A line termination character is automatically added.
+   -- Outputs the given text to the standard output device. A line termination character is
+   -- automatically added.
    procedure Put_Line(Text : String)
      with
        Global => (In_Out => IO_Subsystem),

@@ -24,15 +24,15 @@ use type Serial_Generator.Status_Type;
 use type Timestamp_Maker.Status_Type;
 
 procedure Thumper_Server
-  with
-    Global => (In_Out => (Wrapper_IO.IO_Subsystem, Network.Socket.State, Network.Socket.Network_Stack),
-               Output => (Cryptographic_Services.Key, Serial_Generator.Number))
+  with Global =>
+    (In_Out => (Wrapper_IO.IO_Subsystem, Network.Socket.State, Network.Socket.Network_Stack),
+     Output => (Cryptographic_Services.Key, Serial_Generator.Number))
 is
 
    procedure Service_Clients
-     with
-       Global => (Input  => (Cryptographic_Services.Key, Serial_Generator.Number, Network.Socket.State),
-                  In_Out => (Wrapper_IO.IO_Subsystem, Network.Socket.Network_Stack))
+     with Global =>
+       (Input  => (Cryptographic_Services.Key, Serial_Generator.Number, Network.Socket.State),
+        In_Out => (Wrapper_IO.IO_Subsystem, Network.Socket.Network_Stack))
    is
       Client_Address   : Network.Addresses.UDPv4;
 
@@ -51,14 +51,17 @@ is
       loop
          Network.Socket.Receive(Network_Request, Request_Count, Client_Address, Network_Status);
 
-         -- Ignore bad receives (Should we log them? Right now it's easy to get in an infinite loop here)
-         -- TODO: What happens if Standard_Output enters an error state? Right now the preconditions on Put_Line might fail.
+         -- Ignore bad receives (Should we log them? Right now it's easy to get in an infinite
+         -- loop here)
+         -- TODO: What happens if Standard_Output enters an error state? Right now the pre-
+         -- conditions on Put_Line might fail.
          if Network_Status /= Network.Socket.Success then
             Wrapper_IO.Put_Line("Receive from socket failed!");
          else
             Wrapper_IO.Put_Line("Handling a message from a client...");
             Request_Message := Messages.From_Network(Network_Request);
-            Timestamp_Maker.Create_Timestamp(Request_Message, Request_Count, Response_Message, Response_Count, Timestamp_Status);
+            Timestamp_Maker.Create_Timestamp
+              (Request_Message, Request_Count, Response_Message, Response_Count, Timestamp_Status);
 
             -- Ignore bad time-stamp creation operations (should we log them?)
             if Timestamp_Status = Timestamp_Maker.Success then
@@ -86,7 +89,8 @@ begin
       if Crypto_Status /= Cryptographic_Services.Success then
          Wrapper_IO.Put_Line("Unable to intialize the cryptographic library! (no private key?)");
       else
-         -- Create the socket. The port should be 318, but a value above 1024 allows for easier testing by non-root users.
+         -- Create the socket. The port should be 318, but a value above 1024 allows for easier
+         -- testing by non-root users.
          Network.Socket.Create_And_Bind_Socket(318, Network_Status);
          if Network_Status /= Network.Socket.Success then
             Wrapper_IO.Put_Line("Unable to create the server socket. Aborting!");

@@ -25,8 +25,8 @@ is
      Global => (Output => Key),
      Depends => ((Key, Status) => null);
 
-   -- Computes the signature of Data using a constant private key that is internal to this package, putting the result in
-   -- Signature. Fails with Bad_Key if the key is invalid.
+   -- Computes the signature of Data using a constant private key that is internal to this
+   -- package, putting the result in Signature. Fails with Bad_Key if the key is invalid.
    --
    procedure Make_Signature
      (Data      : in  Network.Octet_Array;

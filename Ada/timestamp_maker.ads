@@ -29,9 +29,10 @@ package Timestamp_Maker is
       Response_Count   : out Messages.Count_Type;
       Status           : out Status_Type)
    with
-     Global  => (Input            => (Cryptographic_Services.Key, Serial_Generator.Number)),
-     Depends => (Response_Message => (Request_Message, Request_Count, Serial_Generator.Number, Cryptographic_Services.Key),
-                 Response_Count   => (Request_Message, Request_Count, Serial_Generator.Number),
-                 Status           => (Request_Message, Request_Count));
+     Global  => (Input => (Cryptographic_Services.Key, Serial_Generator.Number)),
+     Depends =>
+       (Response_Message => (Request_Message, Request_Count, Serial_Generator.Number, Cryptographic_Services.Key),
+        Response_Count   => (Request_Message, Request_Count, Serial_Generator.Number),
+        Status           => (Request_Message, Request_Count));
 
 end Timestamp_Maker;
