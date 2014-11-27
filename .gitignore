@@ -1,10 +1,6 @@
 
 # Build artifacts.
-Ada/build
-Scala/build
-
-# User specific configuration
-Scala/.idea/workspace.xml
+src/build
 
 # Location for the Python RFC-3161 package.
 rfc3161-*.*.*

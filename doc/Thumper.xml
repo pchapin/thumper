@@ -17,7 +17,7 @@
 
 <!-- FILE        : Thumper.xml
      SUBJECT     : Master document for the Thumper documentation set.
-     AUTHOR      : (C) Copyright 2014 by Peter C. Chapin <PChapin@vtc.vsc.edu>
+     AUTHOR      : (C) Copyright 2015 by Peter C. Chapin <PChapin@vtc.vsc.edu>
 
 This is the documentation for the Thumper time stamping system. -->
 
@@ -35,7 +35,7 @@ This is the documentation for the Thumper time stamping system. -->
     </author>
     <authorinitials>pcc</authorinitials>
     <copyright>
-      <year>2014</year>
+      <year>2015</year>
       <holder>Peter C. Chapin</holder>
     </copyright>
     <legalnotice>
@@ -50,7 +50,7 @@ This is the documentation for the Thumper time stamping system. -->
     <revhistory>
       <revision>
         <revnumber>1.0</revnumber>
-        <date>2014-10-01</date>
+        <date>2015-09-01</date>
         <authorinitials>pcc</authorinitials>
         <revremark>This is a work in progress.</revremark>
       </revision>
@@ -59,15 +59,14 @@ This is the documentation for the Thumper time stamping system. -->
   <preface id="Introduction">
     <title>Introduction</title>
 
-    <para>Thumper is an implementation of the RFC-3161 secure time-stamping service. The client
-      is used to request time-stamps for documents provided as files, and can also verify those
-      time stamps. The server, running as a trusted third party, is used to create time-stamps
+    <para>Thumper is an implementation of the RFC-3161 secure time stamping service. The client
+      is used to request time stamps for documents provided as files, and can also verify those
+      time stamps. The server, running as a trusted third party, is used to create time stamps
       with cryptographic assurance of validity.</para>
 
-    <para>The primary purpose of Thumper is as an educational vehicle for the exploration of
-      high integrity programming techniques. Ultimately Thumper will be implemented in multiple
-      languages using multiple design methodologies. Currently versions in SPARK/Ada and Scala
-      are under active development. The SPARK/Ada version is the most mature.</para>
+    <para>The primary purpose of Thumper is as a SPARK technology demonstration and as an
+      educational vehicle for the exploration of high integrity programming techniques.
+      Thumper is implemented in the SPARK 2014 language and requires SPARK GPL 2015.</para>
 
     <!-- Include disclaimer. -->
 

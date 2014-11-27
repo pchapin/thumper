@@ -38,9 +38,7 @@
       protocol could be extended to do so and that might be useful). As a result, it is not
       necessary for Alice to sign the hash. In addition, since the time stamp is intended to be
       public information, it need not be encrypted on the network.</para>
-
   </section>
-
 
   <section>
     <title>Vulnerabilities</title>
@@ -59,7 +57,6 @@
       probably of secondary importance compared to the first. To get the server's private key
       the attacker would most likely need to compromise the server system. If the attacker can
       do that he/she can simple change the time on the server instead.</para>
-
   </section>
 
 </chapter>
