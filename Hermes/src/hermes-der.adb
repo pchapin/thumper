@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
--- FILE    : hermes-ber.adb
--- SUBJECT : Body of a package for handling the basic encoding rules.
+-- FILE    : hermes-der.adb
+-- SUBJECT : Body of a package for handling the distinguished encoding rules.
 -- AUTHOR  : (C) Copyright 2014 by Peter Chapin
 --
 -- Please send comments or bug reports to
@@ -9,7 +9,7 @@
 ---------------------------------------------------------------------------
 pragma SPARK_Mode(On);
 
-package body Hermes.BER is
+package body Hermes.DER is
 
    function Make_Leading_Identifier
      (Tag_Class       : Tag_Class_Type;
@@ -374,5 +374,5 @@ package body Hermes.BER is
       end if;
    end Get_Integer_Value;
 
-end Hermes.BER;
+end Hermes.DER;
 

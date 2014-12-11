@@ -7,7 +7,7 @@
 --
 --      Peter Chapin <PChapin@vtc.vsc.edu>
 ---------------------------------------------------------------------------
-with Check_BER;
+with Check_DER;
 with Check_Trivial;
 
 package body Primary_Suite is
@@ -18,7 +18,7 @@ package body Primary_Suite is
 
    -- The various tests in this suite. Low level tests should be done first.
    Test_0 : aliased Check_Trivial.Trivial_Test;
-   Test_1 : aliased Check_BER.BER_Test;
+   Test_1 : aliased Check_DER.DER_Test;
 
    -- Function to return an access to the configured suite
    function Suite return Access_Test_Suite is

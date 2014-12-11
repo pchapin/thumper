@@ -9,13 +9,13 @@
 ---------------------------------------------------------------------------
 pragma SPARK_Mode(On);
 
-with Hermes.BER;
+with Hermes.DER;
 with Cryptographic_Services;
 with Messages;
 with Network;
 with Serial_Generator;
 
-use type Hermes.BER.Status_Type;
+use type Hermes.DER.Status_Type;
 use type Network.Octet;
 
 package Timestamp_Maker is

@@ -113,19 +113,19 @@
 
   </variablelist>
 
-  <para>To build Thumper install the components listed above and also check out the Hermes
-    project providing ASN.1 support from GitHub by cloning the URL <ulink
-      url="https://github.com/pchapin/hermes.git"/>. You must clone the Hermes library into a
-    sibling folder of the Thumper top level folder in order for the Thumper project file to work
-    as provided.</para>
-
-  <para>Load the project file <filename>src/thumper.gpr</filename> into GPS. You will find the
-    main files <filename>thumper_server.adb</filename> and
-      <filename>thumper_client.adb</filename>. Build these files to generate the server and
-    client programs respectively. Note that at the time of this writing the client program is
-    only a skeleton.</para>
+  <para>To build Thumper install the components listed above and then load the project file
+      <filename>src/thumper.gpr</filename> into GPS. You will find the main files
+      <filename>thumper_server.adb</filename> and <filename>thumper_client.adb</filename>. Build
+    these files to generate the server and client programs respectively. Note that at the time
+    of this writing the client program is only a skeleton.</para>
 
   <para>To test Thumper, build the main file thumper_test.adb. Executing the resulting program
     will run all the unit tests and produce a report of the results on the console.</para>
+
+  <para>Thumper makes use of an ASN.1 library called Hermes that is included in the Thumper
+    repository (for now). Building Thumper will automatically build the Hermes library. However,
+    if you wish to run the unit tests for Hermes go into the <filename>Hermes</filename> folder
+    and load the GNAT project file <filename>master.gpr</filename> into GPS. You can build the
+    Hermes unit tests as part of that project.</para>
 
 </chapter>

@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
--- FILE    : hermes-ber.ads
--- SUBJECT : Specification of a package for handling the basic encoding rules.
+-- FILE    : hermes-der.ads
+-- SUBJECT : Specification of a package for handling the distinguished encoding rules.
 -- AUTHOR  : (C) Copyright 2014 by Peter Chapin
 --
 -- Please send comments or bug reports to
@@ -9,7 +9,7 @@
 ---------------------------------------------------------------------------
 pragma SPARK_Mode(On);
 
-package Hermes.BER is
+package Hermes.DER is
 
    -- Used to indicate the success or value of the subprograms in this package.
    type Status_Type is
@@ -141,4 +141,4 @@ package Hermes.BER is
        Depends => ( (Stop, value, Status) => (Message, Index) ),
        Pre => Message'First <= Index and Index <= Message'Last;
 
-end Hermes.BER;
+end Hermes.DER;

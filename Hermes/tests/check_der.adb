@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
--- FILE    : check_ber.adb
--- SUBJECT : Package containing tests of the ASN.1 Basic Encoding Rules.
+-- FILE    : check_der.adb
+-- SUBJECT : Package containing tests of the ASN.1 Distinguished Encoding Rules.
 -- AUTHOR  : (C) Copyright 2014 by Peter Chapin
 --
 -- Please send comments or bug reports to
@@ -8,13 +8,13 @@
 --      Peter Chapin <PChapin@vtc.vsc.edu>
 ---------------------------------------------------------------------------
 with AUnit.Assertions;
-with Hermes.BER;
+with Hermes.DER;
 
 use AUnit.Assertions;
 use Hermes;
-use Hermes.BER;
+use Hermes.DER;
 
-package body Check_BER is
+package body Check_DER is
 
    type Octet_Array_Access is access Octet_Array;
 
@@ -100,7 +100,8 @@ package body Check_BER is
          Assert
            (Test_Stop   = Test_Cases(I).Expected.Stop   and
             Test_Length = Test_Cases(I).Expected.Length and
-            Test_Status = Test_Cases(I).Expected.Status, "Test case #" & Integer'Image(I) & " failed");
+            Test_Status = Test_Cases(I).Expected.Status,
+            "Test case #" & Integer'Image(I) & " failed");
       end loop;
    end Test_Get_Length;
 
@@ -178,25 +179,26 @@ package body Check_BER is
       Test_Status : Status_Type;
    begin
       for I in Test_Cases'Range loop
-         BER.Get_Integer_Value(Test_Cases(I).Input.Data.all, Test_Cases(I).Input.Start, Test_Stop, Test_Value, Test_Status);
+         DER.Get_Integer_Value(Test_Cases(I).Input.Data.all, Test_Cases(I).Input.Start, Test_Stop, Test_Value, Test_Status);
          Assert
            (Test_Stop   = Test_Cases(I).Expected.Stop   and
             Test_Value  = Test_Cases(I).Expected.Value  and
-            Test_Status = Test_Cases(I).Expected.Status, "Test case #" & Integer'Image(I) & " failed");
+            Test_Status = Test_Cases(I).Expected.Status,
+            "Test case #" & Integer'Image(I) & " failed");
       end loop;
    end Test_Get_Integer;
 
 
-   procedure Register_Tests(T : in out BER_Test) is
+   procedure Register_Tests(T : in out DER_Test) is
    begin
       AUnit.Test_Cases.Registration.Register_Routine(T, Test_Get_Length'Access, "Get Length");
       AUnit.Test_Cases.Registration.Register_Routine(T, Test_Get_Integer'Access, "Get Integer");
    end Register_Tests;
 
 
-   function Name(T : BER_Test) return AUnit.Message_String is
+   function Name(T : DER_Test) return AUnit.Message_String is
    begin
-      return AUnit.Format("BER");
+      return AUnit.Format("DER");
    end Name;
 
-end Check_BER;
+end Check_DER;
