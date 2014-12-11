@@ -81,7 +81,8 @@ package body Hermes.DER is
       Status          : out Status_Type) is
 
       subtype Leading_Number_Range_Type is Octet range 0 .. 31;
-      Leading_Number_Lookup_Table : constant array(Leading_Number_Range_Type) of Leading_Number_Type :=
+      Leading_Number_Lookup_Table :
+        constant array(Leading_Number_Range_Type) of Leading_Number_Type :=
         ( 0 => Tag_Reserved,
           1 => Tag_Boolean,
           2 => Tag_Integer,
@@ -232,13 +233,16 @@ package body Hermes.DER is
 
          -- Check that all length octets are in the array.
          if Index > Message'Last - Length_Of_Length then
-            Stop   := Message'Last;  -- Desired value of Stop not specified in the documentation.
+            Stop   := Message'Last;  -- Desired value of Stop not specified.
             Length := 0;
             Status := Bad_Length;
 
-         -- Check that the value of the length is not too large (here we assume 32 bit Naturals).
+         -- Check that the value of the length is not too large (here we assume 32 bit
+         -- Naturals).
+         --
          -- TODO: It is allowed to encode small lengths with a lot of leading zeros so
-         -- Length_Of_Length > 4 might be ok.
+         -- Length_Of_Length > 4 might be ok. NO! The DER rules do not allow this (right?)
+         --
          elsif Length_Of_Length > 4 or (Length_Of_Length = 4 and Message(Index + 1) >= 128) then
             Stop   := Index + Length_Of_Length;
             Length := 0;
@@ -338,12 +342,16 @@ package body Hermes.DER is
             Value  := 0;
             Status := Unimplemented_Value;
          elsif Length >= 2 and then (Message(Length_Stop + 1) = 16#00# and (Message(Length_Stop + 2) and 16#80#) = 16#00#) then
-            -- The value has too many leading zeros. (Should this check be moved to Identifier_And_Length_Ok?
+            -- The value has too many leading zeros. (Should this check be moved to
+            -- Identifier_And_Length_Ok?
+            --
             Stop   := Length_Stop + Length;
             Value  := 0;
             Status := Bad_Value;
          elsif Length >= 2 and then (Message(Length_Stop + 1) = 16#FF# and (Message(Length_Stop + 2)  or 16#7F#) = 16#FF#) then
-            -- The value has too many leading ones. (Should this check be moved to Identifier_And_Length_Ok?
+            -- The value has too many leading ones. (Should this check be moved to
+            -- Identifier_And_Length_Ok?
+            --
             Stop   := Length_Stop + Length;
             Value  := 0;
             Status := Bad_Value;
@@ -354,7 +362,8 @@ package body Hermes.DER is
       end Identifier_Ok;
 
    begin
-      Split_Leading_Identifier(Message(Index), Tag_Class, Structured_Flag, Tag, Identifier_Status);
+      Split_Leading_Identifier
+        (Message(Index), Tag_Class, Structured_Flag, Tag, Identifier_Status);
       if Identifier_Status /= Success         or
          Tag_Class         /= Class_Universal or
          Structured_Flag   /= Primitive       or
@@ -375,4 +384,3 @@ package body Hermes.DER is
    end Get_Integer_Value;
 
 end Hermes.DER;
-

@@ -63,15 +63,15 @@ package Hermes.DER is
       Tag_BMP_String,
       Tag_EXTENDED_TAG);
 
-   -- <summary>Constructs an identifier octet from its constituent parts.</summary>.
+   -- Constructs an identifier octet from its constituent parts.
    function Make_Leading_Identifier
      (Tag_Class       : Tag_Class_Type;
       Structured_Flag : Structured_Flag_Type;
       Tag             : Leading_Number_Type) return Octet;
 
-   -- <summary>Splits a leading identifier octet into its constituent parts.</summary>
-   -- <description>Fails with BER.Bad_Identifier if Value is an invalid first identifier
-   -- octet.</description>
+   -- Splits a leading identifier octet into its constituent parts. Fails with
+   -- DER.Bad_Identifier if Value is an invalid first identifier octet.
+   --
    procedure Split_Leading_Identifier
      (Value           : in  Octet;
       Tag_Class       : out Tag_Class_Type;
@@ -81,26 +81,22 @@ package Hermes.DER is
      with
        Depends => ( (Tag_Class, Structured_Flag, Tag, Status) => Value);
 
-   -- <summary>Examines the Message starting at positin Index looking for a BER encoded
-   -- length.</summary>
+   -- Examines the Message starting at position Index looking for a DER encoded length.
    --
-   -- <parameter name="Message">The message to examine.</parameter>
-   -- <parameter name="Index">The starting position in the message where the length is to be
-   -- extracted.</parameter>
-   -- <parameter name="Stop">The last position in the message used by the encoded
-   -- length.</parameter>
-   -- <parameter name="Length">The extracted length.</parameter>
-   -- <parameter name="Status">The status of the extraction (success/failure,
-   -- etc).</parameter>
+   -- Message => The message to examine.
+   -- Index   => The starting position in the message where the length is to be extracted.
+   -- Stop    => The last position in the message used by the encoded length.
+   -- Length  => The extracted length.</parameter>
+   -- Status  => The status of the extraction (success/failure, etc).
    --
-   -- <description>Extracts a BER encoded length from the given message. Fails with
-   -- BER.Indefinite_Length if the encoded length is in the indefinite form. In that case the
-   -- returned Length is zero and the returned Stop is at the last octet of th encoded length as
-   -- usual. Fails with BER.Bad_Length if the length is not encoded properly. In that case the
-   -- returned length is zero and the returned Stop is undefined (it will depend on the precise
-   -- nature of the encoding problem). Fails with BER.Unimplemented_Length if the encoded length
-   -- is too large for this implementation to handle. In that case the returned Length is zero
-   -- and the returned Stop is at the last octet of the encoded length as usual.</description>
+   -- Decodes a DER encoded length from the given message. Fails with DER.Indefinite_Length if
+   -- the encoded length is in the indefinite form. In that case the returned Length is zero and
+   -- the returned Stop is at the last octet of the encoded length as usual. Fails with
+   -- DER.Bad_Length if the length is not encoded properly. In that case the returned Length is
+   -- zero and the returned Stop is undefined (it will depend on the precise nature of the
+   -- encoding problem). Fails with DER.Unimplemented_Length if the encoded length is too large
+   -- for this implementation to handle. In that case the returned Length is zero and the
+   -- returned Stop is at the last octet of the encoded length as usual.
    --
    procedure Get_Length_Value
      (Message : in  Octet_Array;
@@ -113,23 +109,20 @@ package Hermes.DER is
        Pre => Message'First <= Index and Index <= Message'Last;
 
 
-   -- <summary>Examines the Message starting at position Index looking for a BER encoded
-   -- integer.</summary>
+   -- Examines the Message starting at position Index looking for a DER encoded integer.
    --
-   -- <parameter name="Message">The message to examine.</parameter>
-   -- <parameter name="Index">The starting position in the message where the integer is to be
-   -- extracted.</parameter>
-   -- <parameter name="Stop">The last position in the message used by the encoded
-   -- integer.</parameter>
-   -- <parameter name="Value">The extracted integer.</parameter>
-   -- <parameter name="Status">The status of the extraction (success/failure, etc).</parameter>
+   -- Message => The message to examine.
+   -- Index   => The starting position in the message where the integer is to be extracted.
+   -- Stop    => The last position in the message used by the encoded integer.
+   -- Value   => The extracted integer.
+   -- Status  => The status of the extraction (success/failure, etc).
    --
-   -- <description>Extracts a BER encoded integer from the given message. Fails with
-   -- BER.Bad_Value if the data is not encoded properly. In that case the returned Value is zero
-   -- and the returned Stop is undefined (it will depend on the precise nature of the encoding
-   -- problem). Fails with BER.Unimplemented_Value if the encoded value is too large for this
-   -- implementation to handle. In that case the returned Value is zero and the returned Stop is
-   -- at the last octet of the encoded value as usual.</description>
+   -- Decodes a DER encoded integer from the given message. Fails with DER.Bad_Value if the data
+   -- is not encoded properly. In that case the returned Value is zero and the returned Stop is
+   -- undefined (it will depend on the precise nature of the encoding problem). Fails with
+   -- DER.Unimplemented_Value if the encoded value is too large for this implementation to
+   -- handle. In that case the returned Value is zero and the returned Stop is at the last octet
+   -- of the encoded value as usual.
    --
    procedure Get_Integer_Value
      (Message : in  Octet_Array;

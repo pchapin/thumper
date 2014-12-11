@@ -23,7 +23,8 @@ package body Hermes.OID is
       function Bad_First_Level(Root : Component_Type) return Boolean is
         (not (Root = 0 or Root = 1 or Root = 2));
 
-      function Bad_Second_Level(Root : Component_Type; Second : Component_Type) return Boolean is
+      function Bad_Second_Level
+        (Root : Component_Type; Second : Component_Type) return Boolean is
         (not (case Root is
                  when 0 => Second < 40,
                  when 1 => Second < 40,
