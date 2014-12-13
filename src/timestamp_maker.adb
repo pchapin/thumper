@@ -9,8 +9,12 @@
 ---------------------------------------------------------------------------
 pragma SPARK_Mode(On);
 
+with Hermes;
+with Hermes.DER;
+
 package body Timestamp_Maker is
    use type Hermes.Octet;
+   use type Hermes.DER.Status_Type;
 
    type Status_Type is (Success, Failure);
 
@@ -20,8 +24,7 @@ package body Timestamp_Maker is
       end record;
 
    -- Extracts message imprint from request. The meaning of the parameters are as follows.
-   --   Request_Message : The full message array.
-   --   Request_Count   : The number of bytes in Request_Message that are meaningful.
+   --   Request_Message : The request message from the client.
    --   Index           : The first position in Request_Message where the imprint starts.
    --   Stop            : The last position of the imprint.
    --   Message_Imprint : The imprint obtained from the message.
@@ -29,7 +32,6 @@ package body Timestamp_Maker is
    --
    procedure Get_Message_Imprint
      (Request_Message : in  Messages.Message;
-      Request_Count   : in  Messages.Count_Type;
       Index           : in  Messages.Index_Type;
       Stop            : out Messages.Index_Type;
       Message_Imprint : out Imprint;
@@ -39,9 +41,7 @@ package body Timestamp_Maker is
    end Get_Message_Imprint;
 
 
-   function Valid_Request
-     (Request_Message : in Messages.Message;
-      Request_Count   : in Messages.Count_Type) return Boolean is
+   function Valid_Request(Request_Message : in Messages.Message) return Boolean is
 
       Result          : Boolean := True;
       Length_Stop     : Messages.Index_Type;
@@ -56,27 +56,27 @@ package body Timestamp_Maker is
       -- TODO: All these complex nested conditionals are nasty.
       -- Come up with a better way to handle this.
 
-      if Request_Count <= 2 then
+      if Request_Message.Size <= 2 then
          -- The message is too short. It can't possibly make sense. This check ensures certain
          -- array accesses below will work.
          Result := False;
-      elsif Request_Message(Request_Message'First) /= 16#30# then
+      elsif Request_Message.Data(Request_Message.Data'First) /= 16#30# then
          -- The message is not a sequence.
          Result := False;
       else
          -- Get the length of the sequence.
          Hermes.DER.Get_Length_Value
-           (Request_Message, Request_Message'First + 1, Length_Stop, Length, Decode_Status);
+           (Request_Message.Data, Request_Message.Data'First + 1, Length_Stop, Length, Decode_Status);
          if Decode_Status /= Hermes.DER.Success then
             -- Can't decode the sequence length.
             Result := False;
-         elsif Length_Stop + Length /= Request_Message'Last then
+         elsif Length_Stop + Length /= Request_Message.Data'Last then
             -- Message has the wrong length.
             Result := False;
          else
             -- Get the version number.
             Hermes.DER.Get_Integer_Value
-              (Request_Message, Length_Stop + 1, Version_Stop, Version, Decode_Status);
+              (Request_Message.Data, Length_Stop + 1, Version_Stop, Version, Decode_Status);
             if Decode_Status /= Hermes.DER.Success then
                -- Can't decode the version.
                Result := False;
@@ -87,7 +87,6 @@ package body Timestamp_Maker is
                -- Get the message imprint.
                Get_Message_Imprint
                  (Request_Message => Request_Message,
-                  Request_Count   => Request_Count,
                   Index           => Version_Stop + 1,
                   Stop            => Imprint_Stop,
                   Message_Imprint => Message_Imprint,
@@ -107,15 +106,11 @@ package body Timestamp_Maker is
 
 
    procedure Create_Timestamp
-     (Request_Message  : in  Messages.Message;
-      Request_Count    : in  Messages.Count_Type;
-      Response_Message : out Messages.Message;
-      Response_Count   : out Messages.Count_Type) is
+     (Request_Message  : in  Messages.Message; Response_Message : out Messages.Message) is
    begin
-      Response_Message := Messages.Message'(others => 0);
-      Response_Count := 0;
+      Response_Message := Messages.Message'(Data => (others => 0), Size => 0);
 
-      if not Valid_Request(Request_Message, Request_Count) then
+      if not Valid_Request(Request_Message) then
          raise Program_Error with "Incomplete implementation";
       else
          raise Program_Error with "Incomplete implementation";

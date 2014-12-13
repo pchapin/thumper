@@ -14,6 +14,7 @@
 --
 --      Peter C. Chapin <PChapin@vtc.vsc.edu>
 ---------------------------------------------------------------------------
+with Messages;
 with Network.Addresses;
 
 package Network.Socket is
@@ -29,17 +30,11 @@ package Network.Socket is
    -- It is useful for servers.
    procedure Create_And_Bind_Socket(Port : in Addresses.Port_Type);
 
-   -- This procedure receives a datagram from the given socket into the indicated array.
-   procedure Receive
-     (Data        : out Network.Octet_Array;
-      Octet_Count : out Natural;
-      Address     : out Addresses.UDPv4);
+   -- This procedure receives a datagram. It also returns the source address.
+   procedure Receive(Message : out Messages.Network_Message; From : out Addresses.UDPv4);
 
-   -- This procedure sends a datagram to the given socket. There is no error indication.
-   procedure Send
-     (Address     : in Addresses.UDPv4;
-      Data        : in Network.Octet_Array;
-      Octet_Count : in Natural);
+   -- This procedure sends a datagram to the given destination address.
+   procedure Send(Message : in Messages.Network_Message; To : in Addresses.UDPv4);
 
    -- This procedure closes the socket. After being closed the socket should not be used.
    procedure Close;

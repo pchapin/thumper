@@ -12,21 +12,22 @@ pragma SPARK_Mode(On);
 package body Messages is
 
    function From_Network(Low_Level : Network_Message) return Message is
-      Result : Message;
+      High_Level : Message := (Data => (others => 0), Size => Low_Level.Size);
    begin
-      for I in Low_Level'Range loop
-         Result(I) := Hermes.Octet(Low_Level(I));
+      for I in Index_Type'First .. Low_Level.Size loop
+         High_Level.Data(I) := Hermes.Octet(Low_Level.Data(I));
       end loop;
-      return Result;
+      return High_Level;
    end From_Network;
 
+
    function To_Network(High_Level : Message) return Network_Message is
-      Result : Network_Message;
+      Low_Level : Network_Message := (Data => (others => 0), Size => High_Level.Size);
    begin
-      for I in High_Level'Range loop
-         Result(I) := Network.Octet(High_Level(I));
+      for I in Index_Type'First .. High_Level.Size loop
+         Low_Level.Data(I) := Network.Octet(High_Level.Data(I));
       end loop;
-      return Result;
+      return Low_Level;
    end To_Network;
 
 end Messages;
