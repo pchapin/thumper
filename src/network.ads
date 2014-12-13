@@ -7,15 +7,11 @@
 --
 --      Peter C. Chapin <PChapin@vtc.vsc.edu>
 ---------------------------------------------------------------------------
-pragma SPARK_Mode(On);
-
 package Network is
    pragma Pure;
 
    -- Type for handling raw data on the network.
    type Octet is mod 2**8;
    type Octet_Array is array(Natural range <>) of Octet;
-   for Octet_Array'Component_Size use 8;
-   pragma Pack(Octet_Array);
 
 end Network;

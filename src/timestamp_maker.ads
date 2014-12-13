@@ -20,19 +20,15 @@ use type Network.Octet;
 
 package Timestamp_Maker is
 
-   type Status_Type is (Success, Bad_Request);
-
    procedure Create_Timestamp
      (Request_Message  : in  Messages.Message;
       Request_Count    : in  Messages.Count_Type;
       Response_Message : out Messages.Message;
-      Response_Count   : out Messages.Count_Type;
-      Status           : out Status_Type)
+      Response_Count   : out Messages.Count_Type)
    with
-     Global  => (Input => (Cryptographic_Services.Key, Serial_Generator.Number)),
+     Global  => (Input => (Cryptographic_Services.Key, Serial_Generator.State)),
      Depends =>
-       (Response_Message => (Request_Message, Request_Count, Serial_Generator.Number, Cryptographic_Services.Key),
-        Response_Count   => (Request_Message, Request_Count, Serial_Generator.Number),
-        Status           => (Request_Message, Request_Count));
+       (Response_Message => (Request_Message, Request_Count, Serial_Generator.State, Cryptographic_Services.Key),
+        Response_Count   => (Request_Message, Request_Count, Serial_Generator.State));
 
 end Timestamp_Maker;

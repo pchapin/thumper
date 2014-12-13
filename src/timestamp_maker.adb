@@ -12,6 +12,8 @@ pragma SPARK_Mode(On);
 package body Timestamp_Maker is
    use type Hermes.Octet;
 
+   type Status_Type is (Success, Failure);
+
    type Imprint is
       record
          X : Integer; -- TODO: Replace with appropriate content.
@@ -51,8 +53,8 @@ package body Timestamp_Maker is
       Decode_Status   : Hermes.DER.Status_Type;
       Imprint_Status  : Status_Type;
    begin
-      -- TODO: All these complex nested conditionals are nasty. Come up with a better way to
-      -- handle this.
+      -- TODO: All these complex nested conditionals are nasty.
+      -- Come up with a better way to handle this.
 
       if Request_Count <= 2 then
          -- The message is too short. It can't possibly make sense. This check ensures certain
@@ -95,8 +97,7 @@ package body Timestamp_Maker is
                   -- Can't decode the imprint.
                   Result := False;
                else
-                  -- TODO: Finish me!
-                  null;
+                  raise Program_Error with "Incomplete implementation";
                end if;
             end if;
          end if;
@@ -109,15 +110,15 @@ package body Timestamp_Maker is
      (Request_Message  : in  Messages.Message;
       Request_Count    : in  Messages.Count_Type;
       Response_Message : out Messages.Message;
-      Response_Count   : out Messages.Count_Type;
-      Status           : out Status_Type) is
+      Response_Count   : out Messages.Count_Type) is
    begin
       Response_Message := Messages.Message'(others => 0);
       Response_Count := 0;
-      Status := Success;
 
       if not Valid_Request(Request_Message, Request_Count) then
-         Status := Bad_Request;
+         raise Program_Error with "Incomplete implementation";
+      else
+         raise Program_Error with "Incomplete implementation";
       end if;
    end Create_Timestamp;
 
