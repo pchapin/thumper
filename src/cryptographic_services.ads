@@ -9,7 +9,7 @@
 ---------------------------------------------------------------------------
 pragma SPARK_Mode(On);
 
-with Network;
+with Hermes;
 
 package Cryptographic_Services
 with
@@ -18,7 +18,7 @@ is
    type Status_Type is (Success, Bad_Key);
 
    subtype Signature_Index_Type is Natural range 1 .. 20;
-   subtype Signature_Type is Network.Octet_Array(Signature_Index_Type);
+   subtype Signature_Type is Hermes.Octet_Array(Signature_Index_Type);
 
    procedure Initialize(Status : out Status_Type)
    with
@@ -29,7 +29,7 @@ is
    -- package, putting the result in Signature. Fails with Bad_Key if the key is invalid.
    --
    procedure Make_Signature
-     (Data      : in  Network.Octet_Array;
+     (Data      : in  Hermes.Octet_Array;
       Signature : out Signature_Type;
       Status    : out Status_Type)
    with

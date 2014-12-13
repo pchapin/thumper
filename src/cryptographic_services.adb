@@ -17,9 +17,9 @@ pragma SPARK_Mode(On);
 package body Cryptographic_Services
   with Refined_State => (Key => Raw_Key)
 is
-   use type Network.Octet;
+   use type Hermes.Octet;
 
-   Raw_Key : Network.Octet := 0;
+   Raw_Key : Hermes.Octet := 0;
 
    procedure Initialize(Status : out Status_Type)
    with
@@ -34,7 +34,7 @@ is
 
 
    procedure Make_Signature
-     (Data        : in  Network.Octet_Array;
+     (Data        : in  Hermes.Octet_Array;
       Signature   : out Signature_Type;
       Status      : out Status_Type)
    with

@@ -33,6 +33,8 @@ package Messages is
          Size : Count_Type;                     -- Number of data elements actually used.
       end record;
 
+   -- The functions below guarantee that unused octets in the result message are zeroed. I'm not
+   -- sure how important that behavior really is, but it might be useful at some point. Maybe?
 
    function From_Network(Low_Level : Network_Message) return Message
      with Post => From_Network'Result.Size = Low_Level.Size and
