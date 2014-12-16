@@ -16,10 +16,12 @@ with Serial_Generator;
 package Timestamp_Maker is
 
    procedure Create_Timestamp
-     (Request_Message  : in  Messages.Message; Response_Message : out Messages.Message)
+     (Request_Message : in Messages.Message; Response_Message : out Messages.Message)
      with
-        Global  => (Input => (Cryptographic_Services.Key, Serial_Generator.State)),
-        Depends => (Response_Message =>
-                     (Request_Message, Cryptographic_Services.Key, Serial_Generator.State));
+       Global  => (Input => Cryptographic_Services.Key,
+                   In_Out => Serial_Generator.State),
+       Depends => (Response_Message =>
+                     (Request_Message, Cryptographic_Services.Key, Serial_Generator.State),
+                   Serial_Generator.State =>+ null);
 
 end Timestamp_Maker;
