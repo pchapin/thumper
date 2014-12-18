@@ -7,21 +7,22 @@
 --
 --      Peter Chapin <PChapin@vtc.vsc.edu>
 ---------------------------------------------------------------------------
-with Ada.Exceptions;
 with Ada.Text_IO;
 with Messages;
 with Network.Addresses;
 with Network.Socket;
+with Network.Socket.Writer;
 
-use Ada.Exceptions;
-
-use type Network.Addresses.Status_Type;
+use Network.Socket;
 
 procedure Thumper_Client is
+   use type Network.Addresses.Status_Type;
+   use type Writer.Status_Type;
 
    procedure Make_Request is
       Local_Host      : Network.Addresses.IPv4;
       Request_Message : Messages.Network_Message;
+      Network_Status  : Network.Socket.Writer.Status_Type;
       Address_Status  : Network.Addresses.Status_Type;
    begin
       Request_Message := (Data => (others => 0), Size => 0);
@@ -30,15 +31,15 @@ procedure Thumper_Client is
          Ada.Text_IO.Put_Line("Failed to convert target address to binary form!");
       else
          Request_Message.Data(Messages.Index_Type'First) := Character'Pos('X');
-         Network.Socket.Send
-           (Request_Message, Network.Addresses.To_UDPv4_Address(Local_Host, 318));
+         Writer.Send
+           (Request_Message, Network.Addresses.To_UDPv4_Address(Local_Host, 318), Network_Status);
+         if Network_Status /= Writer.Success then
+            Ada.Text_IO.Put_Line("Failed to send request message!");
+         end if;
       end if;
    end Make_Request;
 
 begin
    Network.Socket.Create_Socket;
    Make_Request;
-exception
-   when Ex : Network.Socket.Network_Error =>
-      Ada.Text_IO.Put_Line("*** Network Error: " & Exception_Message(Ex));
 end Thumper_Client;
