@@ -24,7 +24,9 @@ is
       To      : in  Addresses.UDPv4;
       Status  : out Status_Type)
      with
-       Global => (Output => Output_Message_Stream),
-       Depends => ((Output_Message_Stream, Status) => (Message, To));
+       Global => (In_Out => Output_Message_Stream),
+       Depends =>
+         (Output_Message_Stream =>+ (Message, To),
+          Status => (Output_Message_Stream, Message));
 
 end Network.Socket.Writer;
