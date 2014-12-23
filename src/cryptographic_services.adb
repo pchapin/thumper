@@ -6,63 +6,29 @@
 -- The implementation of this package is not SPARK.
 --
 -- Ultimately this package should be implemented by calling into an appropriate cryptographic
--- library. For now it uses a fake key and creates fake digital signatures.
+-- library.
 --
 -- Please send comments or bug reports to
 --
 --      Peter Chapin <PChapin@vtc.vsc.edu>
 ---------------------------------------------------------------------------
-pragma SPARK_Mode(On);
+pragma SPARK_Mode(Off);
 
-package body Cryptographic_Services
-  with Refined_State => (Key => Raw_Key)
-is
+package body Cryptographic_Services is
    use type Hermes.Octet;
 
-   Raw_Key : Hermes.Octet := 0;
-
-   procedure Initialize(Status : out Status_Type)
-   with
-     Refined_Global => (Output => Raw_Key),
-     Refined_Depends => ((Raw_Key, Status) => null)
-   is
+   procedure Initialize(Status : out Status_Type) is
    begin
       -- TODO: Read the key from the file system.
-      Raw_Key := 42;
       Status  := Success;
    end Initialize;
 
 
-   procedure Make_Signature
-     (Data        : in  Hermes.Octet_Array;
-      Signature   : out Signature_Type;
-      Status      : out Status_Type)
-   with
-     Refined_Global => (Input => Raw_Key),
-     Refined_Depends => (Signature => (Data, Raw_Key), Status => Raw_Key)
-   is
-      I : Natural;
-      J : Signature_Index_Type;
+   function Make_Signature(Data : in  Hermes.Octet_Array) return Hermes.Octet_Array is
+      Signature : Hermes.Octet_Array(1 .. 20) := (others => 0);
    begin
-      -- Create a fake signature of 20 bytes.
-      if Raw_Key = 0 then
-         Signature := (others => 0);
-         Status := Bad_Key;
-      else
-         Signature := (others => Raw_Key);
-         I := Data'First;
-         J := Signature_Index_Type'First;
-         while I <= Data'Last loop
-            Signature(J) := Signature(J) + Data(I);
-            I := I + 1;
-            if J < Signature_Index_Type'Last then
-               J := J + 1;
-            else
-               J := Signature_Index_Type'First;
-            end if;
-         end loop;
-         Status := Success;
-      end if;
+      -- TODO: Call into OpenSSL to do the dirty deed.
+      return Signature;
    end Make_Signature;
 
 end Cryptographic_Services;

@@ -17,23 +17,15 @@ with
 is
    type Status_Type is (Success, Bad_Key);
 
-   subtype Signature_Index_Type is Natural range 1 .. 20;
-   subtype Signature_Type is Hermes.Octet_Array(Signature_Index_Type);
-
    procedure Initialize(Status : out Status_Type)
-   with
-     Global => (Output => Key),
-     Depends => ((Key, Status) => null);
+     with
+        Global => (Output => Key),
+        Depends => ((Key, Status) => null);
 
    -- Computes the signature of Data using a constant private key that is internal to this
-   -- package, putting the result in Signature. Fails with Bad_Key if the key is invalid.
+   -- package, returning the result in Signature.
    --
-   procedure Make_Signature
-     (Data      : in  Hermes.Octet_Array;
-      Signature : out Signature_Type;
-      Status    : out Status_Type)
-   with
-     Global => (Input => Key),
-     Depends => (Signature => (Data, Key), Status => Key);
+   function Make_Signature(Data : in  Hermes.Octet_Array) return Hermes.Octet_Array
+     with Global => (Input => Key);
 
 end Cryptographic_Services;
