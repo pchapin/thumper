@@ -122,10 +122,10 @@
   <para>To test Thumper, build the main file thumper_test.adb. Executing the resulting program
     will run all the unit tests and produce a report of the results on the console.</para>
 
-  <para>Thumper makes use of an ASN.1 library called Hermes that is included in the Thumper
-    repository (for now). Building Thumper will automatically build the Hermes library. However,
-    if you wish to run the unit tests for Hermes go into the <filename>Hermes</filename> folder
-    and load the GNAT project file <filename>master.gpr</filename> into GPS. You can build the
-    Hermes unit tests as part of that project.</para>
+  <para>Thumper makes use of an ASN.1 library called Hermes. This library can be obtained from
+    GitHub at the URL of <ulink url="https://github.com/pchapin/hermes"/>. Clone the Hermes
+    repository into a sibling folder of Thumper named <filename>Hermes</filename>. Thumper's
+    build control files assume this layout. Building Thumper will automatically build the Hermes
+    library. However, Hermes has independent documentation and tests.</para>
 
 </chapter>
