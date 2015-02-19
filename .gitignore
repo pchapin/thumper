@@ -4,3 +4,7 @@ src/build
 
 # Location for the Python RFC-3161 package.
 rfc3161-*.*.*
+
+# References.
+doc/references/*.pdf
+doc/references/*.txt
