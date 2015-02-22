@@ -96,7 +96,8 @@ package body Timestamp_Maker is
                   -- Can't decode the imprint.
                   Result := False;
                else
-                  raise Program_Error with "Incomplete implementation";
+                  raise Program_Error
+                    with "Incomplete implementation (Timestamp_Maker.Valid_Request)";
                end if;
             end if;
          end if;
@@ -111,9 +112,11 @@ package body Timestamp_Maker is
       Response_Message := Messages.Message'(Data => (others => 0), Size => 0);
 
       if not Valid_Request(Request_Message) then
-         raise Program_Error with "Incomplete implementation";
+         raise Program_Error
+           with "Incomplete implementation (Timestamp_Maker.Create_Timestamp; bad request)";
       else
-         raise Program_Error with "Incomplete implementation";
+         raise Program_Error
+           with "Incomplete implementation (Timestamp_Maker.Create_Timestamp; good request)";
       end if;
    end Create_Timestamp;
 
