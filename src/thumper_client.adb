@@ -32,7 +32,7 @@ procedure Thumper_Client is
       else
          Request_Message.Data(Messages.Index_Type'First) := Character'Pos('X');
          Writer.Send
-           (Request_Message, Network.Addresses.To_UDPv4_Address(Local_Host, 318), Network_Status);
+           (Request_Message, Network.Addresses.To_UDPv4_Address(Local_Host, 4318), Network_Status);
          if Network_Status /= Writer.Success then
             Ada.Text_IO.Put_Line("Failed to send request message!");
          end if;

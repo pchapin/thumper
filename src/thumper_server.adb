@@ -31,7 +31,7 @@ begin
       Ada.Text_IO.Put_Line("*** Unable to intialize the cryptographic library: missing key?");
    else
       -- Set up the socket. This initializes the network streams (both input and output).
-      Network.Socket.Create_And_Bind_Socket(318);
+      Network.Socket.Create_And_Bind_Socket(4318);
       SPARK_Boundary.Service_Clients;
    end if;
 
