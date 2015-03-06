@@ -21,6 +21,8 @@ area entails (as I see it) along with some issues that need to be solved.
 Hermes ASN.1 Encoding/Decoding Logic
 ------------------------------------
 
+(Tim Cross)
+
 Conceptually the communication between client and server is simple: the client sends a request
 and the server replies with the time stamp. However, RFC-3161 requires that these messages be
 formatted according to ASN.1 rules which are intricate and complex. The handling of ASN.1 is
@@ -47,6 +49,8 @@ Hermes effort may wish to become associated with this other effort in some way.
 
 Interfacing to OpenSSL
 ----------------------
+
+(Nathan Brown & Nicole Hurley)
 
 In theory Thumper should use a cryptographic library written in SPARK that is proved free of
 runtime errors. However no such library is available with the necessary cryptographic primitives
@@ -114,6 +118,8 @@ with whoever is finishing the ASN.1 implementation and reusing as much server lo
 
 GUI for the Client
 ------------------
+
+(Nancy Mai)
 
 The Thumper client will be run by ordinary computer users to get time stamps from the Thumper
 server. It should thus be as easy to use as possible. A command line interface may be suitable
