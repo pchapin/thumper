@@ -25,10 +25,10 @@ procedure Thumper_Server is
 
    Crypto_Status : Cryptographic_Services.Status_Type;
 begin
-   -- Be sure the key is available. This initializes Cryptographic_Services.Key
-   Cryptographic_Services.Initialize(Crypto_Status);
+   -- Be sure the key is available.
+   Cryptographic_Services.Initialize_Key(Crypto_Status);
    if Crypto_Status /= Cryptographic_Services.Success then
-      Ada.Text_IO.Put_Line("*** Unable to intialize the cryptographic library: missing key?");
+      Ada.Text_IO.Put_Line("*** Unable to intialize the cryptographic key");
    else
       -- Set up the socket. This initializes the network streams (both input and output).
       Network.Socket.Create_And_Bind_Socket(4318);

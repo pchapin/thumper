@@ -11,6 +11,7 @@ pragma SPARK_Mode(On);
 
 with Hermes;
 with Hermes.DER;
+with Hermes.DER.Decode;
 
 package body Timestamp_Maker is
    use type Hermes.Octet;
@@ -65,7 +66,7 @@ package body Timestamp_Maker is
          Result := False;
       else
          -- Get the length of the sequence.
-         Hermes.DER.Get_Length_Value
+         Hermes.DER.Decode.Get_Length_Value
            (Request_Message.Data, Request_Message.Data'First + 1, Length_Stop, Length, Decode_Status);
          if Decode_Status /= Hermes.DER.Success then
             -- Can't decode the sequence length.
@@ -75,7 +76,7 @@ package body Timestamp_Maker is
             Result := False;
          else
             -- Get the version number.
-            Hermes.DER.Get_Integer_Value
+            Hermes.DER.Decode.Get_Integer_Value
               (Request_Message.Data, Length_Stop + 1, Version_Stop, Version, Decode_Status);
             if Decode_Status /= Hermes.DER.Success then
                -- Can't decode the version.
