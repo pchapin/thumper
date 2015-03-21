@@ -43,7 +43,7 @@
   <section>
     <title>Vulnerabilities</title>
 
-    <para>Probably the biggest vulnerability with this system is the server. If an attacker is
+    <para>A major source of vulnerabilities with this system is the server. If an attacker is
       able to change the time on the server, the system can be compromised. Thus the server
       needs to be highly secure. It is tempting to configure the server to use a network time
       protocol such as NTP to set its clock. While that would normally provide for very accurate

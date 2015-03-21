@@ -7,30 +7,42 @@
 
   <para>This chapter contains the requirements of the Thumper system. In this context "system"
     means both the client and the server programs. We begin by enumerating the high level
-    security properties required by the system.</para>
+    security properties required by the system as a whole. We then describe the requirements of
+    the client and server programs separately.</para>
+
+  <para>Since Thumper is a security sensitive program (particularly the server). Thus, it is
+    useful to explicitly state the desired security goals of the system. These goals are listed
+    as follows:</para>
 
   <itemizedlist>
     <listitem>
-      <para><emphasis>Client Soundness</emphasis>. The client should never claim to have
-        received a valid time stamp response when it did not. It is acceptable, although
-        undesirable, for the client to incorrectly reject a valid response as invalid.</para>
+      <para><emphasis>Client Correctness</emphasis>. This case pertains to time stamp tokens
+        received from a time stamp server: The client should never claim to have received a
+        valid time stamp response when it did not. It is acceptable, although undesirable, for
+        the client to incorrectly reject a valid response as invalid.</para>
+
+      <para>This case pertains to validating time stamps for a document received from another
+        user: The client should never claim to validate a time stamp for a document if the time
+        stamp is, in fact, invalid. In addition, the client should always validate a time stamp
+        for a document if the time stamp is, in fact, valid. </para>
     </listitem>
     <listitem>
-      <para><emphasis>Server Soundness</emphasis>. The server should never produce a valid time
-        stamp in response to an invalid request.</para>
-    </listitem>
-    <listitem>
-      <para><emphasis>Server Completeness</emphasis>. The server should always produce a valid
-        time stamp in response to a valid request.</para>
+      <para><emphasis>Server Correctness</emphasis>. The server should never produce a valid
+        time stamp in response to an invalid request, instead it should produce an appropriate
+        error response. In addition, The server should always produce a valid time stamp in
+        response to a valid request.</para>
     </listitem>
     <listitem>
       <para><emphasis>Server Integrity</emphasis>. The server should always function according
-        to specification regardless of the inputs it receives from clients.</para>
+        to specification regardless of the inputs it receives from clients. No input, no matter
+        how maliciously formed should cause the server to crash or produce inappropriate
+        outputs.</para>
     </listitem>
     <listitem>
       <para><emphasis>Network Safety</emphasis>. The client and server should be able to resist
-        all attacks possible by a Dolev-Yao attacker except for denial-of-services attacks
-        implemented by removing (or delaying arbitrarily) messages sent over the network.</para>
+        all attacks possible by a Dolev-Yao attacker except for (1) denial-of-services attacks
+        arising from removing (or delaying arbitrarily) messages sent over the network, and (2)
+        denial-of-service attacks arising from flooding the server with valid requests.</para>
     </listitem>
     <listitem>
       <para><emphasis>Lack of Information Leakage</emphasis>. The server never transmits any
