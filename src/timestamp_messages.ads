@@ -1,10 +1,9 @@
 pragma SPARK_Mode(On);
 
-with Hermes.DER;
 with Hermes.OID;
 with Serial_Generator;
 
-package Time_Stamps is
+package Timestamp_Messages is
 
    -- Currently only version 1 is supported.
    subtype Version_Type is Positive range 1 .. 1;
@@ -15,7 +14,7 @@ package Time_Stamps is
    --
    Hash_Size : constant := 20;
 
-   type Time_Stamp is
+   type Timestamp is
       record
          Version : Version_Type;
          Policy  : Hermes.OID.Object_Identifier;
@@ -29,22 +28,16 @@ package Time_Stamps is
       end record;
 
 
-   -- Decodes a Time_Stamp from a DER encoded octet sequence.
-   -- The behavior is the same as for the other Hermes.DER decoding procedures.
-   procedure Get_Time_Stamp_Value
-     (Message : in  Hermes.Octet_Array;
-      Start   : in  Natural;
-      Stop    : out Natural;
-      Stamp   : out Time_Stamp;
-      Status  : out Hermes.DER.Status_Type)
-     with
-       Global => null,
-       Depends => ( (Stop, Stamp, Status) => (Message, Start) ),
-       Pre => Start in Message'Range;
+   type Request is
+      record
+         Placeholder : Integer;
+      end record;
 
 
-   -- Encodes a Time_Stamp to a DER encoded octet sequence.
-   -- The behavior is the same as for the other Hermes.DER encoding procedures.
-   function Put_Time_Stamp_Value(Stamp : Time_Stamp) return Hermes.Octet_Array;
+   type Response is
+      record
+         Placeholder : Integer;
+      end record;
 
-end Time_Stamps;
+
+end Timestamp_Messages;

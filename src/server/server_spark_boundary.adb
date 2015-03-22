@@ -2,9 +2,9 @@ pragma SPARK_Mode(On);
 
 with Messages;
 with Network.Addresses;
-with Timestamp_Maker;
+with Server_Timestamp_Maker;
 
-package body SPARK_Boundary is
+package body Server_SPARK_Boundary is
 
    procedure Service_Clients is
       use type Reader.Status_Type;
@@ -28,7 +28,7 @@ package body SPARK_Boundary is
             Logger.Write_Error("Failure reading request message!");
          else
             Request_Message := Messages.From_Network(Network_Request);
-            Timestamp_Maker.Create_Timestamp(Request_Message, Response_Message);
+            Server_Timestamp_Maker.Create_Timestamp(Request_Message, Response_Message);
             Network_Response := Messages.To_Network(Response_Message);
 
             Writer.Send(Message => Network_Response, To => Client_Address, Status => Write_Status);
@@ -39,4 +39,4 @@ package body SPARK_Boundary is
       end loop;
    end Service_Clients;
 
-end SPARK_Boundary;
+end Server_SPARK_Boundary;

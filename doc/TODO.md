@@ -21,7 +21,8 @@ area entails (as I see it) along with some issues that need to be solved.
 Hermes ASN.1 Encoding/Decoding Logic
 ------------------------------------
 
-(Tim Cross)
+Contributor: Tim Cross
+Package Bodies: `Hermes.DER.Decode` & `Hermes.DER.Encode`
 
 Conceptually the communication between client and server is simple: the client sends a request
 and the server replies with the time stamp. However, RFC-3161 requires that these messages be
@@ -50,7 +51,8 @@ Hermes effort may wish to become associated with this other effort in some way.
 Interfacing to OpenSSL
 ----------------------
 
-(Nathan Brown & Nicole Hurley)
+Contributors: Nathan Brown & Nicole Hurley
+Package Body: `Cryptographic_Services`
 
 In theory Thumper should use a cryptographic library written in SPARK that is proved free of
 runtime errors. However no such library is available with the necessary cryptographic primitives
@@ -67,17 +69,15 @@ it may be necessary to write some C helper functions (GPS allows projects that a
 Ada and C so this is not a show stopper). Second it will be necessary to install OpenSSL and
 work out how to draw its libraries into the Thumper build.
 
-The package `Cryptographic_Services` already exists in the Thumper code base. The specification
-of that package contains only two subprograms: an intialization procedure and a function that
-makes digital signatures (the client will need access to a hash algorithm as well). It is not
-necessary to interact with the whole of OpenSSL!
-
 One extra complication is that a true X.509 certificate will be needed by the OpenSSL functions.
 Fortunately the OpenSSL library comes with a program for creating and managing such
 certificates. Learning how to use that program is thus also a part of this area.
 
 Testing/Verification
 --------------------
+
+Contributor: Armin Coric
+Package Bodies: The various `Check_*` packages in the `tests` folders of Thumper and Hermes.
 
 Some software teams designate one team member to the job of testing. In such teams that person
 because a "testing specialist" that writes tests for all aspects of the project. That is the
@@ -91,8 +91,8 @@ at least every day. Although I'm not suggesting we go that far we should at leas
 that could potentially be used in that kind of environment.
 
 Some tests are complicated to do automatically such as tests involving multiple, interacting
-programs (client/server, anyone?). This area is all about building tests, making sure the tests
-pass, and alerting responsible people to tests that are failing.
+programs (client/server!). This area is all about building tests, making sure the tests pass,
+and alerting responsible people to tests that are failing.
 
 Because certain parts of Thumper and Hermes are in SPARK, this area should also concern itself
 with running the SPARK verification tools over all parts of the system that are supposed to
@@ -104,6 +104,9 @@ language.
 Client Logic
 ------------
 
+Contributor: Seth Lunn
+Package Bodies: `Client_SPARK_Boundary` & `Client_Timestamp_Maker`
+
 At the time of this writing the client is very underdeveloped. In contrast the main structure of
 the server is in place. This area is about fixing that situation and filling in the client so
 that it can function.
@@ -111,15 +114,15 @@ that it can function.
 Roughly the client needs to somehow accept the name of a file from the user (command line
 switch? prompt the user? GUI interface---see below?). Then the client must construct a suitable
 request message, send the request to the server, receive the response, and check the response.
-The client should be able to share a lot of code with the server and would also make use of
-Hermes just as the server does. Thus part of what needs to be done for this area is coordinating
-with whoever is finishing the ASN.1 implementation and reusing as much server logic as possible
-(such as the network handling packages that already exist).
+The client should be able to share some code with the server and would also make use of Hermes
+just as the server does. Thus part of what needs to be done for this area is coordinating with
+whoever is finishing the ASN.1 implementation and reusing as much server logic as possible (such
+as the network handling packages that already exist).
 
 GUI for the Client
 ------------------
 
-(Nancy Mai)
+Contributor: Nancy Mai
 
 The Thumper client will be run by ordinary computer users to get time stamps from the Thumper
 server. It should thus be as easy to use as possible. A command line interface may be suitable
@@ -140,6 +143,9 @@ find it interesting to see one way of doing it in Ada.
 Database Connectivity
 ---------------------
 
+Contributor: Joseph Rusell
+Package Body: `Data_Storage`
+
 Adding a database to Thumper could be considered an example of over engineering. Also security
 sensitive software is usually best served by being simple and databases add complexity. However,
 Thumper could potentially make use of a database for storing information about each request it
@@ -158,6 +164,9 @@ much) would also be necessary.
 Web Configurability via AWS
 ---------------------------
 
+Contributor: Ian Schulze
+Package Body: `Remote_Access`
+
 The Ada Web Server (AWS) is a library that can be added to your application that turns your
 application into a web server along with whatever else it is doing. Whenever a client tries to
 access a page from your server, a procedure in your application is called to generate the page.
@@ -165,9 +174,9 @@ Since that procedure is entirely general, pages can be computed using whatever m
 necessary.
 
 Using AWS with Thumper could be considered another example of over engineering. However, it
-might be nice if Thumper had a web interface that allowed an administrator to configure the
-server or view statistics about it (perhaps drawn from the database).
+might be nice if Thumper had a web interface that allowed an administrator to view statistics
+about the server, perhaps drawn from the database, or even configure the server.
 
 This area requires learning about AWS and incorporating it into Thumper so that Thumper can
-respond to simple web requests. This also makes use of Ada's multi-tasking featurs; the internal
-web server runs in a separate task.
+respond to simple web requests. This also makes use of Ada's multi-tasking features; the
+internal web server runs in a separate task.

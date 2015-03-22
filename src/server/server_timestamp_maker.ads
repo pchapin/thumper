@@ -1,7 +1,7 @@
 ---------------------------------------------------------------------------
--- FILE    : timestamp_maker.adb
+-- FILE    : server_timestamp_maker.adb
 -- SUBJECT : Specification of a package that encapsulates the work of creating a time stamp.
--- AUTHOR  : (C) Copyright 2014 by Peter Chapin
+-- AUTHOR  : (C) Copyright 2015 by Peter Chapin
 --
 -- Please send comments or bug reports to
 --
@@ -13,7 +13,7 @@ with Cryptographic_Services;
 with Messages;
 with Serial_Generator;
 
-package Timestamp_Maker is
+package Server_Timestamp_Maker is
 
    procedure Create_Timestamp
      (Request_Message : in Messages.Message; Response_Message : out Messages.Message)
@@ -24,4 +24,4 @@ package Timestamp_Maker is
                      (Request_Message, Cryptographic_Services.Key, Serial_Generator.State),
                    Serial_Generator.State =>+ null);
 
-end Timestamp_Maker;
+end Server_Timestamp_Maker;

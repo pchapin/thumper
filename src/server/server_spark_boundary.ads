@@ -8,7 +8,7 @@ with Serial_Generator;        -- Contains state (PRNG state).
 
 use Network.Socket;
 
-package SPARK_Boundary is
+package Server_SPARK_Boundary is
 
    procedure Service_Clients
      with
@@ -23,4 +23,4 @@ package SPARK_Boundary is
             (Reader.Input_Message_Stream, Cryptographic_Services.Key, Serial_Generator.State),
           Serial_Generator.State =>+ Reader.Input_Message_Stream);
 
-end SPARK_Boundary;
+end Server_SPARK_Boundary;

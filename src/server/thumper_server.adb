@@ -17,7 +17,7 @@ with Cryptographic_Services;
 with Data_Storage;
 with Network.Socket;
 with Remote_Access;
-with SPARK_Boundary;
+with Server_SPARK_Boundary;
 
 use Ada.Exceptions;
 
@@ -44,7 +44,7 @@ begin
 
       -- Service_Clients never returns.
       -- TODO: Come up with a good way to cleanly shut the server down.
-      SPARK_Boundary.Service_Clients;
+      Server_SPARK_Boundary.Service_Clients;
    end if;
 
 exception
