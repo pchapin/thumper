@@ -1,7 +1,7 @@
 ---------------------------------------------------------------------------
 -- FILE    : check_trivial.ads
 -- SUBJECT : Package containing tests of nothing in particular.
--- AUTHOR  : (C) Copyright 2014 by Peter C. Chapin
+-- AUTHOR  : (C) Copyright 2015 by Peter C. Chapin
 --
 -- The "trivial" test is just a place holder. It can be used as a template for other tests.
 --

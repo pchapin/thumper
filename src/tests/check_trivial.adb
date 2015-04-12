@@ -1,7 +1,7 @@
 ---------------------------------------------------------------------------
 -- FILE    : check_trivial.adb
 -- SUBJECT : Package containing tests of nothing in particular.
--- AUTHOR  : (C) Copyright 2014 by Peter C. Chapin
+-- AUTHOR  : (C) Copyright 2015 by Peter C. Chapin
 --
 -- Please send comments or bug reports to
 --
@@ -13,8 +13,8 @@ package body Check_Trivial is
 
    procedure Test_Nothing(T : in out AUnit.Test_Cases.Test_Case'Class) is
    begin
-      -- This is arbitrary code. Use Assert to verify that an expected condition is actually true.
-      -- Test moves between strings of the same length.
+      -- This is arbitrary code.
+      -- Use Assert to verify that an expected condition is actually true.
       Assert(0 = 0, "Zero is not zero!");
       Assert(true = true, "True is the same as false!");
    end Test_Nothing;
