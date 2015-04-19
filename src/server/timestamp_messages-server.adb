@@ -1,11 +1,36 @@
 pragma SPARK_Mode(On);
 
+with Hermes.DER.Encode;
+
+use Hermes;
+use Hermes.DER;
+use Hermes.DER.Encode;
+
 package body Timestamp_Messages.Server is
 
    function Put_Timestamp_Value(Stamp : Timestamp) return Hermes.Octet_Array is
+      Message_Imprint : Hermes.Octet_Array :=
+        Put_OID_Value(Stamp.Hash_Algorithm) & Put_Octet_String_Value(Stamp.Hashed_Message);
+
+      Message_Imprint_Value : Hermes.Octet_Array :=
+        (Make_Leading_Identifier
+           (Tag_Class       => Class_Universal,
+            Structured_Flag => Constructed,
+            Tag             => Tag_Sequence) & Put_Length_Value(Message_Imprint'Length) &
+                                                                               Message_Imprint);
+
+      TST_Info : Hermes.Octet_Array :=
+        Put_Integer_Value(Stamp.Version) &
+        Put_OID_Value(Stamp.Policy)      &
+        Message_Imprint_Value            &
+        Put_Integer_Value(Integer(Stamp.Serial_Number)); -- TODO: Will cause Constraint_Error!
+        -- TODO: Add the all important generalized time field!
    begin
-      raise Program_Error with "Timestamp_Messages.Put_Timestamp_Value not implemented";
-      return Hermes.Octet_Array'(1 => 0);
+      return
+        (Make_Leading_Identifier
+           (Tag_Class       => Class_Universal,
+            Structured_Flag => Constructed,
+            Tag             => Tag_Sequence) & Put_Length_Value(TST_Info'Length) & TST_Info);
    end Put_Timestamp_Value;
 
 
