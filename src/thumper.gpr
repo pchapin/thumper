@@ -3,29 +3,29 @@ with "../../Hermes/src/hermes.gpr";
 
 project Thumper is
 
+   for Languages use ("Ada");
    for Source_Dirs use (".", "client", "server", "tests");
    for Object_Dir use "build";
+   for Main use ("thumper_client.adb", "thumper_server.adb", "thumper_test.adb");
+   for Library_Options use ("-LC:/lib/OpenSSL-Win32/lib/VC", "-llibeay32MD");
    type Runtime_Type is ("full");
    Runtime : Runtime_Type := external ("RUNTIME", "full");
-   for Main use ("thumper_client.adb", "thumper_server.adb", "thumper_test.adb");
-   for Languages use ("Ada");
 
    package Builder is
-      for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
+      for Default_Switches ("Ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
    end Builder;
 
    package Compiler is
-      for Default_Switches ("c") use ("");
-      for Default_Switches ("c++") use ("");
-      for Default_Switches ("ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
+      for Default_Switches ("C") use ("");
+      for Default_Switches ("Ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
    end Compiler;
 
    package Binder is
-      for Default_Switches ("ada") use ("-static");
+      for Default_Switches ("Ada") use ("-static");
    end Binder;
 
    package Linker is
-      for Default_Switches ("ada") use ("-g");
+      for Default_Switches ("Ada") use ("-g") & Project'Library_Options;
    end Linker;
 
    package Prove is

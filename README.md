@@ -29,7 +29,7 @@ Quick Start
 
 Thumper was developed on Windows and is designed to work on Windows. It should be possible,
 however, to compile Thumper on Linux or MacOS, but that is an unsupported configuration and will
-likely require some adjustments to various files.
+likely require some adjustments to various files, especially the GNAT project files.
 
 Start by cloning the Hermes library into a sibling folder as described above. To build Thumper
 (and Hermes) you'll need the following software installed:
@@ -40,7 +40,9 @@ Start by cloning the Hermes library into a sibling folder as described above. To
   check (or enhance) the proofs of freedom from runtime error.
 
 + OpenSSL for Win32. Here we mean the precompiled version of OpenSSL for Windows. Note that you
-  must use the 32 bit version to match the 32 bit code generation of GNAT GPL 2015.
+  must use the 32 bit version to match the 32 bit code generation of GNAT GPL 2015. The GNAT
+  project files for Thumper assume OpenSSL is installed in C:\lib\OpenSSL-Win32. If you install
+  it in a different location you will need to modify src\thumper.gpr accordingly.
 
 + PostgreSQL 9.4. The exact version is not necessarily critical but if you use a different
   version, or if you install it in a non-standard location, you'll need to modify the
@@ -50,9 +52,17 @@ Start by cloning the Hermes library into a sibling folder as described above. To
 
 After setting up the software above, you should be able to load the `thumper.gpr` project file
 into GPS and build both the Thumper client and server. Note that the Hermes library will be
-automatically built when Thumper is built.
+automatically built when Thumper is built. There is also a test program that can be built and
+executed to run the unit tests.
 
 See the documentation in the `doc` folder for more information.
+
+Contributors
+------------
+
+Several of my students have assisted in the development of Thumper. Specifically:
+
++ Nathan Brown & Nicole Hurley: Interfacing to OpenSSL.
 
 Peter C. Chapin  
 PChapin@vtc.vsc.edu
