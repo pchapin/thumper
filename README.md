@@ -63,6 +63,7 @@ Contributors
 Several of my students have assisted in the development of Thumper. Specifically:
 
 + Nathan Brown & Nicole Hurley: Interfacing to OpenSSL.
++ Ian Schulze: Providing AWS support for remote access to Thumper statistics.
 
 Peter C. Chapin  
 PChapin@vtc.vsc.edu
