@@ -34,10 +34,13 @@ likely require some adjustments to various files, especially the GNAT project fi
 Start by cloning the Hermes library into a sibling folder as described above. To build Thumper
 (and Hermes) you'll need the following software installed:
 
-+ GNAT GPL 2015
++ GNAT GPL 2015. This can be downloaded from [AdaCore](http://libre.adacore.com/).
 
 + SPARK GPL 2015. Although not strictly necessary, you will need the SPARK tools if you wish to
   check (or enhance) the proofs of freedom from runtime error.
+
++ GtkAda. This can be downloaded from [AdaCore](http://libre.adacore.com/). It used for the
+  client side graphical user interface.
 
 + OpenSSL for Win32. Here we mean the precompiled version of OpenSSL for Windows. Note that you
   must use the 32 bit version to match the 32 bit code generation of GNAT GPL 2015. The GNAT
@@ -63,6 +66,7 @@ Contributors
 Several of my students have assisted in the development of Thumper. Specifically:
 
 + Nathan Brown & Nicole Hurley: Interfacing to OpenSSL.
++ Nancy Mai: Client side GUI.
 + Ian Schulze: Providing AWS support for remote access to Thumper statistics.
 
 Peter C. Chapin  

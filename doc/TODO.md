@@ -21,7 +21,6 @@ area entails (as I see it) along with some issues that need to be solved.
 Hermes ASN.1 Encoding/Decoding Logic
 ------------------------------------
 
-Contributor: Tim Cross
 Package Bodies: `Hermes.DER.Decode` & `Hermes.DER.Encode`
 
 Conceptually the communication between client and server is simple: the client sends a request
@@ -51,7 +50,6 @@ Hermes effort may wish to become associated with this other effort in some way.
 Interfacing to OpenSSL
 ----------------------
 
-Contributors: Nathan Brown & Nicole Hurley
 Package Body: `Cryptographic_Services`
 
 In theory Thumper should use a cryptographic library written in SPARK that is proved free of
@@ -76,7 +74,6 @@ certificates. Learning how to use that program is thus also a part of this area.
 Testing/Verification
 --------------------
 
-Contributor: Armin Coric
 Package Bodies: The various `Check_*` packages in the `tests` folders of Thumper and Hermes.
 
 Some software teams designate one team member to the job of testing. In such teams that person
@@ -104,7 +101,6 @@ language.
 Client Logic
 ------------
 
-Contributor: Seth Lunn
 Package Bodies: `Client_SPARK_Boundary` & `Client_Timestamp_Maker`
 
 At the time of this writing the client is very underdeveloped. In contrast the main structure of
@@ -121,8 +117,6 @@ as the network handling packages that already exist).
 
 GUI for the Client
 ------------------
-
-Contributor: Nancy Mai
 
 The Thumper client will be run by ordinary computer users to get time stamps from the Thumper
 server. It should thus be as easy to use as possible. A command line interface may be suitable
@@ -143,7 +137,6 @@ find it interesting to see one way of doing it in Ada.
 Database Connectivity
 ---------------------
 
-Contributor: Joseph Rusell
 Package Body: `Data_Storage`
 
 Adding a database to Thumper could be considered an example of over engineering. Also security
@@ -164,7 +157,6 @@ much) would also be necessary.
 Web Configurability via AWS
 ---------------------------
 
-Contributor: Ian Schulze
 Package Body: `Remote_Access`
 
 The Ada Web Server (AWS) is a library that can be added to your application that turns your
