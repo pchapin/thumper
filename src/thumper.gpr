@@ -1,4 +1,5 @@
 with "aunit.gpr";
+with "gtkada.gpr";
 with "../../Hermes/src/hermes.gpr";
 
 project Thumper is
@@ -7,7 +8,7 @@ project Thumper is
    for Source_Dirs use (".", "client", "server", "tests");
    for Object_Dir use "build";
    for Main use ("thumper_client.adb", "thumper_server.adb", "thumper_test.adb");
-   for Library_Options use ("-LC:/lib/OpenSSL-Win32/lib/VC", "-llibeay32MD");
+   for Library_Options use ("-LC:/lib/OpenSSL-Win32/lib/VC", "-llibeay32MD", "-LC:/Program Files (x86)/PostgreSQL/9.4/lib", "-llibpq");
    type Runtime_Type is ("full");
    Runtime : Runtime_Type := external ("RUNTIME", "full");
 

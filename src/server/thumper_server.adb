@@ -18,7 +18,7 @@ with Cryptographic_Services;
 with Data_Storage;
 with Network.Addresses;
 with Network.Socket;
-with Remote_Access;
+--with Remote_Access;
 with Server_SPARK_Boundary;
 with Thumper_Switches;
 
@@ -53,7 +53,7 @@ begin
 
    -- Initialize the remote access. This procedure raises an exception if it fails.
    -- TODO: Handle the exception raised (or maybe change the procedure to return a status code).
-   Remote_Access.Initialize;
+   --Remote_Access.Initialize;
 
    -- Set up the socket. This initializes the network streams (both input and output).
    Network.Socket.Create_And_Bind_Socket(Network.Addresses.Port_Type'Value(Get_Switch(Port)));
@@ -65,7 +65,7 @@ begin
 exception
    when Ex : Network.Socket.Network_Error =>
       Ada.Text_IO.Put_Line("*** Unable to initialize network: " & Exception_Message(Ex));
-      Remote_Access.Shutdown;
+      --Remote_Access.Shutdown;
       Data_Storage.Shutdown;
 
 end Thumper_Server;

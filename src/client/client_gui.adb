@@ -8,7 +8,7 @@ with GtkAda.File_Selection;
 with Client_SPARK_Boundary;
 
 use Ada.Text_IO;
-use Ada.Strings_Unbounded;
+use Ada.Strings.Unbounded;
 use GtkAda.File_Selection;
 use Client_SPARK_Boundary;
 
