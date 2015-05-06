@@ -1,21 +1,32 @@
 
+-- TODO: Remove dependency on Ada.Text_IO. Use a real logger.
+with Ada.Text_IO;
+with Postgresql;
+
+use Ada.Text_IO;
+use Postgresql;
+
+
 package body Data_Storage is
 
    procedure Initialize is
    begin
-      return;
+      Postgresql.Connect("Thumper", 5432, "localhost", "postgres", "football99");
+      Put_Line("Connected to the Database.");
    end Initialize;
 
 
    procedure Shutdown is
    begin
-      return;
+      Postgresql.Disconnect;
+      Put_Line("Disconnected From the Database");
    end Shutdown;
 
 
    function Timestamp_Count return Count_Type is
    begin
-      return 0;
+      -- TODO: Add proper query.
+      return Count_Type'Value(Get_Value(0,0));
    end Timestamp_Count;
 
 
@@ -26,9 +37,13 @@ package body Data_Storage is
 
 
    function Timestamp_Retrieve(Serial_Number : Serial_Number_Type) return Timestamp_Array is
-      Dummy : Timestamp_Array(1 .. 0);
    begin
-      return Dummy;
+      -- TODO: Add proper query.
+      declare
+         Result: Timestamp_Array(1 .. PostgreSQL.Number_Of_Tuples);
+      begin
+         return Result;
+      end;
    end Timestamp_Retrieve;
 
 
