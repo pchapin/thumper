@@ -1,7 +1,7 @@
 ---------------------------------------------------------------------------
 -- FILE    : network-socket-reader.adb
 -- SUBJECT : Boundary variable package representing the input stream.
--- AUTHOR  : (C) Copyright 2014 by Peter Chapin
+-- AUTHOR  : (C) Copyright 2015 by Peter Chapin
 --
 -- Please send comments or bug reports to
 --
@@ -51,7 +51,7 @@ package body Network.Socket.Reader is
       end if;
 
    exception
-      when Ex : GNAT.Sockets.Socket_Error =>
+      when GNAT.Sockets.Socket_Error =>
          Status := Failure;
 
       -- If an unexpected exception occurs, just fail.

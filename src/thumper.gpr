@@ -13,12 +13,12 @@ project Thumper is
    Runtime : Runtime_Type := external ("RUNTIME", "full");
 
    package Builder is
-      for Default_Switches ("Ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
+      for Default_Switches ("Ada") use ("-g", "-gnata", "-gnatwa");
    end Builder;
 
    package Compiler is
       for Default_Switches ("C") use ("");
-      for Default_Switches ("Ada") use ("-g", "-gnata", "-gnato", "-fstack-check", "-gnatQ");
+      for Default_Switches ("Ada") use ("-g", "-gnata", "-gnatwa");
    end Compiler;
 
    package Binder is

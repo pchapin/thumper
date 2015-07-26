@@ -1,3 +1,12 @@
+---------------------------------------------------------------------------
+-- FILE    : client_spark_boundary.adb
+-- SUBJECT : Body of a package enclosing the SPARK portion of the client.
+-- AUTHOR  : (C) Copyright 2015 by Peter Chapin
+--
+-- Please send comments or bug reports to
+--
+--      Peter Chapin <PChapin@vtc.vsc.edu>
+---------------------------------------------------------------------------
 pragma SPARK_Mode(On);
 
 package body Client_SPARK_Boundary is

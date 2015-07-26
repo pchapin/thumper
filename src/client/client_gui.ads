@@ -1,8 +1,15 @@
-with Gdk.Event;
+---------------------------------------------------------------------------
+-- FILE    : client_gui.ads
+-- SUBJECT : Specification of a package for the client GUI.
+-- AUTHOR  : (C) Copyright 2015 by Peter Chapin
+--
+-- Please send comments or bug reports to
+--
+--      Peter Chapin <PChapin@vtc.vsc.edu>
+---------------------------------------------------------------------------
 with Gtk.Widget;
 with Gtk.Handlers;
 
-use Gdk.Event;
 use Gtk.Widget;
 
 package Client_GUI is

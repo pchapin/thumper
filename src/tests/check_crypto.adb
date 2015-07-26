@@ -14,6 +14,8 @@ with Hermes;
 package body Check_Crypto is
 
    procedure Test_Hashing(T : in out AUnit.Test_Cases.Test_Case'Class) is
+      pragma Unreferenced(T);
+
       use type Hermes.Octet_Array;
 
       Input_1 : constant Hermes.Octet_Array(1 .. 5) :=
@@ -52,6 +54,7 @@ package body Check_Crypto is
 
 
    function Name(T : Crypto_Test) return AUnit.Message_String is
+      pragma Unreferenced(T);
    begin
       return AUnit.Format("Crypto");
    end Name;

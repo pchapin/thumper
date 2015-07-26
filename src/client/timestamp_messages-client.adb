@@ -1,3 +1,12 @@
+---------------------------------------------------------------------------
+-- FILE    : timestamp_messages-client.adb
+-- SUBJECT : Body of a package for encoding/decoding timestamps on the client side.
+-- AUTHOR  : (C) Copyright 2015 by Peter Chapin
+--
+-- Please send comments or bug reports to
+--
+--      Peter Chapin <PChapin@vtc.vsc.edu>
+---------------------------------------------------------------------------
 pragma SPARK_Mode(On);
 
 package body Timestamp_Messages.Client is

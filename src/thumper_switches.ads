@@ -1,3 +1,12 @@
+---------------------------------------------------------------------------
+-- FILE    : thumper_switches.adb
+-- SUBJECT : Specification of a package for managing command line switches.
+-- AUTHOR  : (C) Copyright 2015 by Peter Chapin
+--
+-- Please send comments or bug reports to
+--
+--      Peter Chapin <PChapin@vtc.vsc.edu>
+---------------------------------------------------------------------------
 with Ada.Strings.Unbounded;
 
 package Thumper_Switches is

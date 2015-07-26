@@ -1,7 +1,7 @@
 ---------------------------------------------------------------------------
 -- FILE    : network.ads
 -- SUBJECT : Specification of a network handling package.
--- AUTHOR  : (C) Copyright 2014 by Peter C. Chapin
+-- AUTHOR  : (C) Copyright 2015 by Peter C. Chapin
 --
 -- Please send comments or bug reports to
 --

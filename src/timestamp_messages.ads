@@ -1,3 +1,12 @@
+---------------------------------------------------------------------------
+-- FILE    : timestamp_messages.adb
+-- SUBJECT : Specification of a package defining timestamps.
+-- AUTHOR  : (C) Copyright 2015 by Peter Chapin
+--
+-- Please send comments or bug reports to
+--
+--      Peter Chapin <PChapin@vtc.vsc.edu>
+---------------------------------------------------------------------------
 pragma SPARK_Mode(On);
 
 with Hermes.OID;

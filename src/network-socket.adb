@@ -1,16 +1,13 @@
 ---------------------------------------------------------------------------
 -- FILE    : network-socket.adb
 -- SUBJECT : Body of a package representing a single socket.
--- AUTHOR  : (C) Copyright 2014 by Peter C. Chapin
+-- AUTHOR  : (C) Copyright 2015 by Peter C. Chapin
 --
 -- Please send comments or bug reports to
 --
 --      Peter C. Chapin <PChapin@vtc.vsc.edu>
 ---------------------------------------------------------------------------
-with Ada.Exceptions;
-with GNAT.Sockets;
-
-use Ada.Exceptions;
+with Ada.Exceptions; use Ada.Exceptions;
 
 package body Network.Socket is
 

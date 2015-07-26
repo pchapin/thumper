@@ -1,10 +1,18 @@
+---------------------------------------------------------------------------
+-- FILE    : thumper_switches.adb
+-- SUBJECT : Body of a package for managing command line switches.
+-- AUTHOR  : (C) Copyright 2015 by Peter Chapin
+--
+-- Please send comments or bug reports to
+--
+--      Peter Chapin <PChapin@vtc.vsc.edu>
+---------------------------------------------------------------------------
 with Ada.Command_Line;
 with Ada.Containers.Ordered_Maps;
-with Ada.Text_IO;
+
 use Ada.Command_Line;
 
 package body Thumper_Switches is
-   use Ada.Strings.Unbounded;
 
    package Switch_Maps is new Ada.Containers.Ordered_Maps
      (Key_Type => Character, Element_Type => Unbounded_String);
@@ -74,7 +82,7 @@ package body Thumper_Switches is
       Argument_Index := 1;
       while Argument_Index < Argument_Count loop
          declare
-            Current_Argument : String := Argument(Argument_Index);
+            Current_Argument : constant String := Argument(Argument_Index);
          begin
             if Current_Argument'Length /= 2 or else Current_Argument(1) /= '-' then
                Valid := False;

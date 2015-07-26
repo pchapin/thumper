@@ -1,3 +1,12 @@
+---------------------------------------------------------------------------
+-- FILE    : data_storage.adb
+-- SUBJECT : Body of an abstract data base interface package for Thumper.
+-- AUTHOR  : (C) Copyright 2015 by Peter Chapin
+--
+-- Please send comments or bug reports to
+--
+--      Peter Chapin <PChapin@vtc.vsc.edu>
+---------------------------------------------------------------------------
 
 -- TODO: Remove dependency on Ada.Text_IO. Use a real logger.
 with Ada.Text_IO;

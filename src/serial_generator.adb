@@ -1,7 +1,7 @@
 ---------------------------------------------------------------------------
 -- FILE    : serial_generator.adb
 -- SUBJECT : Body of a package to abstract the serial number generator.
--- AUTHOR  : (C) Copyright 2014 by Peter Chapin
+-- AUTHOR  : (C) Copyright 2015 by Peter Chapin
 --
 -- Please send comments or bug reports to
 --

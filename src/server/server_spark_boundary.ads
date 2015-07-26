@@ -1,3 +1,12 @@
+---------------------------------------------------------------------------
+-- FILE    : server_spark_boundary.ads
+-- SUBJECT : Specification of a package enclosing the SPARK portion of the server.
+-- AUTHOR  : (C) Copyright 2015 by Peter Chapin
+--
+-- Please send comments or bug reports to
+--
+--      Peter Chapin <PChapin@vtc.vsc.edu>
+---------------------------------------------------------------------------
 pragma SPARK_Mode(On);
 
 with Cryptographic_Services;  -- Contains state (key used).

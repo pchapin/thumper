@@ -1,7 +1,7 @@
 ---------------------------------------------------------------------------
 -- FILE    : network-addresses-test.adb
 -- SUBJECT : Body of a package that supports testing network addresses.
--- AUTHOR  : (C) Copyright 2014 by Peter Chapin
+-- AUTHOR  : (C) Copyright 2015 by Peter Chapin
 --
 -- Please send comments or bug reports to
 --

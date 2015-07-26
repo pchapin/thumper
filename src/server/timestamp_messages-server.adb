@@ -1,3 +1,12 @@
+---------------------------------------------------------------------------
+-- FILE    : timestamp_messages-server.adb
+-- SUBJECT : Body of a package for encoding/decoding timestamps on the server side.
+-- AUTHOR  : (C) Copyright 2015 by Peter Chapin
+--
+-- Please send comments or bug reports to
+--
+--      Peter Chapin <PChapin@vtc.vsc.edu>
+---------------------------------------------------------------------------
 pragma SPARK_Mode(On);
 
 with Hermes.DER.Encode;
@@ -9,17 +18,17 @@ use Hermes.DER.Encode;
 package body Timestamp_Messages.Server is
 
    function Put_Timestamp_Value(Stamp : Timestamp) return Hermes.Octet_Array is
-      Message_Imprint : Hermes.Octet_Array :=
+      Message_Imprint : constant Hermes.Octet_Array :=
         Put_OID_Value(Stamp.Hash_Algorithm) & Put_Octet_String_Value(Stamp.Hashed_Message);
 
-      Message_Imprint_Value : Hermes.Octet_Array :=
+      Message_Imprint_Value : constant Hermes.Octet_Array :=
         (Make_Leading_Identifier
            (Tag_Class       => Class_Universal,
             Structured_Flag => Constructed,
             Tag             => Tag_Sequence) & Put_Length_Value(Message_Imprint'Length) &
                                                                                Message_Imprint);
 
-      TST_Info : Hermes.Octet_Array :=
+      TST_Info : constant Hermes.Octet_Array :=
         Put_Integer_Value(Stamp.Version) &
         Put_OID_Value(Stamp.Policy)      &
         Message_Imprint_Value            &

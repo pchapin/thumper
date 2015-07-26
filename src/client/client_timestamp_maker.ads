@@ -1,3 +1,12 @@
+---------------------------------------------------------------------------
+-- FILE    : client_timestamp_maker.ads
+-- SUBJECT : Specification of a package that encapsulates the work of creating a timestamp.
+-- AUTHOR  : (C) Copyright 2015 by Peter Chapin
+--
+-- Please send comments or bug reports to
+--
+--      Peter Chapin <PChapin@vtc.vsc.edu>
+---------------------------------------------------------------------------
 pragma SPARK_Mode(On);
 
 with Hermes;

@@ -1,7 +1,7 @@
 ---------------------------------------------------------------------------
 -- FILE    : serial_generator.ads
 -- SUBJECT : Specification of a package to abstract the serial number generator.
--- AUTHOR  : (C) Copyright 2014 by Peter Chapin
+-- AUTHOR  : (C) Copyright 2015 by Peter Chapin
 --
 -- Serial numbers are required to be unique over the lifetime of the system's deployment.
 --

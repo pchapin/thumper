@@ -1,3 +1,12 @@
+---------------------------------------------------------------------------
+-- FILE    : data_storage.ads
+-- SUBJECT : Specification of an abstract database interface package for Thumper.
+-- AUTHOR  : (C) Copyright 2015 by Peter Chapin
+--
+-- Please send comments or bug reports to
+--
+--      Peter Chapin <PChapin@vtc.vsc.edu>
+---------------------------------------------------------------------------
 
 with Ada.Calendar;
 with Serial_Generator;

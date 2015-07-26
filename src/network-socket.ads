@@ -1,7 +1,7 @@
 ---------------------------------------------------------------------------
 -- FILE    : network-socket.ads
 -- SUBJECT : Specification of a package representing a single socket.
--- AUTHOR  : (C) Copyright 2014 by Peter C. Chapin
+-- AUTHOR  : (C) Copyright 2015 by Peter C. Chapin
 --
 -- This non-SPARK package encapsulates the initialization and finalization of vendor's sockets
 -- library so clients are not aware of which underlying library is used. Exceptions raised by

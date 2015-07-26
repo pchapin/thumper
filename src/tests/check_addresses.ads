@@ -1,7 +1,7 @@
 ---------------------------------------------------------------------------
 -- FILE    : check_addresses.ads
 -- SUBJECT : Package containing tests of network address handling.
--- AUTHOR  : (C) Copyright 2014 by Peter Chapin
+-- AUTHOR  : (C) Copyright 2015 by Peter Chapin
 --
 -- Please send comments or bug reports to
 --

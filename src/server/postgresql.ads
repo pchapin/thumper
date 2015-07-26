@@ -1,3 +1,12 @@
+---------------------------------------------------------------------------
+-- FILE    : postgresql.ads
+-- SUBJECT : Specification of a simple PostgreSQL interfacing package.
+-- AUTHOR  : (C) Copyright 2015 by Peter Chapin
+--
+-- Please send comments or bug reports to
+--
+--      Peter Chapin <PChapin@vtc.vsc.edu>
+---------------------------------------------------------------------------
 
 -- Package that manages a single connection to a PostgreSQL server.
 -- NOTE: This package is not task-safe; it assumes only a single task accesses it at a time.

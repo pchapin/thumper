@@ -1,7 +1,7 @@
 ---------------------------------------------------------------------------
 -- FILE    : check_addresses.adb
 -- SUBJECT : Package containing tests of network address handling.
--- AUTHOR  : (C) Copyright 2014 by Peter Chapin
+-- AUTHOR  : (C) Copyright 2015 by Peter Chapin
 --
 -- Please send comments or bug reports to
 --
@@ -16,6 +16,8 @@ package body Check_Addresses is
    use Network.Addresses.Test;
 
    procedure Test_To_IPv4_Address(T : in out AUnit.Test_Cases.Test_Case'Class) is
+      pragma Unreferenced(T);
+
       Address : IPv4;
       Status  : Status_Type;
 
@@ -69,6 +71,8 @@ package body Check_Addresses is
 
 
    procedure Test_To_IPv4_String(T : in out AUnit.Test_Cases.Test_Case'Class) is
+      pragma Unreferenced(T);
+
       Address    : IPv4;
       Status     : Status_Type;
       Text       : Address_String_Type;
@@ -106,6 +110,7 @@ package body Check_Addresses is
 
 
    function Name(T : Address_Test) return AUnit.Message_String is
+      pragma Unreferenced(T);
    begin
       return AUnit.Format("Address");
    end Name;
