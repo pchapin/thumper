@@ -40,8 +40,6 @@ package body Network.Addresses is
       Error_Found  := False;
 
       for I in Positive range Text'First .. Text'Last loop
-         pragma Loop_Invariant(Result_Index >= Result'First and Result_Index <= Result'Last);
-
          if Text(I) = '.' and Seen_Value then
             -- Handle dot.
             Result(Result_Index) := Value;
