@@ -1,0 +1,8 @@
+
+# Folders for holding build artifacts.
+build
+obj
+lib
+
+# References.
+doc/references/*.pdf
