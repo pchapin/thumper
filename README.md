@@ -29,7 +29,7 @@ project files.
 
 To build Thumper you'll need the following software installed:
 
-+ GNAT Community 2018. This can be downloaded from [AdaCore](http://www.adacore.com/community).
++ GNAT Community 2021. This can be downloaded from [AdaCore](http://www.adacore.com/community).
   GNAT Community contains a suitable version of SPARK and some other supporting libraries
   (such as AUnit).
 
@@ -37,16 +37,16 @@ To build Thumper you'll need the following software installed:
   need to select the "additional packages" option to find the installer on the web site. GtkAda
   is used for the client side graphical user interface.
 
-+ OpenSSL for 64 bit windows. Here we mean the precompiled version of OpenSSL for Windows. Note
-  that you must use the 64 bit version to match the 64 bit code generation of GNAT
-  Community 2018. Set an environment variable named `OpenSSL_HOME` that points to the
-  installation location of the OpenSSL.
++ [OpenSSL for 64 bit windows](https://slproweb.com/products/Win32OpenSSL.html). Here we mean
+  the precompiled version of OpenSSL for Windows. Note that you must use the 64 bit version to
+  match the 64 bit code generation of GNAT Community 2021. Set an environment variable named
+  `OpenSSL_HOME` that points to the installation location of the OpenSSL.
 
-+ PostgreSQL 10. The exact version is not necessarily critical but if you use a different
++ PostgreSQL 14. The exact version is not necessarily critical but if you use a different
   version, or if you install it in a non-standard location, you'll need to modify the
   `thumper.gpr` project file to specify an appropriate path to PostgreSQL's `lib` folder. You
   should also be sure the PostgreSQL `bin` folder is in your PATH. Note that you should install
-  the 64 bit version of PostgreSQL to match the 64 bit code generation of GNAT Community 2018.
+  the 64 bit version of PostgreSQL to match the 64 bit code generation of GNAT Community 2021.
 
 After setting up the software above, you should be able to load the `thumper.gpr` project file
 into GPS and build the Thumper client, server, and test program. Note that the Hermes library

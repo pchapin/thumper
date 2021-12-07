@@ -8,7 +8,7 @@ project Thumper is
    for Source_Dirs use (".", "client", "server", "tests");
    for Object_Dir use "build";
    for Main use ("thumper_client.adb", "thumper_server.adb", "thumper_test.adb");
-   for Library_Options use ("-L" & external("OpenSSL_HOME") & "/lib", "-LC:/Program Files/PostgreSQL/10/lib", "-lcrypto", "-lz", "-llibpq");
+   for Library_Options use ("-L" & external("OpenSSL_HOME") & "/lib", "-LC:/Program Files/PostgreSQL/14/lib", "-lcrypto", "-lz", "-llibpq");
    type Runtime_Type is ("full");
    Runtime : Runtime_Type := external ("RUNTIME", "full");
 
