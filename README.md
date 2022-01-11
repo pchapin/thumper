@@ -37,11 +37,6 @@ To build Thumper you'll need the following software installed:
   need to select the "additional packages" option to find the installer on the web site. GtkAda
   is used for the client side graphical user interface.
 
-+ [OpenSSL for 64 bit windows](https://slproweb.com/products/Win32OpenSSL.html). Here we mean
-  the precompiled version of OpenSSL for Windows. Note that you must use the 64 bit version to
-  match the 64 bit code generation of GNAT Community 2021. Set an environment variable named
-  `OpenSSL_HOME` that points to the installation location of the OpenSSL.
-
 + PostgreSQL 14. The exact version is not necessarily critical but if you use a different
   version, or if you install it in a non-standard location, you'll need to modify the
   `thumper.gpr` project file to specify an appropriate path to PostgreSQL's `lib` folder. You
