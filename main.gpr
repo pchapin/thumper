@@ -1,0 +1,7 @@
+with "src/thumper.gpr";
+-- with "Hermes/master.gpr";
+-- Right now there are overlapping project file definitions. This really needs to be cleaned up!
+
+project Main is
+   -- Is it really okay for this to be empty??
+end Main;

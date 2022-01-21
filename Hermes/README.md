@@ -12,4 +12,4 @@ Some of my students have assisted in the development of Hermes. Specifically:
 + Tim Cross: Primitive encoding/decoding subprograms.
 
 Peter C. Chapin  
-PChapin@vtc.vsc.edu
+chapinp@acm.org

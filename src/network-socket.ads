@@ -12,7 +12,7 @@
 --
 -- Please send comments or bug reports to
 --
---      Peter C. Chapin <PChapin@vtc.vsc.edu>
+--      Peter C. Chapin <chapinp@acm.org>
 ---------------------------------------------------------------------------
 with Network.Addresses;
 private with GNAT.Sockets;

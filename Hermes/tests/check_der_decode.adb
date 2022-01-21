@@ -5,7 +5,7 @@
 --
 -- Please send comments or bug reports to
 --
---      Peter Chapin <PChapin@vtc.vsc.edu>
+--      Peter Chapin <chapinp@acm.org>
 ---------------------------------------------------------------------------
 with AUnit.Assertions;
 with Hermes.DER.Decode;

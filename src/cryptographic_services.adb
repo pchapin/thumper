@@ -10,7 +10,7 @@
 --
 -- Please send comments or bug reports to
 --
---      Peter Chapin <PChapin@vtc.vsc.edu>
+--      Peter Chapin <chapinp@acm.org>
 ---------------------------------------------------------------------------
 pragma SPARK_Mode(Off);
 with Interfaces.C;
