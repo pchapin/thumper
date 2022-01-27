@@ -10,10 +10,10 @@
 with AUnit.Run;
 with AUnit.Reporter.Text;
 
-with Primary_Suite;
+with Thumper_Suite;
 
 procedure Thumper_Test is
-   procedure Run is new AUnit.Run.Test_Runner(Primary_Suite.Suite);
+   procedure Run is new AUnit.Run.Test_Runner(Thumper_Suite.Suite);
    Reporter : AUnit.Reporter.Text.Text_Reporter;
 begin
    Run(Reporter);

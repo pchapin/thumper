@@ -17,9 +17,9 @@
     minimum of adjustments.</para>
 
   <para>Thumper makes use of an ASN.1 library written in SPARK called Hermes. This library is
-    part of the Thumper repository in the <filename>Hermes</filename> folder. Although it is
-    currently part of the Thumper repository, Hermes is intended to be a standalone library with
-    its own project files, tests, and documentation.</para>
+    part of the Thumper repository in the <filename>src/hermes</filename> folder. Although it is
+    currently part of the Thumper repository, Hermes could potentially be broken out as a
+    separate project in the future.</para>
 
   <variablelist>
     <title>Build Tools</title>

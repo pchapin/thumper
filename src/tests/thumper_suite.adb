@@ -1,5 +1,5 @@
 ---------------------------------------------------------------------------
--- FILE    : primary_suite.adb
+-- FILE    : thumper_suite.adb
 -- SUBJECT : The main test suite of the Thumper unit test program.
 -- AUTHOR  : (C) Copyright 2015 by Peter Chapin
 --
@@ -7,11 +7,14 @@
 --
 --      Peter Chapin <chapinp@acm.org>
 ---------------------------------------------------------------------------
+        
+with Check_Trivial;
+     
+-- Thumper tests        
 with Check_Addresses;
 with Check_Crypto;
-with Check_Trivial;
-
-package body Primary_Suite is
+     
+package body Thumper_Suite is
    use AUnit.Test_Suites;
 
    -- The suite itself.
@@ -31,4 +34,4 @@ package body Primary_Suite is
       return Suite_Object'Access;
    end Suite;
 
-end Primary_Suite;
+end Thumper_Suite;

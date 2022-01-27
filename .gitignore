@@ -1,6 +1,6 @@
 
 # Build artifacts.
-src/build
+build
 
 # Location for the Python RFC-3161 package.
 rfc3161-*.*.*

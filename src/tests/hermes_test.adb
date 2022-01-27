@@ -1,5 +1,5 @@
 ---------------------------------------------------------------------------
--- FILE    : tests.adb
+-- FILE    : hermes_test.adb
 -- SUBJECT : Main procedure of the Hermes unit test program.
 -- AUTHOR  : (C) Copyright 2015 by Peter Chapin
 --
@@ -10,11 +10,11 @@
 with AUnit.Run;
 with AUnit.Reporter.Text;
 
-with Primary_Suite;
+with Hermes_Suite;
 
-procedure Tests is
-   procedure Run is new AUnit.Run.Test_Runner(Primary_Suite.Suite);
+procedure Hermes_Test is
+   procedure Run is new AUnit.Run.Test_Runner(Hermes_Suite.Suite);
    Reporter : AUnit.Reporter.Text.Text_Reporter;
 begin
    Run(Reporter);
-end Tests;
+end Hermes_Test;
