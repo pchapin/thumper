@@ -20,7 +20,8 @@ package body Data_Storage is
 
    procedure Initialize is
    begin
-      Postgresql.Connect("Thumper", 5432, "localhost", "postgres", "football99");
+      -- TODO: Database connectivity information should come from a configuration file.
+      Postgresql.Connect("localhost", 5432, "ThumperServer", "thumper", "rabbitsfoot");
       Put_Line("Connected to the Database.");
    end Initialize;
 

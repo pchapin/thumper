@@ -29,7 +29,7 @@ project Thumper is
    end Linker;
 
    package Prove is
-      for Switches use ("-j2");
+      for Proof_Switches ("Ada") use ("-j0");
    end Prove;
 
 end Thumper;
