@@ -25,16 +25,16 @@ into its own project in the future.
 Quick Start
 -----------
 
-Thumper was developed on Windows and is designed to work on Windows. It should be possible, with
-a minimum of work, to compile Thumper on Linux or macOS, but that is an unsupported
-configuration and will likely require some adjustments to various files, especially the GNAT
-project files.
+Thumper was developed and tested primarily on Windows. However, the project file, `thumper.gpr`,
+is intended to be cross-platform. The Thumper client uses GtkAda, which is not available on
+macOS, so users of that platform will not be able to build the client. They will also need to
+provide a dummy `gtkada.gpr` file or else the main project file will not load.
 
 To build Thumper you'll need the following software installed:
 
-+ GNAT Community 2021. This can be downloaded from [AdaCore](http://www.adacore.com/community).
-  GNAT Community contains a suitable version of SPARK and some other supporting libraries
-  (such as AUnit).
++ GNAT Community 2021 (or its equivalent). This can be downloaded from
+  [AdaCore](http://www.adacore.com/community). GNAT Community contains a suitable version of
+  SPARK and some other supporting libraries (such as AUnit).
 
 + GtkAda. This can be downloaded from [AdaCore](http://libre.adacore.com/community). You may
   need to select the "additional packages" option to find the installer on the web site. GtkAda
@@ -43,12 +43,16 @@ To build Thumper you'll need the following software installed:
 + PostgreSQL 14. The exact version is not necessarily critical but if you use a different
   version, or if you install it in a non-standard location, you'll need to modify the
   `thumper.gpr` project file to specify an appropriate path to PostgreSQL's `lib` folder. You
-  should also be sure the PostgreSQL `bin` folder is in your PATH. Note that you should install
-  the 64 bit version of PostgreSQL to match the 64 bit code generation of GNAT Community 2021.
+  should also be sure the PostgreSQL `bin` folder is in your PATH or otherwise make an
+  arrangement so the needed shared libraries can be found during execution.
+  
+Be sure you match the bit size of the compiler target (e.g., 64 bits) with the bit size of
+GtkAda and PostgreSQL.
 
 After setting up the software above, you should be able to load the `thumper.gpr` project file
-into GPS and build the Thumper client, server, and test programs (for Thumper and Hermes). Note
-that the Hermes library will be automatically built when Thumper is built.
+into GNATstudio or a similar IDE (Visual Studio Code, etc.) and build the Thumper client,
+server, and test programs (for Thumper and Hermes). Note that the Hermes library will be
+automatically built when Thumper is built.
 
 See the documentation in the `doc` folder for more information.
 
