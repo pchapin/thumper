@@ -27,8 +27,7 @@ Quick Start
 
 Thumper was developed and tested primarily on Windows. However, the project file, `thumper.gpr`,
 is intended to be cross-platform. The Thumper client uses GtkAda, which is not available on
-macOS, so users of that platform will not be able to build the client. See [Additional
-Notes](#Additional Notes) below for more information.
+macOS, so users of that platform will not be able to build the client. See [Additional Notes](#AdditionalNotes) below for more information.
 
 To build Thumper you'll need the following software installed:
 
@@ -68,6 +67,7 @@ automatically built when Thumper is built.
 
 See the documentation in the `doc` folder for more information.
 
+<a name="AdditionalNotes"></a>
 Additional Notes
 ----------------
 
