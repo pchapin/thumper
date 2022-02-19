@@ -163,7 +163,7 @@
 
   <literallayout>
     $ psql -U postgres
-    postgres=> CREATE ROLE thumper WITH LOGIN CREATEDB PASSWORD 'rabbitsfoot';
+    postgres=> CREATE ROLE thumper WITH LOGIN CREATEDB PASSWORD 'supersecret';
     postgres=> \q
     $ createdb -U thumper ThumperServer
   </literallayout>

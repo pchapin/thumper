@@ -5,6 +5,9 @@ build
 # Location for the Python RFC-3161 package.
 rfc3161-*.*.*
 
+# Dummy gtkada.gpr file for platforms that don't support GtkAda
+gtkada.gpr
+
 # References.
 doc/references/*.pdf
 doc/references/*.txt

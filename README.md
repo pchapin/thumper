@@ -27,8 +27,8 @@ Quick Start
 
 Thumper was developed and tested primarily on Windows. However, the project file, `thumper.gpr`,
 is intended to be cross-platform. The Thumper client uses GtkAda, which is not available on
-macOS, so users of that platform will not be able to build the client. They will also need to
-provide a dummy `gtkada.gpr` file or else the main project file will not load.
+macOS, so users of that platform will not be able to build the client. See [Additional
+Notes](#Additional Notes) below for more information.
 
 To build Thumper you'll need the following software installed:
 
@@ -49,12 +49,62 @@ To build Thumper you'll need the following software installed:
 Be sure you match the bit size of the compiler target (e.g., 64 bits) with the bit size of
 GtkAda and PostgreSQL.
 
+You will also need to set up a database in the PostgreSQL server for use by Thumper. In what
+follows, the $ character is the console prompt and not part of the commands. Proceed as follows:
+
+    $ psql -U postgres
+    postgres=> CREATE ROLE thumper WITH LOGIN CREATEDB PASSWORD 'supersecret';
+    postgres=> \q
+    $ createdb -U thumper ThumperServer
+
+The above commands log into PostgreSQL as the server superuser, creates a thumper user on the
+server with the ability to create databases, and then uses `createdb` to create the (empty)
+database needed by the Thumper server.
+
 After setting up the software above, you should be able to load the `thumper.gpr` project file
 into GNATstudio or a similar IDE (Visual Studio Code, etc.) and build the Thumper client,
 server, and test programs (for Thumper and Hermes). Note that the Hermes library will be
 automatically built when Thumper is built.
 
 See the documentation in the `doc` folder for more information.
+
+Additional Notes
+----------------
+
+The macOS platform does not support GtkAda and developers on other platforms may choose not to
+install it (GtkAda is only needed for the client). In that case, create a file `gtkada.gpr`
+in the root of the project containing the following:
+
+    project GtkAda is
+    end GtkAda;
+    
+This dummy file will be loaded by `thumper.gpr` thus allowing development to proceed without
+editing the main project file (which should be avoided if possible).
+
+On Linux systems, you will of course need to have the PostgreSQL server package installed. You
+may also need to install a PostgreSQL development package in order to have the necessary
+libraries on your system. On Ubuntu 20.04 do:
+
+    sudo apt install libpq-dev
+    
+PostgreSQL on Linux systems may be configured by default in a way that makes it awkward to log
+into the server as the thumper user from the system running the server. Consider modifying the
+file `/etc/postgresql/[VERSION]/main/pg_hba.conf` to contain the following lines (order is
+significant):
+
+    # "local" is for Unix domain socket connections only
+    local   ThumperServer   thumper        md5
+    local   all             all            peer
+
+This allows the user thumper to attach to the ThumperServer database via md5-style passwords,
+even when connecting from the local system. Peer authentication won't work because there is
+(probably) no thumper user on the overall Linux system. The order of the lines matter because if
+they were in the opposite order, the "all all" will match every database and every user before
+the specific information is reached. After making this change you will need to restart the
+server:
+
+    # systemctl restart postgresql
+
 
 Contributors
 ------------
