@@ -105,6 +105,15 @@ server:
 
     # systemctl restart postgresql
 
+The default port used for communication between the client and server is 318. On Unix-like
+systems (macOS and Linux), the server will not be able to bind to that port when run under an
+ordinary user account ("permission denied"). Use the -p option when running the server to
+specify an available port address greater than 1024:
+
+    $ ./thumper_server -p 9000
+    
+Of course, a similar option will need to be provided to the client in order for the two programs
+to connect successfully.
 
 Contributors
 ------------
