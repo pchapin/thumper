@@ -11,3 +11,6 @@ gtkada.gpr
 # References.
 doc/references/*.pdf
 doc/references/*.txt
+
+# Presentations
+doc/presentations/*.pdf

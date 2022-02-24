@@ -44,19 +44,19 @@ The ITU is the source of the documents below. Try these pages to obtain these do
 [X.682](http://www.itu.int/rec/T-REC-X.682/en), [X.683](http://www.itu.int/rec/T-REC-X.683/en),
 and [X.690](http://www.itu.int/rec/T-REC-X.690/en).
 
-+ T-REC-X.680-2008-11.pdf. Information technology - Abstract Syntax Notation One (ASN.1):
++ T-REC-X.680-202102.pdf. Information technology - Abstract Syntax Notation One (ASN.1):
   Specification of basic notation.
 
-+ T-REC-X.681-2008-11.pdf. Information technology - Abstract Syntax Notation One (ASN.1):
++ T-REC-X.681-202102.pdf. Information technology - Abstract Syntax Notation One (ASN.1):
   Information object specification.
 
-+ T-REC-X.682-2008-11.pdf. Information technology - Abstract Syntax Notation One (ASN.1):
++ T-REC-X.682-202102.pdf. Information technology - Abstract Syntax Notation One (ASN.1):
   Constraint specification.
 
-+ T-REC-X.683-2008-11.pdf. Information technology - Abstract Syntax Notation One (ASN.1):
++ T-REC-X.683-202102.pdf. Information technology - Abstract Syntax Notation One (ASN.1):
   Parameterization of ASN.1 specifications.
 
-+ X.690-2002-07.pdf. Information technology - ASN.1 encoding rules: Specification of Basic
++ T-REC-X.690-202102.pdf. Information technology - ASN.1 encoding rules: Specification of Basic
   Encoding Rules (BER), Canonical Encoding Rules (CER), and Distinguished Encoding Rules (DER).
 
 Here are some papers related to this project.
