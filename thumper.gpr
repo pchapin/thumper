@@ -2,14 +2,26 @@ with "aunit.gpr";
 --with "gtkada.gpr";
 
 project Thumper is
-        
+
    for Languages use ("Ada");
    for Source_Dirs use ("src", "src/hermes", "src/client", "src/server", "src/tests");
    for Object_Dir use "build";
    for Main use ("hermes_test.adb", "thumper_test.adb", "thumper_server.adb", "thumper_client.adb");
-   for Library_Options use ("-L/Library/PostgreSQL/14/lib", "-lcrypto", "-lz", "-lpq");
    type Runtime_Type is ("full");
    Runtime : Runtime_Type := external ("RUNTIME", "full");
+
+   -- Target platform customizations...
+   Target := Project'Target;
+   case Target is
+      when "x86_64-windows" =>
+         for Library_Options use ("-LC:/Program Files/PostgreSQL/14/lib", "-lcrypto", "-lz", "-lpq");
+      when "x86_64-linux" =>
+         for  Library_Options use ("-lcrypto", "-lz", "-lpq");
+      when "x86_64-darwin" =>
+         for Library_Options use ("-L/Library/PostgreSQL/14/lib", "-lcrypto", "-lz", "-lpq");
+      when others =>
+         for Library_Options use ("-lcrypto", "-lz", "-lpq");
+   end case;
 
    package Builder is
       for Default_Switches ("Ada") use ("-g", "-gnata", "-gnatwa");
@@ -33,4 +45,3 @@ project Thumper is
    end Prove;
 
 end Thumper;
-

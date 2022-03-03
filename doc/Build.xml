@@ -13,13 +13,11 @@
   <para>Thumper is written in a combination of Ada 2012 and SPARK 2014. It also makes use of
     some supporting libraries in C. Both a client and a server are provided. Thumper was
     developed on and supports the Windows platform. No official support for other platforms is
-    provided but it may be possible to compile Thumper on Linux or MacOS platforms with a
-    minimum of adjustments.</para>
+    provided but the main project file intends to be cross-platform to Linux and macOS.</para>
 
   <para>Thumper makes use of an ASN.1 library written in SPARK called Hermes. This library is
-    part of the Thumper repository in the <filename>src/hermes</filename> folder. Although it is
-    currently part of the Thumper repository, Hermes could potentially be broken out as a
-    separate project in the future.</para>
+    part of the Thumper repository in the <filename>src/hermes</filename> folder. Hermes could
+    potentially be broken out as a separate project in the future.</para>
 
   <variablelist>
     <title>Build Tools</title>
@@ -48,7 +46,8 @@
       <listitem>
         <para>We use the GNATstudio integrated development environment that comes with GNAT
           Community 2021 as our IDE. GNATstudio is able to integrate both Ada development and
-          SPARK analysis.</para>
+          SPARK analysis. Some of us have used Visual Studio Code with AdaCore's extension for
+          Ada programming installed. This is a viable alternative to GNATstudio.</para>
       </listitem>
     </varlistentry>
 
@@ -56,7 +55,9 @@
       <term>GtkAda</term>
       <listitem>
         <para>We use GtkAda Community 2021 to provide a graphical user interface for the client
-          program.</para>
+          program. GtkAda is not available for macOS. Users of the Mac platform will need to
+          create a dummy gtkada.gpr project file so the main project file will load. Mac users
+          will not able to compile the Thumper client.</para>
       </listitem>
     </varlistentry>
 
@@ -154,10 +155,21 @@
   <para>To build Thumper install the components listed above and then load the project file
       <filename>src/thumper.gpr</filename> into GNATstudio. You will find the main files
       <filename>thumper_server.adb</filename> and <filename>thumper_client.adb</filename>. Build
-    these files to generate the server and client programs respectively. Note that at the time
-    of this writing the client program is only a skeleton.</para>
+    these files to generate the server and client programs respectively.</para>
 
-  <para>To test Thumper, build the main file thumper_test.adb. Executing the resulting program
-    will run all the unit tests and produce a report of the results on the console.</para>
+  <para>Before the server can be run, you will need to set up a thumper role in the PostgreSQL
+    database server, and initialize a ThumperServer database. Use the following commands (the $
+    character indicates a console prompt):</para>
+
+  <literallayout>
+    $ psql -U postgres
+    postgres=> CREATE ROLE thumper WITH LOGIN CREATEDB PASSWORD 'supersecret';
+    postgres=> \q
+    $ createdb -U thumper ThumperServer
+  </literallayout>
+
+  <para>To test Thumper, build the main files hermes_test.adb and thumper_test.adb. Executing
+    the resulting programs will run all the unit tests and produce reports of the results on the
+    console.</para>
 
 </chapter>
