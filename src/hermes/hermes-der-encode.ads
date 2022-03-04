@@ -21,7 +21,7 @@ package Hermes.DER.Encode is
    
    -- Returns the DER encoded length.
    function Put_Length_Value(Length : Natural) return Hermes.Octet_Array
-     with Post => Put_Length_Value'Result'Length <= 5;
+     with Post => Put_Length_Value'Result'Length in 1 .. 5 and Put_Length_Value'Result'First = 1;
    
    -- Returns the DER encoded TLV triple of a Boolean value.
    function Put_Boolean_Value(Value : Boolean) return Hermes.Octet_Array
