@@ -16,7 +16,7 @@ package body Client_SPARK_Boundary is
    begin
       -- Read the document and compute its hash.
       -- Call Client_Timestamp_Maker.Create_Timestamp
-      -- Save the resulting times time stamp (if the above was successful).
+      -- Save the resulting timestamp (if the above was successful).
       raise Program_Error with "Client_SPARK_Boundary.Fetch_Timestamp not implemented";
    end Fetch_Timestamp;
 

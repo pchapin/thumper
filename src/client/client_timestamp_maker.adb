@@ -57,7 +57,7 @@ package body Client_Timestamp_Maker is
       -- Send request to server.
       -- Receive response from server.
       -- Decode response and verify correctness.
-      raise Program_Error with "Timestamp_Maker.Create_Timestamp not implemented";
+      raise Program_Error with "Client_Timestamp_Maker.Create_Timestamp not implemented";
    end Create_Timestamp;
 
 
@@ -65,7 +65,7 @@ package body Client_Timestamp_Maker is
      (Hash : Hermes.Octet_Array; Timestamp : Hermes.Octet_Array) return Boolean is
    begin
       -- Decode time stamp and verify correctness.
-      raise Program_Error with "Timestamp_Maker.Verify_Timestamp not implemented";
+      raise Program_Error with "Client_Timestamp_Maker.Verify_Timestamp not implemented";
       return False;
    end Verify_Timestamp;
 
