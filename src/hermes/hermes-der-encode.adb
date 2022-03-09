@@ -128,7 +128,7 @@ package body Hermes.DER.Encode is
 
    
    function Put_Integer_Value(Value : Integer) return Hermes.Octet_Array is
-      Integer_Octet_Array : Hermes.Octet_Array(1 .. 6); -- array to return DER encoded Integer
+      Integer_Octet_Array : Hermes.Octet_Array(1 .. 6) := (others => 0); -- array to return DER encoded Integer
       Num : constant Integer := Value; 
       L : Natural := 0; -- number of octets needed to store integer - length 
       Oct1 : Hermes.Octet; -- first Octet to store Integer Value
@@ -161,7 +161,7 @@ package body Hermes.DER.Encode is
 
       -- second Octet in Integer_Octet_Array stores the length of the value
       Integer_Octet_Array(2) := Hermes.Octet(L);  
-      --Integer_Octet_Array(2) := Put_Length_Value (L); won't compile 
+      --Integer_Octet_Array(2) := Put_Length_Value (L);  won't compile
       
       -- store Integer values into Octets, and then into Integer_Octet_Array
       if(L = 1) then
