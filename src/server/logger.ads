@@ -15,7 +15,13 @@ package Logger
      Initializes => Log_Stream
 is
 
-   procedure Write_Error(Message : in String)
+  procedure Write_Error(Message : in String)
+     with Global => (Output => Log_Stream);
+  
+  procedure Write_Information(Message : in String)
+     with Global => (Output => Log_Stream);
+
+  procedure Write_Warning(Message : in String)
      with Global => (Output => Log_Stream);
 
 end Logger;
