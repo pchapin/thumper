@@ -128,7 +128,7 @@ package body Hermes.DER.Encode is
 
    
    function Put_Integer_Value(Value : Integer) return Hermes.Octet_Array is
-      Integer_Octet_Array : Hermes.Octet_Array(1 .. 6) := (others => 0); -- array to return DER encoded Integer
+      Integer_Octet_Array : Hermes.Octet_Array(1 .. 6); -- array to return DER encoded Integer
       Num : constant Integer := Value; 
       L : Natural := 0; -- number of octets needed to store integer - length 
       Oct1 : Hermes.Octet; -- first Octet to store Integer Value
@@ -139,8 +139,7 @@ package body Hermes.DER.Encode is
       val2 : Natural;
       val3 : Natural;
       val4 : Natural;
-      val5 : Natural;
-      val6 : Natural;
+
    begin   
       -- first Octet in Integer_Octet_Array stores the type
       Integer_Octet_Array(1) := Make_Leading_Identifier (
@@ -149,69 +148,60 @@ package body Hermes.DER.Encode is
          Tag => Tag_Integer);
       
       case L is
-         when 0 .. 2**8 - 1 =>
+         when 0 .. 2**7 - 1 =>
             L := 1; -- the Integer value that fits into 1 Octet
-         when 2**8 .. 2**16 - 1 =>
+
+            Oct1 := Hermes.Octet(Num);
+            Integer_Octet_Array(3) := Oct1;
+
+         when 2**7 .. 2**15 - 1 =>
             L := 2; -- the Integer value that fits into 2 Octet
-         when 2**16 .. 2**24 - 1 =>
+            val2 := Num / 256;
+            val1 := Num rem 256;
+
+            Oct1 := Hermes.Octet(val1);
+            Oct2 := Hermes.Octet(val2);
+
+            Integer_Octet_Array(3) := Oct2;
+            Integer_Octet_Array(4) := Oct1;
+
+         when 2**16 .. 2**23 - 1 =>
             L := 3;  -- the Integer value that fits into 3 Octet
+
+            val2 := Num / 256;
+            val1 := Num rem 256;
+            val3 := val2 / 256;
+
+            Oct1 := Hermes.Octet(val1);
+            Oct2 := Hermes.Octet(val3);
+            Oct3 := Hermes.Octet(val2);
+
+            Integer_Octet_Array(3) := Oct3;
+            Integer_Octet_Array(4) := Oct2;
+            Integer_Octet_Array(5) := Oct1;
+
          when others =>
             L := 4;  -- the Integer value that fits into 4 Octet
+         
+            val2 := Num / 256;
+            val1 := Num rem 256;
+            val3 := val2 / 256;
+            val4 := val3 / 256;
+
+            Oct1 := Hermes.Octet(val1);
+            Oct2 := Hermes.Octet(val4);
+            Oct3 := Hermes.Octet(val3);
+            Oct4 := Hermes.Octet(val2);
+
+            Integer_Octet_Array(3) := Oct4;
+            Integer_Octet_Array(4) := Oct3;
+            Integer_Octet_Array(5) := Oct2;
+            Integer_Octet_Array(6) := Oct1;
       end case;
 
       -- second Octet in Integer_Octet_Array stores the length of the value
-      Integer_Octet_Array(2) := Hermes.Octet(L);  
-      --Integer_Octet_Array(2) := Put_Length_Value (L);  won't compile
-      
-      -- store Integer values into Octets, and then into Integer_Octet_Array
-      if(L = 1) then
-         Oct1 := Hermes.Octet(Num);
-         Integer_Octet_Array(3) := Oct1;
+      Integer_Octet_Array(2) := Put_Length_Value (L)(1);
 
-      elsif (L = 2) then 
-         val2 := Num / 255;
-         val1 := Num - (val2*255);
-
-         Oct1 := Hermes.Octet(val1);
-         Oct2 := Hermes.Octet(val2);
-
-         Integer_Octet_Array(3) := Oct2;
-         Integer_Octet_Array(4) := Oct1;
-
-      elsif (L = 3) then
-         val2 := Num / 255;
-         val3 := val2 / 255;
-         val4 := val2 - (val3 * 255);
-         val1 := Num - (val2 * 255);
-
-         Oct1 := Hermes.Octet(val1);
-         Oct2 := Hermes.Octet(val4);
-         Oct3 := Hermes.Octet(val3);
-
-         Integer_Octet_Array(3) := Oct3;
-         Integer_Octet_Array(4) := Oct2;
-         Integer_Octet_Array(5) := Oct1;
-
-      else
-         val2 := Num / 255;
-         val3 := val2 / 255;
-         val5 := val3 / 255;
-         val6 := val3 - (val5 * 255);
-         val4 := val2 - (val3 * 255);
-         val1 := Num - (val2 * 255);
-
-         Oct1 := Hermes.Octet(val1);
-         Oct2 := Hermes.Octet(val4);
-         Oct3 := Hermes.Octet(val6);
-         Oct4 := Hermes.Octet(val5);
-
-         Integer_Octet_Array(3) := Oct4;
-         Integer_Octet_Array(4) := Oct3;
-         Integer_Octet_Array(5) := Oct2;
-         Integer_Octet_Array(6) := Oct1;
-
-      end if; 
-      
       --raise Program_Error with "Hermes.DER.Encode.Put_Integer_Value not implemented";
       return Integer_Octet_Array;
    end Put_Integer_Value;
