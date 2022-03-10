@@ -17,7 +17,7 @@ package body Server_Logger is
 
 
    function Format_Timestamp return Ada.Calendar.Time is
-      Now : Ada.Calendar.Time := Ada.Calendar.Clock;
+      Now : Constant Ada.Calendar.Time := Ada.Calendar.Clock;
    begin
       return Now;
    end Format_Timestamp;
@@ -44,4 +44,4 @@ package body Server_Logger is
    end Write_Warning;
 
 
-end Logger;
+end Server_Logger;
