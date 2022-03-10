@@ -49,6 +49,7 @@ package body Data_Storage is
 
 
    function Timestamp_Retrieve(Serial_Number : Serial_Number_Type) return Timestamp_Array is
+      pragma Unreferenced(Serial_Number);   -- For now to cut down on warnings.
    begin
       -- TODO: Add proper query.
       declare
@@ -60,6 +61,7 @@ package body Data_Storage is
 
 
    function Timestamp_Retrieve(Start : Time; Stop : Time) return Timestamp_Array is
+      pragma Unreferenced(Start, Stop);   -- For now to cut down on warnings.
       Dummy : Timestamp_Array(1 .. 0);
    begin
       return Dummy;

@@ -1,7 +1,7 @@
 ---------------------------------------------------------------------------
--- FILE    : logger.adb
+-- FILE    : server_logger.adb
 -- SUBJECT : Body of a log management package.
--- AUTHOR  : (C) Copyright 2015 by Peter Chapin
+-- AUTHOR  : (C) Copyright 2022 by Peter Chapin
 --
 -- Please send comments or bug reports to
 --
@@ -13,7 +13,7 @@ with Ada.Text_IO;
 with Ada.Calendar;
 with Ada.Calendar.Formatting;
 
-package body Logger is
+package body Server_Logger is
 
 
    function Format_Timestamp return Ada.Calendar.Time is

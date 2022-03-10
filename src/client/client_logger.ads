@@ -1,7 +1,7 @@
 ---------------------------------------------------------------------------
--- FILE    : logger.ads
+-- FILE    : client_logger.ads
 -- SUBJECT : Specification of a log management package.
--- AUTHOR  : (C) Copyright 2015 by Peter Chapin
+-- AUTHOR  : (C) Copyright 2022 by Peter Chapin
 --
 -- Please send comments or bug reports to
 --
@@ -9,7 +9,7 @@
 ---------------------------------------------------------------------------
 pragma SPARK_Mode(On);
 
-package Logger
+package Client_Logger
   with
      Abstract_State => (Log_Stream with External => (Async_Readers, Effective_Writes)),
      Initializes => Log_Stream
@@ -24,4 +24,4 @@ is
   procedure Write_Warning(Message : in String)
      with Global => (Output => Log_Stream);
 
-end Logger;
+end Client_Logger;
