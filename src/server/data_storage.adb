@@ -11,6 +11,7 @@
 -- TODO: Remove dependency on Ada.Text_IO. Use a real logger.
 with Ada.Text_IO;
 with Postgresql;
+with Logger;
 
 use Ada.Text_IO;
 use Postgresql;
@@ -22,14 +23,14 @@ package body Data_Storage is
    begin
       -- TODO: Database connectivity information should come from a configuration file.
       Postgresql.Connect("localhost", 5432, "ThumperServer", "thumper", "rabbitsfoot");
-      Put_Line("Connected to the Database.");
+      Logger.Write_Information("Connected to the Database.");
    end Initialize;
 
 
    procedure Shutdown is
    begin
       Postgresql.Disconnect;
-      Put_Line("Disconnected From the Database");
+      Logger.Write_Information("Disconnected From the Database");
    end Shutdown;
 
 
