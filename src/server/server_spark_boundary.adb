@@ -34,7 +34,7 @@ package body Server_SPARK_Boundary is
       loop
          Reader.Receive(Message => Network_Request, From => Client_Address, Status => Read_Status);
          if Read_Status /= Reader.Success then
-            Logger.Write_Error("Failure reading request message!");
+            Server_Logger.Write_Error("Failure reading request message!");
          else
             Request_Message := Messages.From_Network(Network_Request);
             Server_Timestamp_Maker.Create_Timestamp(Request_Message, Response_Message);
@@ -42,7 +42,7 @@ package body Server_SPARK_Boundary is
 
             Writer.Send(Message => Network_Response, To => Client_Address, Status => Write_Status);
             if Write_Status /= Writer.Success then
-               Logger.Write_Error("Failure sending reply message!");
+               Server_Logger.Write_Error("Failure sending reply message!");
             end if;
          end if;
       end loop;

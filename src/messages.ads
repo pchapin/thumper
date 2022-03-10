@@ -39,14 +39,14 @@ package Messages is
    function From_Network(Low_Level : Network_Message) return Message
      with Post => From_Network'Result.Size = Low_Level.Size and
                   (for all I in Index_Type =>
-                     (if I in Index_Type'First .. Low_Level.Size
+                     (if I <= Low_Level.Size
                           then From_Network'Result.Data(I) = Hermes.Octet(Low_Level.Data(I))
                           else From_Network'Result.Data(I) = 0));
 
    function To_Network(High_Level : Message) return Network_Message
      with Post => To_Network'Result.Size = High_Level.Size and
                   (for all I in Index_Type =>
-                     (if I in Index_Type'First .. High_Level.Size
+                     (if I <= High_Level.Size
                           then To_Network'Result.Data(I) = Network.Octet(High_Level.Data(I))
                           else To_Network'Result.Data(I) = 0));
 

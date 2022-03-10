@@ -10,21 +10,22 @@
 with Network.Socket;
 with Client_GUI;
 
+-- Commented out packages are currently unreferenced, but might be in the future.
 with Gtk.Main;
 with Gtk.Window;
-with GtkAda.File_Selection;
+-- with GtkAda.File_Selection;
 with Gtk.Button;
 with Gtk.Box;
-with Gtk.Button_Box;
+-- with Gtk.Button_Box;
 with Gtk.Frame;
 with Gtk.Image;
 
 use Gtk.Main;
 use Gtk.Window;
-use GtkAda.File_Selection;
+-- use GtkAda.File_Selection;
 use Gtk.Button;
 use Gtk.Box;
-use Gtk.Button_Box;
+-- use Gtk.Button_Box;
 use Gtk.Frame;
 use Gtk.Image;
 
@@ -33,10 +34,10 @@ use Client_GUI;
 procedure Thumper_Client is
    Window : Gtk_Window;
    Button : Gtk_Button;
-   Bbox  : Gtk_Box;
-   Hbox  : Gtk_Box;
-   Frame : Gtk_Frame;
-   Image : Gtk_Image;
+   Bbox   : Gtk_Box;
+   Hbox   : Gtk_Box;
+   Frame  : Gtk_Frame;
+   Image  : Gtk_Image;
 begin
    Network.Socket.Create_Socket;
 
@@ -70,4 +71,3 @@ begin
 
    Gtk.Main.Main;
 end Thumper_Client;
-

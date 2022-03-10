@@ -10,10 +10,10 @@
 pragma SPARK_Mode(On);
 
 with Cryptographic_Services;  -- Contains state (key used).
-with Logger;                  -- Boundary variable: Log_Stream.
 with Network.Socket.Reader;   -- Boundary variable: Input_Message_Stream.
 with Network.Socket.Writer;   -- Boundary variable: Output_Message_Stream.
 with Serial_Generator;        -- Contains state (PRNG state).
+with Server_Logger;           -- Boundary variable: Log_Stream.
 
 use Network.Socket;
 
@@ -23,9 +23,9 @@ package Server_SPARK_Boundary is
      with
        Global => (Input  => (Reader.Input_Message_Stream, Cryptographic_Services.Key),
                   In_Out =>
-                    (Logger.Log_Stream, Writer.Output_Message_Stream, Serial_Generator.State)),
+                    (Server_Logger.Log_Stream, Writer.Output_Message_Stream, Serial_Generator.State)),
        Depends =>
-         (Logger.Log_Stream =>+
+         (Server_Logger.Log_Stream =>+
             (Reader.Input_Message_Stream, Writer.Output_Message_Stream,
              Cryptographic_Services.Key, Serial_Generator.State),
           Writer.Output_Message_Stream =>+

@@ -9,8 +9,7 @@
 ---------------------------------------------------------------------------
 pragma SPARK_Mode(On);
 
--- TODO: It might be better to define a boundary variable package for console I/O.
-with Ada.Text_IO;
+with Client_Logger;
 with Messages;
 with Network.Addresses;
 with Network.Socket;
@@ -40,14 +39,14 @@ package body Client_Timestamp_Maker is
          Request_Message := (Data => (others => 0), Size => 0);
          Addresses.To_IPv4_Address("127.0.0.1", Local_Host, Address_Status);
          if Address_Status /= Addresses.Success then
-            Ada.Text_IO.Put_Line("Failed to convert target address to binary form!");
+            Client_Logger.Write_Error("Failed to convert target address to binary form!");
          else
             -- TODO: Use the encoded request message here instead of this silly placeholder.
             Request_Message.Data(Messages.Index_Type'First) := Character'Pos('X');
             Writer.Send
               (Request_Message, Addresses.To_UDPv4_Address(Local_Host, 4318), Network_Status);
             if Network_Status /= Writer.Success then
-               Ada.Text_IO.Put_Line("Failed to send request message!");
+               Client_Logger.Write_Error("Failed to send request message!");
             end if;
          end if;
       end Make_Request;
