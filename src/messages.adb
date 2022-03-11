@@ -20,7 +20,7 @@ package body Messages is
          pragma Loop_Invariant
            (High_Level.Size = High_Level.Size'Loop_Entry and
             (for all Item in Index_Type =>
-               (if Item in Index_Type'First .. I
+               (if Item <= I
                     then High_Level.Data(Item) = Hermes.Octet(Low_Level.Data(Item))
                     else High_Level.Data(Item) = 0)));
       end loop;
@@ -37,7 +37,7 @@ package body Messages is
          pragma Loop_Invariant
            (Low_Level.Size = Low_Level.Size'Loop_Entry and
             (for all Item in Index_Type =>
-               (if Item in Index_Type'First .. I
+               (if Item <= I
                     then Low_Level.Data(Item) = Network.Octet(High_Level.Data(Item))
                     else Low_Level.Data(Item) = 0)));
       end loop;

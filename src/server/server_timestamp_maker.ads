@@ -1,5 +1,5 @@
 ---------------------------------------------------------------------------
--- FILE    : server_timestamp_maker.adb
+-- FILE    : server_timestamp_maker.ads
 -- SUBJECT : Specification of a package that encapsulates the work of creating a time stamp.
 -- AUTHOR  : (C) Copyright 2015 by Peter Chapin
 --

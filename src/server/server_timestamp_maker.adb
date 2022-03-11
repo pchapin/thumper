@@ -38,13 +38,14 @@ package body Server_Timestamp_Maker is
       Message_Imprint : out Imprint;
       Imprint_Status  : out Status_Type) is
    begin
-      null;
+      raise Program_Error
+         with "Incomplete implementation (Sever_Timestamp_Maker.Get_Message_Imprint)";
    end Get_Message_Imprint;
 
 
    function Valid_Request(Request_Message : in Messages.Message) return Boolean is
 
-      Result          : Boolean := True;
+      Result          : Boolean;
       Length_Stop     : Messages.Index_Type;
       Length          : Natural;
       Version_Stop    : Messages.Index_Type;
@@ -97,8 +98,8 @@ package body Server_Timestamp_Maker is
                   -- Can't decode the imprint.
                   Result := False;
                else
-                  raise Program_Error
-                    with "Incomplete implementation (Timestamp_Maker.Valid_Request)";
+                  -- Everything looks okay!
+                  Result := True;
                end if;
             end if;
          end if;
@@ -114,10 +115,10 @@ package body Server_Timestamp_Maker is
 
       if not Valid_Request(Request_Message) then
          raise Program_Error
-           with "Incomplete implementation (Timestamp_Maker.Create_Timestamp; bad request)";
+           with "Incomplete implementation (Server_Timestamp_Maker.Create_Timestamp; bad request)";
       else
          raise Program_Error
-           with "Incomplete implementation (Timestamp_Maker.Create_Timestamp; good request)";
+           with "Incomplete implementation (Server_Timestamp_Maker.Create_Timestamp; good request)";
       end if;
    end Create_Timestamp;
 

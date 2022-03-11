@@ -1,6 +1,7 @@
 
 # Build artifacts.
 build
+.clang-format
 
 # Location for the Python RFC-3161 package.
 rfc3161-*.*.*
