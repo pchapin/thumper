@@ -128,10 +128,43 @@ package body Hermes.DER.Encode is
 
    
    function Put_Integer_Value(Value : Integer) return Hermes.Octet_Array is
-      Integer_Octet_Array : Hermes.Octet_Array(1 .. 0);
-   begin   
-      raise Program_Error with "Hermes.DER.Encode.Put_Integer_Value not implemented";
-      return Integer_Octet_Array;
+      bits : array(0 .. 31) of Integer := (others => 0);
+      i : Integer;
+      Num : Integer := Value;
+      Num_Of_Octets : Integer := 0;
+   begin      
+      i := bits'First;
+      --Put the Integer into a bit array
+      while (Num > 0)loop
+         bits(bits'Last - i) := Num rem 2;
+         Num := Num / 2;
+         i := i + 1;
+      end loop;
+      
+      --i is also equal to the miniminum amount of bits the integer needs
+      if (i < 8) then 
+         Num_Of_Octets := 1;
+      else
+         Num_Of_Octets := i / 8 + 1;
+      end if;
+      
+      declare
+         Contents : Octet_Array(0 .. Num_Of_Octets-1) := (others => 0);
+         Temp : Integer := Value;
+         j : Integer := Contents'First;
+         Integer_Octet_Array : Hermes.Octet_Array(1 .. (2+Num_Of_Octets));
+      begin
+         --Put all the bits into an octet_array
+         while(Temp > 0) loop
+            Contents(Contents'Last - j) := Hermes.Octet(Temp rem 2**8); Temp := Temp / 2**8;
+            j := j + 1;
+         end loop;
+         --Make the final octet_array
+         Integer_Octet_Array := (Make_Leading_Identifier(Tag_Class => Class_Universal, Structured_Flag => Primitive, Tag => Tag_Integer)
+                             & Put_Length_Value(Num_Of_Octets) & Contents);
+
+         return Integer_Octet_Array;
+         end;
    end Put_Integer_Value;
    
    
