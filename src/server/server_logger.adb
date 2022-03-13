@@ -16,31 +16,33 @@ with Ada.Calendar.Formatting;
 package body Server_Logger is
 
 
-   function Format_Timestamp return Ada.Calendar.Time is
+   function Format_Timestamp return String is
       Now : Constant Ada.Calendar.Time := Ada.Calendar.Clock;
+      Time : String := "0000-00-00 00:00:00";
    begin
-      return Now;
+      Time := Ada.Calendar.Formatting.Image(Now);
+      return Time;
    end Format_Timestamp;
 
    procedure Write_Error(Message : in String) is
-      Time : Ada.Calendar.Time;
+      Time : String := "0000-00-00 00:00:00";
    begin
       Time := Format_Timestamp;
-      Ada.Text_IO.Put_Line("*** ERROR: " & Ada.Calendar.Formatting.Image(Time) & Message);
+      Ada.Text_IO.Put_Line(Time & " *** ERROR: " & Message);
    end Write_Error;
 
    procedure Write_Information(Message : in String) is
-      Time : Ada.Calendar.Time;
+      Time : String := "0000-00-00 00:00:00";
    begin
       Time := Format_Timestamp;
-      Ada.Text_IO.Put_Line("*** INFORMATION: " & Ada.Calendar.Formatting.Image(Time) & Message);
+      Ada.Text_IO.Put_Line(Time & " *** INFORMATION: " & Message);
    end Write_Information;
 
    procedure Write_Warning(Message : in String) is
-      Time : Ada.Calendar.Time;
+      Time : String := "0000-00-00 00:00:00";
    begin
       Time := Format_Timestamp;
-      Ada.Text_IO.Put_Line("*** WARNING: " & Ada.Calendar.Formatting.Image(Time) & Message);
+      Ada.Text_IO.Put_Line(Time & " *** WARNING: " & Message);
    end Write_Warning;
 
 
