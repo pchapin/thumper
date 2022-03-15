@@ -34,16 +34,21 @@ package body Check_Crypto is
          16#31#, 16#91#, 16#dd#, 16#81#, 16#c7#, 16#f7#, 16#0a#, 16#4b#,
          16#28#, 16#68#, 16#8a#, 16#36#, 16#21#, 16#82#, 16#98#, 16#6f#);
 
+      Context    : SHA256_CTX;
+      Hash_Value : SHA256_Hash_Type;
+
       -- TODO: Add more test cases to explore "interesting" boundary values.
    begin
-      Initialize_Hash;
-      Update_Hash(Input_1);
-      Assert(Finalize_Hash = Expected_1, "SHA256 hash of Input_1 does not check");
+      Initialize_Hash(Context);
+      Update_Hash(Context, Input_1);
+      Finalize_Hash(Context, Hash_Value);
+      Assert(Hash_Value = Expected_1, "SHA256 hash of Input_1 does not check");
 
-      Initialize_Hash;
-      Update_Hash(Input_2( 1 .. 10));
-      Update_Hash(Input_2(11 .. 13));
-      Assert(Finalize_Hash = Expected_2, "SHA256 hash of Input_2 does not check");
+      Initialize_Hash(Context);
+      Update_Hash(Context, Input_2( 1 .. 10));
+      Update_Hash(Context, Input_2(11 .. 13));
+      Finalize_Hash(Context, Hash_Value);
+      Assert(Hash_Value = Expected_2, "SHA256 hash of Input_2 does not check");
    end Test_Hashing;
 
 

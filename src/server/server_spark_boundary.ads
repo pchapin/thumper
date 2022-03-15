@@ -9,7 +9,6 @@
 ---------------------------------------------------------------------------
 pragma SPARK_Mode(On);
 
-with Cryptographic_Services;  -- Contains state (key used).
 with Network.Socket.Reader;   -- Boundary variable: Input_Message_Stream.
 with Network.Socket.Writer;   -- Boundary variable: Output_Message_Stream.
 with Serial_Generator;        -- Contains state (PRNG state).
@@ -21,15 +20,14 @@ package Server_SPARK_Boundary is
 
    procedure Service_Clients
      with
-       Global => (Input  => (Reader.Input_Message_Stream, Cryptographic_Services.Key),
+       Global => (Input  => (Reader.Input_Message_Stream),
                   In_Out =>
                     (Server_Logger.Log_Stream, Writer.Output_Message_Stream, Serial_Generator.State)),
        Depends =>
          (Server_Logger.Log_Stream =>+
-            (Reader.Input_Message_Stream, Writer.Output_Message_Stream,
-             Cryptographic_Services.Key, Serial_Generator.State),
+            (Reader.Input_Message_Stream, Writer.Output_Message_Stream, Serial_Generator.State),
           Writer.Output_Message_Stream =>+
-            (Reader.Input_Message_Stream, Cryptographic_Services.Key, Serial_Generator.State),
+            (Reader.Input_Message_Stream, Serial_Generator.State),
           Serial_Generator.State =>+ Reader.Input_Message_Stream);
 
 end Server_SPARK_Boundary;
