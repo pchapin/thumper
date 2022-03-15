@@ -13,22 +13,11 @@ with Interfaces.C;
 with Hermes;
 
 package Cryptographic_Services is
+
    type Status_Type is (Success, Bad_Key);
 
-   type SHA_LONG is new Interfaces.C.unsigned;
-   type SHA256_CTX_Array is array(SHA_LONG range <>) of Natural;
-
-   -- Type definition for the structure used to create the hash.
-   type SHA256_CTX is
-      record
-         H      : SHA256_CTX_Array(1 .. 8);
-         Nl     : SHA_LONG;
-         Nh     : SHA_LONG;
-         Data   : SHA256_CTX_Array(1 .. 16);
-         Num    : Interfaces.C.unsigned;
-         Md_Len : Interfaces.C.unsigned;
-      end record
-     with Convention => C;
+   -- Hash context (state).
+   type SHA256_CTX is private;
 
    -- An array to hold the hash value.
    subtype SHA256_Hash_Type is Hermes.Octet_Array(0 .. 31);
@@ -63,5 +52,22 @@ package Cryptographic_Services is
    -- package, returning the result.
    function Make_Signature(Data : in  Hermes.Octet_Array) return Hermes.Octet_Array
      with Global => null;
+
+private
+
+   type SHA_LONG is new Interfaces.C.unsigned;
+   type SHA256_CTX_Array is array(SHA_LONG range <>) of Natural;
+
+   -- Type definition for the structure used to create the hash.
+   type SHA256_CTX is
+      record
+         H      : SHA256_CTX_Array(1 .. 8);
+         Nl     : SHA_LONG;
+         Nh     : SHA_LONG;
+         Data   : SHA256_CTX_Array(1 .. 16);
+         Num    : Interfaces.C.unsigned;
+         Md_Len : Interfaces.C.unsigned;
+      end record
+     with Convention => C;
 
 end Cryptographic_Services;
