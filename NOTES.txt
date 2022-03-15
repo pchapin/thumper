@@ -3,6 +3,11 @@ Things to work out:
 
 + Network programming.
 + Cryptographic software.
+
+[The following applied when we thought we needed to make up our own protocol based on XML It
+might be interesting to do this anyway, but it wouldn't conform to RFC-3161 which uses and ASN.1
+encoding. (pchapin, 2022-03-15).]
+
 + XML handling software.
 + XML signature standard.
 + XML Schema for timestamp messages.
@@ -65,7 +70,7 @@ To implement this idea the following would have to happen:
 
 4. We'd need to implement one or more client programs as well. As far as I know there is no
    standard protocol for this application; we'd have to make one up. Hence the need for custom
-   clients.
+   clients. [Actually RFC-3161 describes this protocol (pchapin, 2022-03-15)].
 
 5. We'd have to post our programs openly (source code too) for download and inspection.
 
