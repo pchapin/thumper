@@ -17,5 +17,9 @@ is
 
    procedure Write_Error(Message : in String)
      with Global => (Output => Log_Stream);
+   procedure Write_Information(Message : in String)
+     with Global => (Output => Log_Stream);
+   procedure Write_Warning(Message : in String)
+     with Global => (Output => Log_Stream);
 
 end Server_Logger;
