@@ -13,10 +13,24 @@ with Ada.Text_IO;
 
 package body Client_Logger is
 
+   procedure Write_Information(Message : in String) is
+   begin
+      -- TODO: Display the messages in a message box and potentially also log it to a file.
+      Ada.Text_IO.Put_Line("*** INF: " & Message);
+   end Write_Error;
+
+
+   procedure Write_Warning(Message : in String) is
+   begin
+      -- TODO: Display the messages in a message box and potentially also log it to a file.
+      Ada.Text_IO.Put_Line("*** WRN: " & Message);
+   end Write_Error;
+
+
    procedure Write_Error(Message : in String) is
    begin
       -- TODO: Display the messages in a message box and potentially also log it to a file.
-      Ada.Text_IO.Put_Line("*** ERROR: " & Message);
+      Ada.Text_IO.Put_Line("*** ERR: " & Message);
    end Write_Error;
 
 end Client_Logger;

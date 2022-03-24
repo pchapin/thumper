@@ -1,61 +1,76 @@
 ---------------------------------------------------------------------------
 -- FILE    : cryptographic_services.adb
 -- SUBJECT : Body of a package to abstract the crypto needed by Thumper.
--- AUTHORS  : (C) Copyright 2015 by Peter Chapin, Nicole Hurley, and Nathan Brown
+-- AUTHORS  : (C) Copyright 2022 by Peter Chapin, Nicole Hurley, and Nathan Brown
 --
 -- The implementation of this package is not SPARK.
 --
--- Ultimately this package should be implemented by calling into an appropriate cryptographic
--- library such as OpenSSL.
+-- Ultimately this package should be implemented by calling into an appropriate SPARK crypto
+-- library. Right now it makes use of the cryptographic operations in OpenSSL.
 --
 -- Please send comments or bug reports to
 --
 --      Peter Chapin <chapinp@acm.org>
 ---------------------------------------------------------------------------
-pragma SPARK_Mode(Off);
-with Interfaces.C;
+pragma SPARK_Mode(On);
 
 package body Cryptographic_Services is
 
-   type SHA_LONG is new Interfaces.C.unsigned;
-   type SHA256_CTX_Array is array(SHA_LONG range <>) of Natural;
+   -- Imported C Functions From OpenSSL
+   ------------------------------------
 
-   -- Type definition for the structure used to create the hash.
-   type SHA256_CTX is
-      record
-         H : SHA256_CTX_Array (1..8);
-         Nl : SHA_LONG;
-         Nh : SHA_LONG;
-         Data : SHA256_CTX_Array (1..16);
-         Num : Interfaces.C.unsigned;
-         Md_Len : Interfaces.C.unsigned;
-      end record
-     with Convention => C;
+   -- Note that these OpenSSL subprograms are technically deprecated. However, instead of
+   -- replacing them with the newer OpenSSL subprograms, it would be nicer to implement these
+   -- operations in SPARK directly.
 
    -- Imported hash initialization function.
    procedure SHA256_Init(Context : out SHA256_CTX)
      with
+       Global => null,
        Import,
        Convention => C,
        External_Name => "SHA256_Init";
 
    -- Imported hash updating function.
    procedure SHA256_Update
-     (Context : in out SHA256_CTX; Data : Hermes.Octet_Array; Len : Interfaces.C.size_t)
+     (Context : in out SHA256_CTX; Data : in Hermes.Octet_Array; Len : in Interfaces.C.size_t)
      with
+       Global => null,
        Import,
        Convention => C,
        External_Name => "SHA256_Update";
 
    -- Imported hash finalization function.
-   procedure SHA256_Final(Md : out Hermes.Octet_Array; Context : SHA256_CTX)
+   procedure SHA256_Final(Md : out Hermes.Octet_Array; Context : in out SHA256_CTX)
      with
+       Global => null,
        Import,
        Convention => C,
        External_Name => "SHA256_Final";
 
+   -- Visible Subprograms
+   ----------------------
 
-   Context : SHA256_CTX; -- Only one hash can be active at a time. This stores its context.
+   -- Uses the imported C function SHA256_Init() to initialize the hashing procedure.
+   procedure Initialize_Hash(Context : out SHA256_CTX) is
+   begin
+      SHA256_Init(Context);
+   end Initialize_Hash;
+
+
+   -- Uses the imported C function SHA256_Update() to continue the hashing procedure.
+   procedure Update_Hash(Context : in out SHA256_CTX; Data : in Hermes.Octet_Array) is
+   begin
+      SHA256_Update(Context, Data, Interfaces.C.size_t(Data'Length));
+   end Update_Hash;
+
+
+   -- Uses the imported C function SHA256_Final() to finalize the hashing procedure.
+   procedure Finalize_Hash(Context : in out SHA256_CTX; Hash_Value : out SHA256_Hash_Type) is
+   begin
+      SHA256_Final(Hash_Value, Context);
+   end Finalize_Hash;
+
 
    procedure Initialize_Key(Status : out Status_Type) is
    begin
@@ -71,30 +86,5 @@ package body Cryptographic_Services is
       raise Program_Error with "Cryptographic_Services.Make_Signature not implemented";
       return Signature;
    end Make_Signature;
-
-
-   -- Uses the imported C function SHA256_Init() to initialize the hashing procedure.
-   procedure Initialize_Hash is
-   begin
-      SHA256_Init(Context);
-   end Initialize_Hash;
-
-
-   -- Uses the imported C function SHA256_Update() to continue the hashing procedure.
-   procedure Update_Hash(Data : in Hermes.Octet_Array) is
-   begin
-      SHA256_Update(Context, Data, Interfaces.C.size_t(Data'Length));
-   end Update_Hash;
-
-
-   -- Uses the imported C function SHA256_Final() to finalize the hashing procedure.
-   function Finalize_Hash return Hermes.Octet_Array is
-      -- TODO: Replace 32 with a named number. See also Timestamp_Messages.Hash_Size.
-      Final_Hash : Hermes.Octet_Array(1 .. 32) := (others => 0);
-   begin
-      SHA256_Final(Final_Hash, Context);
-      return Final_Hash;
-   end Finalize_Hash;
-
 
 end Cryptographic_Services;
