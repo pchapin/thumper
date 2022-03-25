@@ -1,6 +1,6 @@
 with "aunit.gpr";
 with "gtkada.gpr";
-
+with "aws.gpr";
 project Thumper is
 
    for Languages use ("Ada");
