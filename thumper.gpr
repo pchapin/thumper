@@ -1,4 +1,5 @@
-with "aunit.gpr";
+with "aunit.gpr";       
+with "aws.gpr";
 with "gtkada.gpr";
 
 project Thumper is

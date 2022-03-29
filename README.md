@@ -38,6 +38,17 @@ To build Thumper you'll need the following software installed:
 + GtkAda. This can be downloaded from [AdaCore](http://libre.adacore.com/community). You may
   need to select the "additional packages" option to find the installer on the web site. GtkAda
   is used for the client side graphical user interface.
+  
++ AWS. The Ada Web Server can be downloaded from the [GitHub
+  page](https://github.com/AdaCore/aws). We recommend downloading an official release rather
+  than using the latest revision in the Git repository. Note, however, that (at the time of this
+  writing) the release archive does not include the templates\_parser subproject. Thus you must
+  go to the GitHub repository for that project and clone it into the proper folder before you
+  try to build AWS. There is a link on the code page for AWS that points at the appropriate
+  version in the templates\_parser history. On Windows, be sure the GNAT tools are in the path
+  and then do `win32\build.cmd C:\GNAT\2021` to compile and install AWS to your GNAT
+  installation folder (replace the target path as appropriate). For Linux and macOS do `make
+  setup build install`.
 
 + PostgreSQL 14. The exact version is not necessarily critical but if you use a different
   version, or if you install it in a non-standard location, you'll need to modify the
