@@ -1,7 +1,7 @@
 ---------------------------------------------------------------------------
 -- FILE    : hermes-oid.ads
 -- SUBJECT : Specification of Object Identifier package.
--- AUTHOR  : (C) Copyright 2015 by Peter C. Chapin
+-- AUTHOR  : (C) Copyright 2022 by Peter C. Chapin
 --
 -- Please send comments or bug reports to
 --
@@ -41,18 +41,6 @@ package Hermes.OID is
       Number_Of_Components : out Component_Count_Type)
      with
        Depends => ( (Result, Number_Of_Components) => (Identifier, Result) );
-
-   -- Converts an object identifier into an array of raw bytes. Returns in the Octet_Count
-   -- parameter the number of bytes used. If there is a problem with the conversion (for
-   -- example, due to lack of space) a count of zero is returned. Unused space in the Result
-   -- array is filled with zero byte values; although if a failure occurs the Result array has
-   -- an indeterminate value.
-   --
-   -- TODO: Would this be better as a function returning Octet_Array?
-   procedure To_Octet_Array
-     (Identifier : in Object_Identifier; Result : out Octet_Array; Octet_Count : out Natural)
-     with
-       Depends => ( (Result, Octet_Count) => (Result, Identifier) );
 
 private
 

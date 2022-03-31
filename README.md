@@ -1,11 +1,12 @@
 Thumper
 =======
 
-Thumper is a secure time stamp client/server system that implements RFC-3161. It allows clients
-to obtain cryptographic time stamps that can be used to later verify that certain documents
-existed on or before the time mentioned in the time stamp. Thumper is written in a combination
-of Ada 2012 and SPARK 2014 and makes use of external C libraries for database access and
-cryptographic operations. Thumper is used as a SPARK technology demonstration.
+Thumper is a secure time stamp client/server system that implements
+[RFC-3161](https://datatracker.ietf.org/doc/html/rfc3161). It allows clients to obtain
+cryptographic time stamps that can be used to later verify that certain documents existed on or
+before the time mentioned in the time stamp. Thumper is written in a combination of Ada 2012 and
+SPARK 2014 and makes use of external C libraries for database access and cryptographic
+operations. Thumper is used as a SPARK technology demonstration.
 
 The system is intended to satisfy two major goals.
 
