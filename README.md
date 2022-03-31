@@ -121,11 +121,13 @@ Contributors
 
 Several of my students have assisted in the development of Thumper. Specifically:
 
++ Luke Alden: Unit testing.
 + Nathan Brown: Interfacing to OpenSSL.
 + Tim Cross: Primitive encoding/decoding subprograms in Hermes.
 + Nicole Hurley: Interfacing to OpenSSL.
 + Nancy Mai: Client side GUI.
 + Ian Schulze: Providing AWS support for remote access to Thumper statistics.
++ Stirling Sidaway: Primitive encoding/decoding subprograms in Hermes.
 
 Peter C. Chapin  
 pchapin@vtc.edu
