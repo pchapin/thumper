@@ -1,7 +1,7 @@
 ---------------------------------------------------------------------------
 -- FILE    : check_oid.ads
 -- SUBJECT : Package containing object identifier tests.
--- AUTHOR  : (C) Copyright 2015 by Peter C. Chapin
+-- AUTHOR  : (C) Copyright 2022 by Peter C. Chapin
 --
 -- Please send comments or bug reports to
 --

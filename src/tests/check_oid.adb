@@ -1,7 +1,7 @@
 ---------------------------------------------------------------------------
 -- FILE    : check_oid.adb
 -- SUBJECT : Package containing object identifier tests.
--- AUTHOR  : (C) Copyright 2015 by Peter C. Chapin
+-- AUTHOR  : (C) Copyright 2022 by Peter C. Chapin
 --
 -- Please send comments or bug reports to
 --
@@ -26,23 +26,9 @@ package body Check_OID is
    end Test_Round_Trip;
 
 
-   -- This test should convert several object identifiers to octet arrays and verify that the
-   -- resulting octet arrays have the right (bit-by-bit) contents.
-   --
-   procedure Test_Format(T : in out AUnit.Test_Cases.Test_Case'Class) is
-   begin
-      -- This is arbitrary code. Use Assert to verify that an expected condition is actually
-      -- true. The message is displayed if the test fails.
-      -- Assert(0 = 0, "Zero is not zero!");
-      -- Assert(true = true, "True is the same as false!");
-      raise Program_Error;
-   end Test_Format;
-
-
    procedure Register_Tests(T : in out OID_Test) is
    begin
       AUnit.Test_Cases.Registration.Register_Routine(T, Test_Round_Trip'Access, "Round Trip");
-      AUnit.Test_Cases.Registration.Register_Routine(T, Test_Format'Access, "Format");
    end Register_Tests;
 
 

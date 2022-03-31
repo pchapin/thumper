@@ -33,7 +33,7 @@ package Timestamp_Messages is
          Hashed_Message : Hermes.Octet_Array(1 .. Hash_Size);
 
          Serial_Number : Serial_Generator.Serial_Number_Type;
-         Generalized_Time : Hermes.Octet_Array(1 .. 14);
+         Generalized_Time : String(1 .. 15); -- "YYYYMMDDHHMMSSZ"
       end record;
 
 
