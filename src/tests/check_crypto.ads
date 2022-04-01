@@ -1,7 +1,7 @@
 ---------------------------------------------------------------------------
 -- FILE    : check_crypto.ads
 -- SUBJECT : Package containing tests of the cryptographic services.
--- AUTHOR  : (C) Copyright 2015 by Peter C. Chapin
+-- AUTHOR  : (C) Copyright 2022 by Peter C. Chapin
 --
 -- Please send comments or bug reports to
 --

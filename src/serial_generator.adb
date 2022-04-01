@@ -1,14 +1,13 @@
 ---------------------------------------------------------------------------
 -- FILE    : serial_generator.adb
 -- SUBJECT : Body of a package to abstract the serial number generator.
--- AUTHOR  : (C) Copyright 2015 by Peter Chapin
+-- AUTHOR  : (C) Copyright 2022 by Peter Chapin
 --
 -- Please send comments or bug reports to
 --
 --      Peter Chapin <chapinp@acm.org>
 ---------------------------------------------------------------------------
 pragma SPARK_Mode(On);
-with Ada.Calendar;
 
 package body Serial_Generator
   with Refined_State => (State => Current)
@@ -34,15 +33,15 @@ is
 begin
    declare
       use Ada.Calendar;
+      Current_Time : Time;
       Year    : Year_Number;
       Month   : Month_Number;
       Day     : Day_Number;
       Seconds : Day_Duration;
    begin
-      -- Clock does read a global time. However, it's not worth modeling fully here.
       pragma Warnings(Off, "no Global contract available for ""Split""");
-      pragma Warnings(Off, "no Global contract available for ""Clock""");
-      Split(Clock, Year, Month, Day, Seconds);
+      Current_Time := Clock;
+      Split(Current_Time, Year, Month, Day, Seconds);
       -- Store the date/time into a 64 bit value. The precise layout is not important.
       Current :=
         Serial_Number_Type(Year - Year_Number'First) * 2**54 +  -- 9 bits.
