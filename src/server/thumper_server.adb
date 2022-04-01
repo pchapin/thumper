@@ -53,7 +53,7 @@ begin
 
    -- Initialize the remote access. This procedure raises an exception if it fails.
    -- TODO: Handle the exception raised (or maybe change the procedure to return a status code).
-   --Remote_Access.Initialize;
+   Remote_Access.Initialize;
 
    -- Set up the socket. This initializes the network streams (both input and output).
    Network.Socket.Create_And_Bind_Socket(Network.Addresses.Port_Type'Value(Get_Switch(Port)));

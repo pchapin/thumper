@@ -59,12 +59,12 @@ package body Remote_Access is
         "<html><head><title>Timestamp</title></head><body>The timestamp is ";
       
       Hash : Hermes.Octet_Array(1 .. Hash_Size);
-      Generalized_Time : Hermes.Octet_Array(1 .. 14) := (others => 0);
+      Generalized_Time : String(1 .. 15) := (others => ' ');
 
       function To_Hex(Byte : Hermes.Octet) return String is
          use type Hermes.Octet;
          Result : String (1 .. 2);
-         Lookup : array (Hermes.Octet range 0 .. 15) of Character :=
+         Lookup : constant array (Hermes.Octet range 0 .. 15) of Character :=
            ('0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F');
       begin
          Result(1) := Lookup(Byte / 16);
