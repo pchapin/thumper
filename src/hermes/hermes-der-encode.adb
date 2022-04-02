@@ -273,10 +273,15 @@ package body Hermes.DER.Encode is
          end if;
       end To_Octet_Array;
 
-      OID_Octet_Array : Hermes.Octet_Array(1 .. 0);
+      Leading_Identifier : constant Hermes.Octet :=  Make_Leading_Identifier(Class_Universal, Primitive, Tag_Object_Identifier);
+      Result : Octet_Array(1 .. 128);
+      Count : Natural;
    begin
-      raise Program_Error with "Hermes.DER.Encode.Put_OID_Value not implemented";
-      return OID_Octet_Array;
+      To_Octet_Array(Identifier  => Value,
+                     Result      => Result,
+                     Octet_Count => Count);
+
+      return Leading_Identifier & Put_Length_Value(Length => Count) & Result(1 .. count);
    end Put_OID_Value;
 
 end Hermes.DER.Encode;
