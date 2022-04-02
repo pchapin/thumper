@@ -182,8 +182,8 @@ package body Hermes.DER.Encode is
       -- Converts an object identifier into an array of raw bytes. Returns in the Octet_Count
       -- parameter the number of bytes used. If there is a problem with the conversion (for
       -- example, due to lack of space) a count of zero is returned. Unused space in the Result
-      -- array is filled with zero byte values; although if a failure occurs the Result array has
-      -- an indeterminate value.
+      -- array is filled with zero values; although if a failure occurs the Result array has an
+      -- indeterminate value.
       --
       -- See T-REC-X.690-2021-02.pdf (section 8.19) in the references folder for the specifics
       -- about the encoding. See also http://msdn.microsoft.com/en-us/library/bb540809(v=vs.85).aspx
@@ -273,15 +273,18 @@ package body Hermes.DER.Encode is
          end if;
       end To_Octet_Array;
 
-      Leading_Identifier : constant Hermes.Octet :=  Make_Leading_Identifier(Class_Universal, Primitive, Tag_Object_Identifier);
-      Result : Octet_Array(1 .. 128);
-      Count : Natural;
-   begin
-      To_Octet_Array(Identifier  => Value,
-                     Result      => Result,
-                     Octet_Count => Count);
+      Leading_Identifier : constant Hermes.Octet :=     
+        Make_Leading_Identifier(Class_Universal, Primitive, Tag_Object_Identifier);
+      Encoded : Octet_Array(1 .. 128); -- TODO: Choose a more appropriate size.
+      Count   : Natural;      
+      
+   begin -- Put_OID_Value
+      To_Octet_Array    
+        (Identifier  => Value,
+         Result      => Encoded,
+         Octet_Count => Count);
 
-      return Leading_Identifier & Put_Length_Value(Length => Count) & Result(1 .. count);
+      return Leading_Identifier & Put_Length_Value(Length => Count) & Result(1 .. Count);
    end Put_OID_Value;
 
 end Hermes.DER.Encode;
