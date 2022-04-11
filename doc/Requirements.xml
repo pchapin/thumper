@@ -101,7 +101,7 @@
       Thumper server shall store information about all time stamps generated in a PostgreSQL
       database server. This information shall include at least the following fields from each
       time stamp: the hash, the time, and the serial number. The IP address of the client shall
-      not be stored.</para>
+      not be stored for privacy reasons [or should we?].</para>
 
   </section>
 

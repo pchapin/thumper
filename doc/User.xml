@@ -6,4 +6,156 @@
   <title>Thumper User Documentation</title>
 
   <para><emphasis>This chapter contains the user documentation for Thumper.</emphasis></para>
+
+  <section>
+    <title>Configuration</title>
+
+    <para>Both the Thumper client and server can be configured at three levels. First, each
+      configurable parameter has a default value. Next, a configuration file is processed where
+      configurable parameters can be set that override the default values. Finally, the command
+      line is processed where configurable parameters can be set that override settings in the
+      configuration file (or the default value if the configuration file does not specify a
+      setting for the parameter). This section describes the syntax of the configuration file,
+      the syntax of the command line, the set of configurable parameters recognized by the
+      client and the server, and the meanings of their values.</para>
+
+    <para>Each configurable parameter has one of three possible types: integer, boolean, or
+      string. The syntax used to specify the value of a parameter depends on its type. Integers
+      are integer values with an optional sign, Booleans can have the value "true" or the value
+      "false", spelled exactly as shown here (case sensitive), and strings can have a value
+      consisting of any sequence of printable ASCII characters. Support for other character sets
+      is not provided, but may become available in the future.</para>
+
+    <section>
+      <title>Configuration File Syntax</title>
+
+      <para>The configuration file is an ASCII text file with each configuration parameter
+        defined on a single line. There is no mechanism to allow for the definition of a
+        parameter to extend over multiple lines. Comments start with a '#' character and run to
+        the end of the line. Blank lines and "extra" white space (as defined below) are ignored.
+        Each configurable parameter has a name, which starts at the beginning of a line with no
+        leading white space, is followed immediately by a colon with no intervening white space
+        [it seems a little overly restrictive to require no white space before the colon], and
+        is then followed by the value of that parameter according to its type. White space
+        before the start of the value and trailing white space (after comment removal) is
+        ignored. White space inside the value of a parameter is not ignored; in the case of a
+        string value such space is taken literally, in the case of integer and boolean values it
+        is an error. In particular, a space between the optional sign of an integer and its
+        value is an error.</para>
+
+      <para>Errors in the syntax of a value, or in the range of an integer value, is reason to
+        abort the program. Unrecognized configuration parameters are silently ignored. This
+        allows a single configuration file to be used for both the client and the server whereby
+        each program ignores configurable parameters intended for the other. [Is this really a
+        useful feature? Note that it means a misspelled configuration parameter will not produce
+        an error message but instead will be ignored.] If the same configuration parameter
+        appears more than once in a configuration file, all but the last appearance are
+        ignored.</para>
+
+      <para>Here is an example of a legal configuration file:</para>
+
+      <literallayout>
+        # Thumper configuration file...
+        ServerPort:   4191                      # Leading white space on value ignored.
+        ServerHost: lemuria.cis.vtc.edu  # Trailing white space ignored (after comment removal).
+        LoggingEnabled: true                    # Boolean value can only be 'true' or 'false'.
+        LogFile: C:\Log Files\Thumper\main.log  # Spaces in string values are honored.
+        ServerPort:9000                         # Okay. Previous setting discarded.
+      </literallayout>
+
+      <para>Note that string values cannot contain a '#' character since it will be interpreted
+        as the start of a comment. Also string values cannot purposely contain leading or
+        trailing white space. There is no mechanism for quoting strings.</para>
+
+      <para>Here are some examples of configuration file errors:</para>
+
+      <literallayout>
+        # Thumper configuration file...
+          ServerPort: 4191   # Parameter name not at the start of a line.
+        ServerPort : 4191    # Space between parameter name and the colon.
+        ServerPort 4191      # Missing colon.
+        ServerPort: + 4191   # Space between optional sign and integer value.
+        ServerPort: 100000   # Integer value out of range for given parameter.
+        ServerPOrt: 4191     # Misspelled parameter name causes line to be ignored.
+        LoggingEnabled: True # Misspelled boolean value
+      </literallayout>
+    </section>
+
+    <section>
+      <title>Command Line Syntax</title>
+
+      <para>Each configurable parameter has a corresponding command line option. These options
+        are introduced with a leading '-' character and may be more than one character long. The
+        value of the parameter follows as the next command line argument in the usual way for
+        your shell. Here are some examples of legal command lines (in what follows the '$' is
+        the shell prompt):</para>
+
+      <literallayout>
+        $ server -p 4191    # Set ServerPort to 4191
+        $ server -p +4191   # Set ServerPort to 4191
+        $ server -le true   # Set LoggingEnabled to true.
+        $ server -lf "C:\Log Files\Thumper\main.log"  # Set LogFile
+      </literallayout>
+
+      <para>In the last example quotations are used so the shell will group the string into a
+        single command line argument. This is needed because the string value contains an
+        embedded space. Note that it is possible to provide string values on the command line
+        that include leading or trailing spaces or embedded '#' characters using the shell's
+        quoting mechanism.</para>
+
+      <para>Of course, in a more typical scenario several configurable parameters might be
+        specified at once:</para>
+
+      <literallayout>
+        $ server -p 4191 -le true -lf "C:\Log Files\Thumper\main.log" -h lemuria.cis.vtc.edu
+      </literallayout>
+
+      <para>In the example above, the string value used to set the ServerHost parameter, and
+        introduced with the -h command line option, does not require quotes around it because it
+        contains no shell meta-characters.</para>
+
+      <para>As with the configuration file, the order in which the configurable parameters are
+        specified does not matter unless the same configurable parameter is specified more than
+        once. In that case, the last value specified is used. Note that configurable parameters
+        specified on the command line override values specified in the configuration file which,
+        in turn, override default values.</para>
+    </section>
+
+    <section>
+      <title>Configurable Parameters</title>
+
+      <para>In this section we describe all the configurable parameters used by the Thumper
+        client and server. Each parameter is shown with its name, the command line option used
+        to set it, its type with the range of allowed values (if applicable), its default value,
+        and a description of what the parameter means.</para>
+    </section>
+
+    <section>
+      <title>Location of the Configuration File</title>
+
+      <para>There is a default location for the configuration file [what is it??]. The default
+        setting can be overridden using environment variables; no command line option is
+        provided to specify the location of the configuration file [there probably should be
+        one, but it will need special handling because normally the command line is processed
+        after the configuration file is read].</para>
+
+      <para>The Thumper server checks the setting of THUMPER_SERVER_CONFIG, if it exists, to
+        find the name of its configuration file. The name can be either an absolute path or a
+        path relative to the server process's working directory. It is recommended that absolute
+        paths be used.</para>
+
+      <para>If the THUMPER_SERVER_CONFIG environment variable is not set, the server checks the
+        setting of THUMPER_CONFIG, if it exists. If neither environment variable is set, the
+        server falls back to default values (which can be overridden on the command line, of
+        course). If both environment variable are set, the general THUMPER_CONFIG variable is
+        ignored.</para>
+
+      <para>The Thumper client behaves in a similar way except that it first checks the setting
+        of THUMPER_CLIENT_CONFIG before checking THUMPER_CONFIG. This behavior makes it easy to
+        use a common configuration file for both the client and server by setting THUMPER_CONFIG
+        to point at that common file. If separate configuration files are desired, the more
+        specific environment variables can be used.</para>
+    </section>
+
+  </section>
 </chapter>
