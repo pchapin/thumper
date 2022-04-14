@@ -1,7 +1,7 @@
 ---------------------------------------------------------------------------
 -- FILE    : check_der_encode.adb
 -- SUBJECT : Package containing tests of ASN.1 DER encoding.
--- AUTHOR  : (C) Copyright 2015 by Peter Chapin
+-- AUTHOR  : (C) Copyright 2022 by Peter Chapin
 --
 -- Please send comments or bug reports to
 --
@@ -15,7 +15,6 @@ use AUnit.Assertions;
 use Hermes;
 use Hermes.DER;
 use Hermes.DER.Encode;
-use Hermes.OID;
 
 package body Check_DER_Encode is
 
@@ -135,10 +134,14 @@ package body Check_DER_Encode is
       end loop;
    end Test_Put_Integer;
 
+
    procedure Test_Put_OID(T : in out AUnit.Test_Cases.Test_Case'Class) is
       pragma Unreferenced(T);
-      A : Object_Identifier;
-      B : Hermes.OID.Status_Type;
+      use type Hermes.OID.Status_Type;
+
+      OID        : Hermes.OID.Object_Identifier;
+      OID_Status : Hermes.OID.Status_Type;
+
       type Output_Record is
          record
             Value : Hermes.Octet_Array(1 .. 11);
@@ -147,22 +150,21 @@ package body Check_DER_Encode is
 
       type Test_Case is
          record
-            Input    : Component_Array(1 .. 9);
+            Input    : Hermes.OID.Component_Array(1 .. 9);
             Expected : Output_Record;
          end record;
    Test_Cases : constant array(1 .. 1) of Test_Case :=
-      ( 1 => (Input => (2,16,840,1,101,3,4,2,1),
+      ( 1 => (Input    => (2, 16, 840, 1, 101, 3, 4, 2, 1),
               Expected => ((16#06#, 16#09#, 16#60#, 16#86#, 16#48#, 16#01#,
-                           16#65#, 16#03#, 16#04#, 16#02#, 16#01#), Size => 11)));
-
+                            16#65#, 16#03#, 16#04#, 16#02#, 16#01#), Size => 11)));
 
    begin
       for I in Test_Cases'Range loop
-         To_Object_Identifier(Test_Cases(I).Input, A, B);
-         Assert (B = Success,
-          "Test case #" & Integer'Image(I) & " conversion to object identifier failed");
+         Hermes.OID.To_Object_Identifier(Test_Cases(I).Input, OID, OID_Status);
+         Assert(OID_Status = Hermes.OID.Success,
+          "Test case #" & Integer'Image(I) & " conversion to OID failed");
          declare
-            Result : constant Hermes.Octet_Array := Put_OID_Value(A);
+            Result : constant Hermes.Octet_Array := Put_OID_Value(OID);
          begin
             Assert
               (Result'Length = Test_Cases(I).Expected.Size,
