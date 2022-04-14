@@ -9,11 +9,13 @@
 ---------------------------------------------------------------------------
 with AUnit.Assertions;
 with Hermes.DER.Encode;
+with Hermes.OID;
 
 use AUnit.Assertions;
 use Hermes;
 use Hermes.DER;
 use Hermes.DER.Encode;
+use Hermes.OID;
 
 package body Check_DER_Encode is
 
@@ -133,12 +135,51 @@ package body Check_DER_Encode is
       end loop;
    end Test_Put_Integer;
 
+   procedure Test_Put_OID(T : in out AUnit.Test_Cases.Test_Case'Class) is
+      pragma Unreferenced(T);
+      A : Object_Identifier;
+      B : Hermes.OID.Status_Type;
+      type Output_Record is
+         record
+            Value : Hermes.Octet_Array(1 .. 11);
+            Size  : Positive;
+         end record;
+
+      type Test_Case is
+         record
+            Input    : Component_Array(1 .. 9);
+            Expected : Output_Record;
+         end record;
+   Test_Cases : constant array(1 .. 1) of Test_Case :=
+      ( 1 => (Input => (2,16,840,1,101,3,4,2,1),
+              Expected => ((16#06#, 16#09#, 16#60#, 16#86#, 16#48#, 16#01#,
+                           16#65#, 16#03#, 16#04#, 16#02#, 16#01#), Size => 11)));
+
+
+   begin
+      for I in Test_Cases'Range loop
+         To_Object_Identifier(Test_Cases(I).Input, A, B);
+         Assert (B = Success,
+          "Test case #" & Integer'Image(I) & " conversion to object identifier failed");
+         declare
+            Result : constant Hermes.Octet_Array := Put_OID_Value(A);
+         begin
+            Assert
+              (Result'Length = Test_Cases(I).Expected.Size,
+               "Test case #" & Integer'Image(I) & " length failed");
+            Assert
+              (Result = Test_Cases(I).Expected.Value(1 .. Test_Cases(I).Expected.Size),
+               "Test case #" & Integer'Image(I) & " value failed");
+         end;
+      end loop;
+   end Test_Put_OID;
 
    procedure Register_Tests(T : in out DER_Encode_Test) is
    begin
       AUnit.Test_Cases.Registration.Register_Routine(T, Test_Put_Length'Access, "Put Length");
       AUnit.Test_Cases.Registration.Register_Routine(T, Test_Put_Boolean'Access, "Put Boolean");
       AUnit.Test_Cases.Registration.Register_Routine(T, Test_Put_Integer'Access, "Put Integer");
+      AUnit.Test_Cases.Registration.Register_Routine(T, Test_Put_OID'Access, "Put OID");
    end Register_Tests;
 
 
