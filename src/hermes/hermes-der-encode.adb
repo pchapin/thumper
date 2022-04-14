@@ -284,7 +284,7 @@ package body Hermes.DER.Encode is
          Result      => Encoded,
          Octet_Count => Count);
 
-      return Leading_Identifier & Put_Length_Value(Length => Count) & Result(1 .. Count);
+      return Leading_Identifier & Put_Length_Value(Length => Count) & Encoded(1 .. Count);
    end Put_OID_Value;
 
 end Hermes.DER.Encode;
