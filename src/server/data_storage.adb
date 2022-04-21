@@ -12,7 +12,6 @@
 with Postgresql;
 with Server_Logger;
 
-use Postgresql;
 use Server_Logger;
 
 
@@ -35,8 +34,8 @@ package body Data_Storage is
 
    function Timestamp_Count return Count_Type is
    begin
-      -- TODO: Add proper query.
-      return Count_Type'Value(Get_Value(0,0));
+      PostgreSQL.Execute_Query (Query => "SELECT COUNT(Timestamp_Count) FROM thumper_table;");
+      return Count_Type'Value(PostgreSQL.Get_Value(0,0));
    end Timestamp_Count;
 
 
@@ -47,12 +46,19 @@ package body Data_Storage is
 
 
    function Timestamp_Retrieve(Serial_Number : Serial_Number_Type) return Timestamp_Array is
-      pragma Unreferenced(Serial_Number);   -- For now to cut down on warnings.
+      --pragma Unreferenced(Serial_Number);   -- For now to cut down on warnings.
    begin
-      -- TODO: Add proper query.
+      PostgreSQL.Execute_Query (Query => "SELECT Policy, Hash_Algorithm, Hash_Message, Serial_Number, Generalized_Time FROM thumper_table WHERE Serial_Number = " & Serial_Number_Type'Image(Serial_Number) & ";");
       declare
-         Result: Timestamp_Array(1 .. PostgreSQL.Number_Of_Tuples);
+         Result : Timestamp_Array(1 .. PostgreSQL.Number_Of_Tuples);
       begin
+         for I in Result'Range loop
+            declare
+               stime : String := PostgreSQL.Get_Value (I, 7);
+            begin
+               Result(I).Generalized_Time := stime;
+            end;
+         end loop;
          return Result;
       end;
    end Timestamp_Retrieve;
@@ -62,6 +68,8 @@ package body Data_Storage is
       pragma Unreferenced(Start, Stop);   -- For now to cut down on warnings.
       Dummy : Timestamp_Array(1 .. 0);
    begin
+      --PostgreSQL.Execute_Query (Query => "SELECT Policy, Hash_Algorithm, Hash_Message, Serial_Number, Generalized_Time FROM thumper_table WHERE Generalized_Time >= " & Time'Image(Start) & " AND Generalized_Time =< " & Time'Image(Stop) & ";");
+
       return Dummy;
    end Timestamp_Retrieve;
 
