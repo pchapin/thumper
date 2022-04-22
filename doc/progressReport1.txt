@@ -1,0 +1,8 @@
+What I've finished:
+I've finished basic hash computation, and converting the hash to a printable format.
+
+What I'm stuck on:
+My code has a few minor warnings.
+
+What I plan for next session:
+Fix warnings, prep GUI for the printed hash, and send the branch off for testing.

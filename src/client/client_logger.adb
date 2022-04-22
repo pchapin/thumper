@@ -17,14 +17,14 @@ package body Client_Logger is
    begin
       -- TODO: Display the messages in a message box and potentially also log it to a file.
       Ada.Text_IO.Put_Line("*** INF: " & Message);
-   end Write_Error;
+   end Write_Information;
 
 
    procedure Write_Warning(Message : in String) is
    begin
       -- TODO: Display the messages in a message box and potentially also log it to a file.
       Ada.Text_IO.Put_Line("*** WRN: " & Message);
-   end Write_Error;
+   end Write_Warning;
 
 
    procedure Write_Error(Message : in String) is
