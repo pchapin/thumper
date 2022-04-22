@@ -229,9 +229,8 @@ package body Hermes.DER.Encode is
                      Out_Of_Space := True;
                      exit;
                   else
-                    
                      Result(Result_Index) := Octet(Current_Component rem 128);
-                      Result_Index := Result_Index + 1;
+                     Result_Index := Result_Index + 1;
                      Current_Component := Current_Component / 128;
                      exit when Current_Component = 0;
                   end if;
@@ -276,13 +275,13 @@ package body Hermes.DER.Encode is
          end if;
       end To_Octet_Array;
 
-      Leading_Identifier : constant Hermes.Octet :=     
+      Leading_Identifier : constant Hermes.Octet :=
         Make_Leading_Identifier(Class_Universal, Primitive, Tag_Object_Identifier);
       Encoded : Octet_Array(1 .. 128); -- TODO: Choose a more appropriate size.
-      Count   : Natural;      
-      
+      Count   : Natural;
+
    begin -- Put_OID_Value
-      To_Octet_Array    
+      To_Octet_Array
         (Identifier  => Value,
          Result      => Encoded,
          Octet_Count => Count);
