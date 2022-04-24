@@ -3,11 +3,11 @@ DROP TABLE thumper_table;
 CREATE TABLE thumper_table(
     Timestamp_Count serial primary key, 
     IP_Address inet,
-    Policy varchar(128),
-    Hash_Algorithm varchar(128),
+    Policy char(128),
+    Hash_Algorithm char(128),
     Hash_Message bit(256),
     Serial_Number bigint,
-    Generalized_Time varchar(15)
+    Generalized_Time char(15)
 );
 
 INSERT INTO thumper_table (IP_Address, Policy, Hash_Algorithm, Hash_Message, Serial_Number, Generalized_Time)VALUES

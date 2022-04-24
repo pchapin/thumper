@@ -21,7 +21,7 @@ with Network.Socket;
 --with Remote_Access;
 with Server_SPARK_Boundary;
 with Thumper_Switches;
-with PostgreSQL;
+--with PostgreSQL;
 
 use Ada.Exceptions;
 use Ada.Strings.Unbounded;
@@ -33,7 +33,7 @@ procedure Thumper_Server is
    Command_Line_Okay : Boolean;
    Error_Message : Unbounded_String;
    Crypto_Status : Cryptographic_Services.Status_Type;
-   ray : Data_Storage.Timestamp_Array(1..10);
+   ray : Data_Storage.Timestamp_Array(1 .. 1);
 begin
    -- Be sure the command line makes sense.
    Thumper_Switches.Validate(Thumper_Switches.Server, Command_Line_Okay, Error_Message);
@@ -54,11 +54,11 @@ begin
    Data_Storage.Initialize;
 
    --Test for Data_Storage.Timestamp_Count
-   --Ada.Text_IO.Put(Integer'Image(Data_Storage.Timestamp_Count));
+   Ada.Text_IO.Put_Line(Integer'Image(Data_Storage.Timestamp_Count));
+   Ada.Text_IO.Put_Line("");
 
    --Test for Data_Storage.Timestamp_Retrieve
-   postgresql.Clear_Result;
-   ray := Data_Storage.Timestamp_Retrieve(11172890368547758);
+   ray := Data_Storage.Timestamp_Retrieve(9223372036854775805);
 
    -- Initialize the remote access. This procedure raises an exception if it fails.
    -- TODO: Handle the exception raised (or maybe change the procedure to return a status code).
