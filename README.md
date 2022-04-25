@@ -126,6 +126,7 @@ Several of my students have assisted in the development of Thumper. Specifically
 + Tim Cross: Primitive encoding/decoding subprograms in Hermes.
 + Nicole Hurley: Interfacing to OpenSSL.
 + Nancy Mai: Client side GUI.
++ Carter Ransom: Primitive encoding/decoding subprograms in Hermes.
 + Ian Schulze: Providing AWS support for remote access to Thumper statistics.
 + Stirling Sidaway: Primitive encoding/decoding subprograms in Hermes.
 

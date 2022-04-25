@@ -13,8 +13,8 @@
 -- that information propagate upward just yet. Maybe later.
 pragma SPARK_Mode(Off);
 
-with Ada.Text_IO;
 with Ada.Calendar;
+with Ada.Text_IO;
 
 use Ada.Calendar;
 

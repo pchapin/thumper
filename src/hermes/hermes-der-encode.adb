@@ -182,8 +182,8 @@ package body Hermes.DER.Encode is
       -- Converts an object identifier into an array of raw bytes. Returns in the Octet_Count
       -- parameter the number of bytes used. If there is a problem with the conversion (for
       -- example, due to lack of space) a count of zero is returned. Unused space in the Result
-      -- array is filled with zero byte values; although if a failure occurs the Result array has
-      -- an indeterminate value.
+      -- array is filled with zero values; although if a failure occurs the Result array has an
+      -- indeterminate value.
       --
       -- See T-REC-X.690-2021-02.pdf (section 8.19) in the references folder for the specifics
       -- about the encoding. See also http://msdn.microsoft.com/en-us/library/bb540809(v=vs.85).aspx
@@ -213,6 +213,7 @@ package body Hermes.DER.Encode is
             Result_Index := Result'First;
             Octet_Count  := 1;
             Result(Result_Index) := Octet((Separates(1) * 40) + Separates(2));
+            Result_Index := Result_Index + 1;
             for Other_Index in Component_Index_Type range 3 .. Number_Of_Components loop
                pragma Loop_Invariant(Result_Index in Result'Range);
 
@@ -228,8 +229,8 @@ package body Hermes.DER.Encode is
                      Out_Of_Space := True;
                      exit;
                   else
-                     Result_Index := Result_Index + 1;
                      Result(Result_Index) := Octet(Current_Component rem 128);
+                     Result_Index := Result_Index + 1;
                      Current_Component := Current_Component / 128;
                      exit when Current_Component = 0;
                   end if;
@@ -245,15 +246,16 @@ package body Hermes.DER.Encode is
                   --
                   -- TODO: Fix this failing proof.
                   --
-                  Octet_Count := Result_Index - Start_Index + 1;
+                  Octet_Count := Result_Index - Result'First;
                else
                   Octet_Count := 0;
                   exit;
                end if;
 
                -- Reverse the order so the 7 bit units are in big endian order instead.
-               Left_Index  := Result'First + 1;
+               Left_Index  := Start_Index;
                Right_Index := Result_Index;
+               Right_Index := Right_Index - 1;
                while Left_Index < Right_Index loop
                   pragma Loop_Invariant(Left_Index in Result'Range and Right_Index in Result'Range);
 
@@ -266,17 +268,25 @@ package body Hermes.DER.Encode is
                end loop;
 
                -- Set MSB of each unit to 1 except for the last one.
-               for Index in Natural range Start_Index .. Result_Index - 1 loop
+               for Index in Natural range Start_Index .. Result_Index - 2 loop
                   Result(Index) := Result(Index) + 128;
                end loop;
             end loop;
          end if;
       end To_Octet_Array;
 
-      OID_Octet_Array : Hermes.Octet_Array(1 .. 0);
-   begin
-      raise Program_Error with "Hermes.DER.Encode.Put_OID_Value not implemented";
-      return OID_Octet_Array;
+      Leading_Identifier : constant Hermes.Octet :=
+        Make_Leading_Identifier(Class_Universal, Primitive, Tag_Object_Identifier);
+      Encoded : Octet_Array(1 .. 128); -- TODO: Choose a more appropriate size.
+      Count   : Natural;
+
+   begin -- Put_OID_Value
+      To_Octet_Array
+        (Identifier  => Value,
+         Result      => Encoded,
+         Octet_Count => Count);
+
+      return Leading_Identifier & Put_Length_Value(Length => Count) & Encoded(1 .. Count);
    end Put_OID_Value;
 
 end Hermes.DER.Encode;
