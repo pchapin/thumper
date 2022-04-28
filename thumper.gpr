@@ -3,10 +3,11 @@ with "aunit.gpr";
 
 project Thumper is
 
-   for Languages use ("Ada");
+   for Languages use ("Ada", "C");
    for Source_Dirs use ("src", "src/hermes", "src/client", "src/server", "src/tests");
    for Object_Dir use "build";
    for Main use ("hermes_test.adb", "thumper_test.adb", "thumper_server.adb", "thumper_client.adb");
+   for Roots ("opensslSign.c") use ();
    type Runtime_Type is ("full");
    Runtime : Runtime_Type := external ("RUNTIME", "full");
 
@@ -28,7 +29,7 @@ project Thumper is
    end Builder;
 
    package Compiler is
-      for Default_Switches ("C") use ("");
+      for Default_Switches ("C") use ("-I/Library/PostgreSQL/14/include/openssl/dsa.h");
       for Default_Switches ("Ada") use ("-g", "-gnata", "-gnatwa");
    end Compiler;
 
