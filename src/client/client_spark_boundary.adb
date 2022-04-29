@@ -64,12 +64,6 @@ package body Client_SPARK_Boundary is
       Printed_Hash : constant String := Octets_To_String(Used_Hash); -- SHA256 hash in readable form
    begin
       Write_Information("File Name: " & Document_File_Name & ". SHA256 hash: " & Printed_Hash);
-
-
-      -- Read the document and compute its hash.
-      -- Call Client_Timestamp_Maker.Create_Timestamp
-      -- Save the resulting timestamp (if the above was successful).
-      raise Program_Error with "Client_SPARK_Boundary.Fetch_Timestamp not implemented";
    end Fetch_Timestamp;
 
    function Check_Timestamp
