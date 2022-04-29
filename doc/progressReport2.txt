@@ -1,8 +1,0 @@
-What I've finished:
-I've patched minor bugs, added message logging to client_logger, and sent my branch off for testing.
-
-What I'm stuck on:
-Nothing at the moment
-
-What I plan for next session:
-I expect my branch to have been tested, and to fix any errors revealed by testing.
