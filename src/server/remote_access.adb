@@ -16,7 +16,7 @@ with AWS.Response;
 with AWS.Server; use AWS.Server;
 with AWS.Status; use AWS.Status;
 with AWS.Utils;  use AWS.Utils;
-
+with Server_Logger; use Server_Logger;
 with Data_Storage;       use Data_Storage;
 with Hermes.OID;         use Hermes.OID;
 with Serial_Generator;   use Serial_Generator;
@@ -33,7 +33,7 @@ package body Remote_Access is
       Pre => URI'Length > 0
    is
       -- TODO: Make the base URI configurable.
-      Base_URI : constant String := "../TestHTML/index.html";
+      Base_URI : String := "C:\Users\falit\Documents\GitHub\thumper\TestHTML\";
    begin
       if URI (URI'Last) = '/' then
          return Base_URI & URI & "index.html";
@@ -54,11 +54,12 @@ package body Remote_Access is
         "<title>Count of time stamps</title></head><body>The count is ";
       Count_File_End    : constant String := "!</body></html>";
       Result_File_Begin : constant String := "<title>Timestamp:</title>";
-      Stamp_File_Begin  : constant String :=
-        "<html><head><title>Timestamp</title></head><body>The timestamp is ";
+      Stamp_File_Begin  : constant String := "<html><head><title>Timestamp</title></head><body>The timestamp is ";
+
 
       Hash             : Hermes.Octet_Array (1 .. Hash_Size);
-      Generalized_Time : String (1 .. 15) := (others => ' ');
+      Generalized_Time : String (1 .. 15) := (others => '0');
+
 
       function To_Hex (Byte : Hermes.Octet) return String is
          use type Hermes.Octet;
@@ -83,10 +84,10 @@ package body Remote_Access is
          return Workspace;
       end Hash_Conversion;
 
-   begin  -- Service
+   begin --Service
 
       -- TODO: Log requests and other information somehwere. Remove dependency on Ada.Text_IO.
-      Ada.Text_IO.Put_Line ("Requested URI: " & URI);
+      Server_Logger.Write_Information ("Requested URI: " & URI);
 
       if URI = "/count.html" then
          return
@@ -96,7 +97,7 @@ package body Remote_Access is
               Count_File_End);
 
       elsif URI = "/submit.html" then
-         Ada.Text_IO.Put_Line (Parameter (Request, "SerialNumber"));
+         Server_Logger.Write_Information (Parameter (Request, "SerialNumber"));
       -- TODO: It would probably be better to use AWS's templating mechanism.
          return
            AWS.Response.Build
@@ -107,7 +108,7 @@ package body Remote_Access is
 
       elsif URI = "/serialtest.html" then
          declare
-            Timestamps : Timestamp_Array :=
+            Timestamps : Constant Timestamp_Array :=
               Timestamp_Retrieve
                 (Serial_Number_Type'Value
                    (Parameter (Request, "SerialNumber")));
@@ -137,7 +138,7 @@ package body Remote_Access is
    begin
       -- Basic logger
       -- TODO: Use a real logger.
-      Ada.Text_IO.Put_Line ("**** AWS Started! ****");
+      Server_Logger.Write_Information ("**** AWS Started! ****");
 
       -- Start the server
       AWS.Server.Start
@@ -149,7 +150,7 @@ package body Remote_Access is
    begin
       -- Log Shutdown
       -- TODO: Use a real logger.
-      Ada.Text_IO.Put_Line ("**** AWS Going Down!! ****");
+      Server_Logger.Write_Information ("**** AWS Going Down!! ****");
 
       -- Shutdown the server
       AWS.Server.Shutdown (Web_Server);
