@@ -63,3 +63,6 @@ Here are some papers related to this project.
 
 + [Design and Implementation of a RFC3161-Enhanced Time-Stamping Service](http://crypto.nknu.edu.tw/publications/2004IWAP.pdf)
   by Chung-Huang Yang, Chih-Ching Yeh, and Fang-Dar Chu.
+
++ [Developing a Web Server in Ada with
+  AWS](https://silo.tips/download/developing-a-web-server-in-ada-with-aws) by J-P. Rosen.
