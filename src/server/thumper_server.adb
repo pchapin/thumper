@@ -77,7 +77,7 @@ begin
    Ada.Text_IO.Put_Line("Timestamp Retrieve for Serial Number: ");
    ray := Data_Storage.Timestamp_Retrieve(811368890754717258);
 
-   start := Time_Of (Year => 2017, Month => 06, Day => 24, Hour => 03, Minute => 30, Second => 59, Sub_Second => 0.5, Leap_Second => False, Time_Zone => 0);
+   start := Time_Of (Year => 2017, Month => 06, Day => 24, Hour => 03, Minute => 30, Second => 59, Sub_Second => 0.5, Leap_Second => False, Time_Zone => 1);
    Ada.Text_IO.Put_Line("Time Stop: " & Image(stop));
    Ada.Text_IO.Put_Line("Time Start: " & Image(start));
 
@@ -94,7 +94,8 @@ begin
    ts.Serial_Number := 14980002230;
    ts.Generalized_Time := "201604291152302";
 
-   Data_Storage.Timestamp_Store(ts);
+   --Data_Storage.Timestamp_Store(ts);
+
 
 
 
