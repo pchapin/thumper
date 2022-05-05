@@ -155,7 +155,6 @@ package body Check_DER_Encode is
               Expected => ((16#06#, 16#09#, 16#60#, 16#86#, 16#48#, 16#01#,
                            16#65#, 16#03#, 16#04#, 16#02#, 16#01#), Size => 11)));
 
-
    begin
       for I in Test_Cases'Range loop
          To_Object_Identifier(Test_Cases(I).Input, A, B);

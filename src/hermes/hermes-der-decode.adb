@@ -414,6 +414,14 @@ package body Hermes.DER.Decode is
          end if;
       end if;
    end Get_Integer_Value;
-
-
+      procedure Get_OID_Value
+     (Message : in  Octet_Array;
+      Start   : in  Natural;
+      Stop    : out Natural;
+      Value   : out Hermes.OID.Object_Identifier;
+      Status  : out Status_Type)
+      is 
+      begin
+         null;
+      end Get_OID_Value;
 end Hermes.DER.Decode;

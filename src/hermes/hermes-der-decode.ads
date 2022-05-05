@@ -9,6 +9,8 @@
 ---------------------------------------------------------------------------
 pragma SPARK_Mode(On);
 
+with Hermes.OID;
+
 package Hermes.DER.Decode is
    
    -- Splits a leading identifier octet into its constituent parts. Fails with
@@ -102,5 +104,27 @@ package Hermes.DER.Decode is
        Depends => ( (Stop, value, Status) => (Message, Start) ),
        Pre => Start in Message'Range,
        Post => Stop in Start .. Message'Last;
-   
+
+   -- Examines the Message starting at position Start looking for a DER encoded integer.
+   --
+   -- Message => The message to examine.
+   -- Start   => The starting position in the message where the integer is to be extracted.
+   -- Stop    => The last position in the message used by the encoded integer.
+   -- Value   => The extracted Component Array.
+   -- Status  => The status of the extraction (success/failure, etc).
+   --
+   -- Decodes a DER encoded object identifier vaule.
+   -- 
+      
+   procedure Get_OID_Value
+     (Message : in  Octet_Array;
+      Start   : in  Natural;
+      Stop    : out Natural;
+      Value   : out Hermes.OID.Object_Identifier;
+      Status  : out Status_Type)
+     with
+       Depends => ( (Stop, value, Status) => (Message, Start) ),
+       Pre => Start in Message'Range,
+       Post => Stop in Start .. Message'Last;
+
 end Hermes.DER.Decode;
