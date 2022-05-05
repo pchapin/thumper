@@ -22,11 +22,6 @@ with Network.Socket;
 with Server_SPARK_Boundary;
 with Thumper_Switches;
 
---with PostgreSQL;
-with Ada.Calendar;      use Ada.Calendar;
-with Ada.Calendar.Formatting;    use Ada.Calendar.Formatting; 
-with Hermes.OID;
-with Timestamp_Messages;
 
 use Ada.Exceptions;
 use Ada.Strings.Unbounded;
@@ -38,14 +33,6 @@ procedure Thumper_Server is
    Command_Line_Okay : Boolean;
    Error_Message : Unbounded_String;
    Crypto_Status : Cryptographic_Services.Status_Type;
-
-
-   ray : Data_Storage.Timestamp_Array(1 .. 1);
-   ray2 : Data_Storage.Timestamp_Array(1..2);
-   start : Time;
-   stop : Time := Clock;
-   ts   : Timestamp_Messages.Timestamp;
-
 
 begin
    -- Be sure the command line makes sense.
@@ -65,39 +52,6 @@ begin
    -- Initialize the data storage. This procedure raises an exception if it fails.
    -- TODO: Handle the exception raised (or maybe change the procedure to return a status code).
    Data_Storage.Initialize;
-
-
-
-
-   --Test for Data_Storage.Timestamp_Count
-   Ada.Text_IO.Put_Line("Timestamp Count: " & Integer'Image(Data_Storage.Timestamp_Count));
-   Ada.Text_IO.Put_Line("");
-
-   --Test for Data_Storage.Timestamp_Retrieve
-   Ada.Text_IO.Put_Line("Timestamp Retrieve for Serial Number: ");
-   ray := Data_Storage.Timestamp_Retrieve(811368890754717258);
-
-   start := Time_Of (Year => 2017, Month => 06, Day => 24, Hour => 03, Minute => 30, Second => 59, Sub_Second => 0.5, Leap_Second => False, Time_Zone => 1);
-   Ada.Text_IO.Put_Line("Time Stop: " & Image(stop));
-   Ada.Text_IO.Put_Line("Time Start: " & Image(start));
-
-   Ada.Text_IO.Put_Line("");
-
-   Ada.Text_IO.Put_Line("Timestamp Retrieve for Start - Stop time: ");
-   ray2 := Data_Storage.Timestamp_Retrieve(Start => start, Stop => stop);
-
-   Ada.Text_IO.Put_Line("");
-
-   ts.Version := 1;
-   ts.Policy := ray(1).Policy;
-   ts.Hash_Algorithm := ray(1).Hash_Algorithm;
-   ts.Serial_Number := 14980002230;
-   ts.Generalized_Time := "201604291152302";
-
-   --Data_Storage.Timestamp_Store(ts);
-
-
-
 
    -- Initialize the remote access. This procedure raises an exception if it fails.
    -- TODO: Handle the exception raised (or maybe change the procedure to return a status code).

@@ -42,6 +42,23 @@ package Hermes.OID is
      with
        Depends => ( (Result, Number_Of_Components) => (Identifier, Result) );
 
+   -- Converts a Component Array to an OID String (eg "2.6.3.7.23.122.6")
+   procedure OIDToString
+      (Comp : in Hermes.OID.Component_Array;
+       Str  : out String);
+
+   -- Converts a String to a Component_Type (Hermes.OID)
+   procedure StringToComponent
+      (Text       : in String; 
+       Num        : in out Natural;
+       Component  : out Hermes.OID.Component_Type);
+
+   -- Converts an OID String (eg "1.5.77.3.6.3.9") into a Component Array (Hermes.OID) 
+   procedure StringToArray
+      (Text    : in String;
+       Result  : out Hermes.OID.Component_Array);
+
+
 private
 
    -- 1.3.6.14.311.5.1007

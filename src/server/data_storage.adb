@@ -13,13 +13,44 @@ with Postgresql;
 with Server_Logger;                       use Server_Logger;
 with Ada.Text_IO;
 with Hermes.OID;
-with Ada.Strings;                         use Ada.Strings;
-with Ada.Strings.Fixed;                   use Ada.Strings.Fixed;
-with Ada.Strings.Maps;                    use Ada.Strings.Maps;
-with Ada.Calendar.Formatting;             use Ada.Calendar.Formatting;
+with Hermes.DER.Decode;
+--with Hermes.DER.Encode;
+with Ada.Calendar.Formatting;             
+with Ada.Calendar.Time_Zones;             
 
 
 package body Data_Storage is
+
+
+   ----------------------
+   -- Private Subprograms
+   ----------------------
+
+   -- Converts a Time type into a Generalized Time String.
+   procedure TimeToGeneralizedTime(t : in Time; gt : out String) is
+      Text      : constant String                     := Ada.Calendar.Formatting.Image(t);
+      tz        : constant Time_Zones.Time_Offset     := Time_Zones.UTC_Time_Offset (t);
+      tzs       : constant String                     := Time_Zones.Time_Offset'Image(tz);
+      gti       : Positive                            := gt'First; --gt iterator
+      dash      : constant Character                  := '-';
+      colon     : constant Character                  := ':';
+      blank     : constant Character                  := ' ';
+   begin
+      for I in Text'Range loop
+         if Text(I) /= dash and Text(I) /= colon and Text(I) /= blank then
+            gt(gti) := Text(I);
+            gti := gti + 1;
+         end if; 
+      end loop;
+      -- Debug:Ada.Text_IO.Put_Line(tzs);
+      gt(gt'First + 14) := tzs(2); 
+      -- TODO: Time zones need to be formatted to match Generalized_Time, right now they are returning the second character in a string representing the UFC Time Offset
+      -- Debug: Ada.Text_IO.Put_Line(gt);
+   end TimeToGeneralizedTime;
+
+   ----------------------
+   -- Public Subprograms
+   ----------------------
 
    procedure Initialize is
    begin
@@ -36,97 +67,6 @@ package body Data_Storage is
    end Shutdown;
 
 
-   -- Converts a String to a Component_Type (Hermes.OID)
-   procedure StringToComponent(Text : in String; Num : in out Natural; Component: out Hermes.OID.Component_Type) is  
-   begin
-      Component := Hermes.OID.Component_Type'Value(Text);
-      Num := Num + 1;
-      -- Debug: Ada.Text_IO.Put_Line(Text);
-   end StringToComponent;
-   
-
-   -- Converts an OID String (eg "1.5.77.3.6.3.9") into a Component Array (Hermes.OID) 
-   procedure StringToArray(Text : in String; Result : out Hermes.OID.Component_Array) is
-      num       : Natural := 0;         -- Component_Array index value
-      component : Hermes.OID.Component_Type;
-      alpha     : constant Character_Set := To_Set(Singleton => '.');
-      iter      : Natural := 1;         --iterator
-      lower     : Positive;             --lower index location for numbers
-      upper     : Natural;              --upper index location for numbers
-   begin
-      while iter in Text'Range loop
-         Find_Token (Source => Text, 
-                     Set => alpha,
-                     From => iter,
-                     Test => Outside, 
-                     First => lower, 
-                     Last => upper);
-      exit when upper = 0;
-         StringToComponent(Text(lower..upper), num, component);
-         Result(num) := component; 
-         iter := upper + 1;
-      end loop;
-   end StringToArray;
-
-
-   -- Converts a Time type into a Generalized Time String
-   procedure TimeToGeneralizedTime(t : in Time; gt : out String) is
-      Text      : constant String := Image(t);
-      gti       : Positive := gt'First;            --gt iterator
-      dash      : constant Character := '-';
-      colon     : constant Character := ':';
-      blank     : constant Character := ' ';
-   begin
-      for iter in Text'Range loop
-         if Text(iter) /= dash and Text(iter) /= colon and Text(iter) /= blank then
-            gt(gti) := Text(iter);
-            gti := gti + 1;
-         end if; 
-      end loop;
-      gt(gt'First + 14) := '0'; -- TODO: Time zones need to be calculated in connection with Time types, currently set to 0 by default
-      -- Debug: Ada.Text_IO.Put_Line(gt);
-   end TimeToGeneralizedTime;
-
-
-   -- OID Component Arrays to OID String (eg "2.6.3.7.23.122.6")
-   procedure OIDToString(Comp : in Hermes.OID.Component_Array; Str : out String) is
-      SIndex   : Natural := Str'First;
-      len      : Natural;
-      blank    : constant Character := ' ';
-   begin
-      for I in Comp'Range loop
-         declare
-            ct  : constant Hermes.OID.Component_Type := Comp(I); 
-         begin
-            len := 0;
-            for K in ct'Image'Range loop
-               len := len + 1;
-            end loop;
-         end;
-         declare
-            num : String(1..len);
-         begin
-            num := Comp(I)'Image;
-            for J in num'Range loop
-               if num(J) /= blank then
-                  Str(SIndex) := num(J);
-                  SIndex := SIndex + 1;
-               end if;
-            end loop;
-         end; 
-         if I = Comp'Last then
-            for L in SIndex..Str'Last loop
-               Str(L) := blank;
-            end loop;
-            exit;
-         end if;
-         Str(SIndex) := '.';
-         SIndex := SIndex + 1;
-      end loop;
-      Ada.Text_IO.Put_Line (Str);
-   end OIDToString;
-
-
    function Timestamp_Count return Count_Type is
    begin
       PostgreSQL.Execute_Query (Query => "SELECT COUNT(Timestamp_Count) FROM ThumperTable;");
@@ -134,9 +74,9 @@ package body Data_Storage is
    end Timestamp_Count;
 
 
-   -- TODO: ThumperTable also stores IP addresses, Timestamp_Store only currently stores Policy, Hash_Algorithm, Serial_Number, and Generalized_Time 
+   -- TODO: ThumperTable also stores IP addresses, but Timestamp_Store currently only stores Timestamps 
    procedure Timestamp_Store(Stamp : in Timestamp) is
-      Iversion    : constant Positive                                         := Stamp.Version;
+      Iversion    : constant Positive                                := Stamp.Version;
       OIDpolicy   : constant Hermes.OID.Object_Identifier            := Stamp.Policy;
       Cpolicy     : Hermes.OID.Component_Array(1..Hermes.OID.Maximum_Component_Count);
       Npolicy     : Hermes.OID.Component_Count_Type;
@@ -145,19 +85,24 @@ package body Data_Storage is
       Calgo       : Hermes.OID.Component_Array(1..Hermes.OID.Maximum_Component_Count);
       Nalgo       : Hermes.OID.Component_Count_Type;
       Salgo       : String(1..128);        
-      -- TODO: Ohash       : Hermes.Octet_Array                      := Stamp.Hashed_Message;
+      Ohash       : constant Hermes.Octet_Array                      := Stamp.Hashed_Message;
+      Ihash       : Integer;
+      Stop        : Natural                                          := Ohash'Last;
+      Sthash      : Hermes.DER.Status_Type;
       Serial      : constant Serial_Number_Type                      := Stamp.Serial_Number;
       GTime       : constant String(1..15)                           := Stamp.Generalized_Time;
    begin
       Hermes.OID.To_Separates(OIDpolicy, Cpolicy, Npolicy);
-      OIDToString (Cpolicy, Spolicy);
+      Hermes.OID.OIDToString (Cpolicy, Spolicy);
       Hermes.OID.To_Separates(OIDalgo, Calgo, Nalgo);
-      OIDToString (Calgo, Salgo);
-      -- TODO: Query still needs Hashed_Message 
-      PostgreSQL.Execute_Query(Query => "INSERT INTO ThumperTable (Version, Policy, Hash_Algorithm, Serial_Number, Generalized_Time) VALUES ( '" & Positive'Image(Iversion) & "', '" & Spolicy & "', '" & Salgo & "', " & Serial_Number_Type'Image(Serial) & ", '" & GTime & "');");
+      Hermes.OID.OIDToString (Calgo, Salgo);
+      Hermes.DER.Decode.Get_Integer_Value (Message => Ohash, Start => Ohash'First, Stop => Stop, Value => Ihash, Status => Sthash);
+      -- Debug: Ada.Text_IO.Put_Line("OID Status: " & Hermes.DER.Status_Type'Image(Sthash)); 
+      PostgreSQL.Execute_Query(Query => "INSERT INTO ThumperTable (Version, Policy, Hash_Algorithm, Hash_Message, Serial_Number, Generalized_Time) VALUES ( '" & Positive'Image(Iversion) & "', '" & Spolicy & "', '" & Salgo & "', " & Integer'Image(Ihash) & ", " & Serial_Number_Type'Image(Serial) & ", '" & GTime & "');");
    end Timestamp_Store;
 
 
+   --TODO: Work on Hashed_Message retrieval 
    function Timestamp_Retrieve(Serial_Number : Serial_Number_Type) return Timestamp_Array is
       Tuples : Count_Type;
    begin
@@ -178,7 +123,8 @@ package body Data_Storage is
                Calgo       : Hermes.OID.Component_Array(1..Hermes.OID.Maximum_Component_Count);
                OIDalgo     : Hermes.OID.Object_Identifier;
                Stalgo      : Hermes.OID.Status_Type;
-               Smess       : String(1..256);                            -- Hash_Message
+               Smess       : Integer;                                   -- Hash_Message
+               --Omess       : Hermes.Octet_Array(1..Timestamp_Messages.Hash_Size);
                Snum        : Serial_Number_Type;                        -- Serial_Number
                Stime       : String(1..15);                             -- Generalized_Time   
             begin
@@ -187,19 +133,20 @@ package body Data_Storage is
                   Ada.Text_IO.Put_Line("");
                Spolicy := PostgreSQL.Get_Value ((I - 1), 1);
                   Ada.Text_IO.Put_Line (Item => "Policy: " & Spolicy);
-               StringToArray (Spolicy, Cpolicy);
+               Hermes.OID.StringToArray (Spolicy, Cpolicy);
                Hermes.OID.To_Object_Identifier(Separates => Cpolicy, Result => OIDpolicy, Status => Stpolicy);
                   Ada.Text_IO.Put_Line (Item => "OID Status: " & Hermes.OID.Status_Type'Image(Stpolicy));
                   Ada.Text_IO.Put_Line("");
                Salgo := PostgreSQL.Get_Value ((I - 1), 2);
                   Ada.Text_IO.Put_Line (Item => "Hash Algorithm: " & Salgo);
-               StringToArray(Salgo, Calgo);
+               Hermes.OID.StringToArray(Salgo, Calgo);
                Hermes.OID.To_Object_Identifier(Separates => Calgo, Result => OIDalgo, Status => Stalgo);
                   Ada.Text_IO.Put_Line ("OID Status: " & Hermes.OID.Status_Type'Image(Stalgo));
                   Ada.Text_IO.Put_Line("");
-               Smess := PostgreSQL.Get_Value ((I - 1), 3);
-                  Ada.Text_IO.Put_Line (Item => "Hashed Message: " & Smess);
+               Smess := Integer'Value(PostgreSQL.Get_Value ((I - 1), 3));
+                  Ada.Text_IO.Put_Line (Item => "Hashed Message: " & Integer'Image(Smess));
                   Ada.Text_IO.Put_Line("");
+               --Omess := Hermes.DER.Encode.Put_Integer_Value(Smess); TODO: length check fail
                Snum := Serial_Number_Type'Value(PostgreSQL.Get_Value ((I - 1), 4));
                   Ada.Text_IO.Put_Line (Item => "Serial Number: " & Serial_Number_Type'Image(Snum));
                   Ada.Text_IO.Put_Line("");
@@ -209,7 +156,7 @@ package body Data_Storage is
                Result(I).Version          := Iversion;
                Result(I).Policy           := OIDpolicy;
                Result(I).Hash_Algorithm   := OIDalgo;
-               -- TODO: Result(1).Hashed_Message   := Smess;  need to convert string of bits into octects 
+               --Result(I).Hashed_Message   := Omess;  
                Result(I).Serial_Number    := Snum;
                Result(I).Generalized_Time := Stime;       
             end;
@@ -222,6 +169,7 @@ package body Data_Storage is
    end Timestamp_Retrieve;
 
 
+   --TODO: Work on Hashed_Message retrieval 
    function Timestamp_Retrieve(Start : Time; Stop : Time) return Timestamp_Array is
       Tuples   : Count_Type;
       StartS   : String(1..15);
@@ -238,7 +186,7 @@ package body Data_Storage is
          Result   : Timestamp_Array(1 .. Tuples);
       begin
          if Tuples = 0 then
-            raise Program_Error with "No Timestamps between" & Image(Start) & " and " & Image(Stop) & ".";
+            raise Program_Error with "No Timestamps between" & Ada.Calendar.Formatting.Image(Start) & " and " & Ada.Calendar.Formatting.Image(Stop) & ".";
          end if;
          for I in 1 .. Tuples loop
             declare
@@ -251,7 +199,8 @@ package body Data_Storage is
                Calgo       : Hermes.OID.Component_Array(1..Hermes.OID.Maximum_Component_Count);
                OIDalgo     : Hermes.OID.Object_Identifier;
                Stalgo      : Hermes.OID.Status_Type;
-               Smess       : String(1..256);                            -- Hash_Message
+               Smess       : Integer;                                   -- Hash_Message
+               --Omess       : Hermes.Octet_Array(1..Timestamp_Messages.Hash_Size);
                Snum        : Serial_Number_Type;                        -- Serial_Number
                Stime       : String(1..15);                             -- Generalized_Time   
             begin
@@ -260,19 +209,20 @@ package body Data_Storage is
                   Ada.Text_IO.Put_Line("");
                Spolicy := PostgreSQL.Get_Value ((I - 1), 1);
                   Ada.Text_IO.Put_Line (Item => "Policy: " & Spolicy);
-               StringToArray (Spolicy, Cpolicy);
+               Hermes.OID.StringToArray (Spolicy, Cpolicy);
                Hermes.OID.To_Object_Identifier(Separates => Cpolicy, Result => OIDpolicy, Status => Stpolicy);
                   Ada.Text_IO.Put_Line (Item => "OID Status: " & Hermes.OID.Status_Type'Image(Stpolicy));
                   Ada.Text_IO.Put_Line("");
                Salgo := PostgreSQL.Get_Value ((I - 1), 2);
                   Ada.Text_IO.Put_Line (Item => "Hash Algorithm: " & Salgo);
-               StringToArray(Salgo, Calgo);
+               Hermes.OID.StringToArray(Salgo, Calgo);
                Hermes.OID.To_Object_Identifier(Separates => Calgo, Result => OIDalgo, Status => Stalgo);
                   Ada.Text_IO.Put_Line ("OID Status: " & Hermes.OID.Status_Type'Image(Stalgo));
                   Ada.Text_IO.Put_Line("");
-               Smess := PostgreSQL.Get_Value ((I - 1), 3);
-                  Ada.Text_IO.Put_Line (Item => "Hashed Message: " & Smess);
+               Smess := Integer'Value(PostgreSQL.Get_Value ((I - 1), 3));
+                  Ada.Text_IO.Put_Line (Item => "Hashed Message: " & Integer'Image(Smess));
                   Ada.Text_IO.Put_Line("");
+               -- Omess := Hermes.DER.Encode.Put_Integer_Value(Smess); TODO: length check fail
                Snum := Serial_Number_Type'Value(PostgreSQL.Get_Value ((I - 1), 4));
                   Ada.Text_IO.Put_Line (Item => "Serial Number: " & Serial_Number_Type'Image(Snum));
                   Ada.Text_IO.Put_Line("");
@@ -282,7 +232,7 @@ package body Data_Storage is
                Result(I).Version          := Iversion;
                Result(I).Policy           := OIDpolicy;
                Result(I).Hash_Algorithm   := OIDalgo;
-               -- TODO: Result(1).Hashed_Message   := Smess;  need to convert string of bits into octects 
+               --Result(I).Hashed_Message   := Omess; 
                Result(I).Serial_Number    := Snum;
                Result(I).Generalized_Time := Stime;       
             end;

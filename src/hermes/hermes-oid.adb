@@ -9,7 +9,12 @@
 ---------------------------------------------------------------------------
 pragma SPARK_Mode(On);
 
+with Ada.Strings;                         use Ada.Strings;
+with Ada.Strings.Fixed;                   use Ada.Strings.Fixed;
+with Ada.Strings.Maps;                    use Ada.Strings.Maps;
+
 package body Hermes.OID is
+
 
    ---------------------
    -- Public Subprograms
@@ -81,5 +86,79 @@ package body Hermes.OID is
          Number_Of_Components := Identifier.Other_Component_Count + 2;
       end if;
    end To_Separates;
+
+
+   procedure OIDToString(Comp : in Hermes.OID.Component_Array; Str : out String) is
+      SIndex   : Natural            := Str'First;
+      len      : Natural;
+      blank    : constant Character := ' ';
+   begin
+      for I in Comp'Range loop
+         declare
+            ct  : constant Hermes.OID.Component_Type := Comp(I); 
+         begin
+            len := 0;
+            -- Debug: Ada.Text_IO.Put_Line(ct'Image);
+            for K in ct'Image'Range loop
+               len := len + 1;
+            end loop;
+         end;
+         declare
+            num : String(1..len);
+         begin
+            num := Comp(I)'Image;
+            for J in num'Range loop
+               if num(J) /= blank then
+                  Str(SIndex) := num(J);
+                  SIndex := SIndex + 1;
+               end if;
+            end loop;
+         end; 
+         if I = Comp'Last then
+            for L in SIndex..Str'Last loop
+               Str(L) := blank;
+            end loop;
+            exit;
+         end if;
+         Str(SIndex) := '.';
+         SIndex := SIndex + 1;
+      end loop;
+      -- Debug: Ada.Text_IO.Put_Line (Str);
+   end OIDToString;
+
+
+   procedure StringToComponent
+      (Text       : in String; 
+       Num        : in out Natural;
+       Component  : out Hermes.OID.Component_Type) is  
+   begin
+      Component := Hermes.OID.Component_Type'Value(Text);
+      Num := Num + 1;
+      -- Debug: Ada.Text_IO.Put_Line(Text);
+   end StringToComponent;
+   
+
+   procedure StringToArray(Text : in String; Result : out Hermes.OID.Component_Array) is
+      num       : Natural := 0;         -- Component_Array index value
+      component : Hermes.OID.Component_Type;
+      alpha     : constant Character_Set := To_Set(Singleton => '.');
+      iter      : Natural := 1;         --iterator
+      lower     : Positive;             --lower index location for numbers
+      upper     : Natural;              --upper index location for numbers
+   begin
+      while iter in Text'Range loop
+         Find_Token (Source => Text, 
+                     Set => alpha,
+                     From => iter,
+                     Test => Outside, 
+                     First => lower, 
+                     Last => upper);
+      exit when upper = 0;
+         StringToComponent(Text(lower..upper), num, component);
+         Result(num) := component; 
+         iter := upper + 1;
+      end loop;
+   end StringToArray;
+
 
 end Hermes.OID;
