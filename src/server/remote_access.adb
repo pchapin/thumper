@@ -99,13 +99,13 @@ package body Remote_Access is
               Count_File_End);
 
       elsif URI = "/submit.html" then
-         Server_Logger.Write_Information (Parameter (Request, "SerialNumber"));
+         Server_Logger.Write_Information (Parameter (Request, "datetimes"));
       -- TODO: It would probably be better to use AWS's templating mechanism.
          return
            AWS.Response.Build
              (Text_HTML,
               HTML_File_Head & Result_File_Begin & HTML_Body &
-              "Serial number is: " & Parameter (Request, "SerialNumber") &
+              "The requested date and time range was : " & Parameter (Request, "datetimes") &
               HTML_File_End);
 
       elsif URI = "/serialtest.html" then
@@ -113,7 +113,7 @@ package body Remote_Access is
             Timestamps : Constant Timestamp_Array :=
               Timestamp_Retrieve
                 (Serial_Number_Type'Value
-                   (Parameter (Request, "SerialNumber")));
+                   (Parameter (Request, "datetimes")));
          begin
             Hash             := Timestamps (1).Hashed_Message;
             Generalized_Time := Timestamps (1).Generalized_Time;
