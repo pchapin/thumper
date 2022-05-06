@@ -4,17 +4,52 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="style.css">
-	<title>Test</title>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+	<title>Admin Pannel</title>
 </head>
 <body>
-	<h1>Can you see this?</h1>
 
-	<label for="start">Start date:</label>
+	
+<!-- 
+	<form action="/login" method="POST">
+	<input type="text" name="login">
+	<input type="password" name="password">
+	<input type="submit" value="Submit">
+</form> -->
 
-<input type="date" id="start" name="selected-date"
-       value="2018-07-22"
-       min="2018-01-01" max="2022-12-31">
 
+<h1>Welcome Admin, Select the date range you want to see info for.</h1>
+
+
+<div class="container">
+
+<form action="/submit.html" method="POST">
+
+<input type="submit" value="Submit">
+<input type="text" name="datetimes" />
+
+<script>
+$(function() {
+  $('input[name="datetimes"]').daterangepicker({
+    timePicker: true,
+    startDate: moment().startOf('hour'),
+    endDate: moment().startOf('hour').add(32, 'hour'),
+    locale: {
+      format: 'M/DD hh:mm A'
+    }
+  });
+});
+</script>
+
+   </form>
+
+ 
+
+</div>
 
 
 </body>

@@ -1,5 +1,6 @@
-<label for="start">Start date:</label>
-
-<input type="date" id="start" name="selected-date"
-       value="2018-07-22"
-       min="2018-01-01" max="2022-12-31">
+.container {
+  min-height: 100vh; /* minimum height = screen height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

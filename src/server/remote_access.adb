@@ -27,8 +27,7 @@ package body Remote_Access is
    -- Server declaration
    Web_Server : AWS.Server.HTTP;
 
-   -- TODO (SECURITY): Make sure the URI does not contain any ".." elements.
-   -- NOTE: AWS might already be doing this.
+
    function To_File_Name (URI : String) return String with
       Pre => URI'Length > 0
    is
@@ -44,7 +43,9 @@ package body Remote_Access is
 
    function Service (Request : AWS.Status.Data) return AWS.Response.Data is
       URI       : constant String := AWS.Status.URI (Request);
+
       File_Name : constant String := To_File_Name (URI);
+
 
       HTML_File_Head : constant String := "<html><head>";
       HTML_Body      : constant String := "<body>";
@@ -59,6 +60,7 @@ package body Remote_Access is
 
       Hash             : Hermes.Octet_Array (1 .. Hash_Size);
       Generalized_Time : String (1 .. 15) := (others => '0');
+
 
 
       function To_Hex (Byte : Hermes.Octet) return String is
@@ -84,9 +86,9 @@ package body Remote_Access is
          return Workspace;
       end Hash_Conversion;
 
+
    begin --Service
 
-      -- TODO: Log requests and other information somehwere. Remove dependency on Ada.Text_IO.
       Server_Logger.Write_Information ("Requested URI: " & URI);
 
       if URI = "/count.html" then
@@ -136,8 +138,7 @@ package body Remote_Access is
 
    procedure Initialize is
    begin
-      -- Basic logger
-      -- TODO: Use a real logger.
+
       Server_Logger.Write_Information ("**** AWS Started! ****");
 
       -- Start the server
@@ -149,7 +150,6 @@ package body Remote_Access is
    procedure Shutdown is
    begin
       -- Log Shutdown
-      -- TODO: Use a real logger.
       Server_Logger.Write_Information ("**** AWS Going Down!! ****");
 
       -- Shutdown the server
