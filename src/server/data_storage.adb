@@ -21,15 +21,20 @@ package body Data_Storage is
    procedure Initialize is
    begin
       -- TODO: Database connectivity information should come from a configuration file.
-      Postgresql.Connect("localhost", 5432, "ThumperServer", "thumper", "rabbitsfoot");
-      Write_Information("Connected to the Database.");
+      Postgresql.Connect
+        (Server_Name => "localhost",
+         Port        => 5432,
+         Database    => "ThumperDB",
+         User        => "thumper",
+         Password    => "rabbitsfoot");
+      Write_Information("Connected to the database.");
    end Initialize;
 
 
    procedure Shutdown is
    begin
       Postgresql.Disconnect;
-      Write_Information("Disconnected From the Database.");
+      Write_Information("Disconnected from the database.");
    end Shutdown;
 
 

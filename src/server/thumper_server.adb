@@ -1,32 +1,31 @@
 ---------------------------------------------------------------------------
 -- FILE    : thumper_server.adb
 -- SUBJECT : Main procedure of the Thumper server.
--- AUTHOR  : (C) Copyright 2015 by Peter Chapin
+-- AUTHOR  : (C) Copyright 2022 by Peter Chapin
 --
 -- This procedure initializes various global items and then calls the SPARK procedure
 -- Service_Clients.
 --
 -- Please send comments or bug reports to
 --
---      Peter Chapin <chapinp@acm.org>
+--      Peter Chapin <pchapin@vtc.edu>
 ---------------------------------------------------------------------------
 with Ada.Exceptions;
 with Ada.Strings.Unbounded;
 with Ada.Text_IO;
-with Server_Logger;
 
 with Cryptographic_Services;
 with Data_Storage;
 with Network.Addresses;
 with Network.Socket;
 with Remote_Access;
+with Server_Logger;
 with Server_SPARK_Boundary;
 with Thumper_Switches;
 
 use Ada.Exceptions;
 use Ada.Strings.Unbounded;
 use Thumper_Switches;
-use Remote_Access;
 
 procedure Thumper_Server is
    use type Cryptographic_Services.Status_Type;
@@ -54,12 +53,13 @@ begin
    Data_Storage.Initialize;
 
    -- Initialize the remote access. This procedure raises an exception if it fails.
-   -- TODO: Handle the exception raised (or maybe change the procedure to return a status code).
-   begin Remote_Access.Initialize;
-      exception
-   when others =>
-         Server_Logger.Write_Error ("Unable to start web server");
-         end;
+   begin
+      Remote_Access.Initialize;
+   exception
+      -- Note that if remote access fails to start, the Thumper server will continue to function.
+      when others =>
+         Server_Logger.Write_Error ("*** Unable to start internal web server");
+   end;
 
    -- Set up the socket. This initializes the network streams (both input and output).
    Network.Socket.Create_And_Bind_Socket(Network.Addresses.Port_Type'Value(Get_Switch(Port)));

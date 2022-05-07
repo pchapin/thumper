@@ -64,9 +64,9 @@ You will also need to set up a database in the PostgreSQL server for use by Thum
 follows, the $ character is the console prompt and not part of the commands. Proceed as follows:
 
     $ psql -U postgres
-    postgres=> CREATE ROLE thumper WITH LOGIN CREATEDB PASSWORD 'supersecret';
+    postgres=> CREATE ROLE thumper WITH CREATEDB LOGIN PASSWORD 'rabbitsfoot';
     postgres=> \q
-    $ createdb -U thumper ThumperServer
+    $ createdb -U thumper ThumperDB
 
 The above commands log into PostgreSQL as the server superuser, creates a thumper user on the
 server with the ability to create databases, and then uses `createdb` to create the (empty)
@@ -140,7 +140,8 @@ Several of my students have assisted in the development of Thumper. Specifically
 + Nicole Hurley: Interfacing to OpenSSL.
 + Nancy Mai: Client side GUI.
 + Carter Ransom: Primitive encoding/decoding subprograms in Hermes.
-+ Ian Schulze: Providing AWS support for remote access to Thumper statistics.
++ Ian Schulze: Providing AWS support for remote access to the server.
++ Falit Sehgal: Providing AWS support for remote access to the server.
 + Stirling Sidaway: Primitive encoding/decoding subprograms in Hermes.
 
 Peter C. Chapin  

@@ -31,6 +31,8 @@ Formal specifications of cryptographic algorithms used by Thumper.
 
 + Thumper uses the [SHA256](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf) hash
   function.
+  
++ Documentation for the [OpenSSL library](https://www.openssl.org/docs/).
 
 Information about ASN.1.
 

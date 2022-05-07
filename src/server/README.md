@@ -57,8 +57,4 @@ date in 730 days (2 years). Documentation for the `openssl x509` command can be 
 
 The certificate signing request (server.csr) file is no longer needed and can be removed.
 
-You now have an RSA 256 public/private key pair
-
-
-
-
+You now have an RSA 2048-bit public/private key pair.
