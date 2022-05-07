@@ -88,7 +88,7 @@ package body Hermes.OID is
    end To_Separates;
 
 
-   procedure OIDToString(Comp : in Hermes.OID.Component_Array; Str : out String) is
+   procedure OID_To_String(Comp : in Hermes.OID.Component_Array; Str : out String) is
       SIndex   : Natural            := Str'First;
       len      : Natural;
       blank    : constant Character := ' ';
@@ -124,10 +124,10 @@ package body Hermes.OID is
          SIndex := SIndex + 1;
       end loop;
       -- Debug: Ada.Text_IO.Put_Line (Str);
-   end OIDToString;
+   end OID_To_String;
 
 
-   procedure StringToComponent
+   procedure String_To_Component
       (Text       : in String; 
        Num        : in out Natural;
        Component  : out Hermes.OID.Component_Type) is  
@@ -135,10 +135,10 @@ package body Hermes.OID is
       Component := Hermes.OID.Component_Type'Value(Text);
       Num := Num + 1;
       -- Debug: Ada.Text_IO.Put_Line(Text);
-   end StringToComponent;
+   end String_To_Component;
    
 
-   procedure StringToArray(Text : in String; Result : out Hermes.OID.Component_Array) is
+   procedure String_To_Array(Text : in String; Result : out Hermes.OID.Component_Array) is
       num       : Natural := 0;         -- Component_Array index value
       component : Hermes.OID.Component_Type;
       alpha     : constant Character_Set := To_Set(Singleton => '.');
@@ -154,11 +154,11 @@ package body Hermes.OID is
                      First => lower, 
                      Last => upper);
       exit when upper = 0;
-         StringToComponent(Text(lower..upper), num, component);
+         String_To_Component(Text(lower..upper), num, component);
          Result(num) := component; 
          iter := upper + 1;
       end loop;
-   end StringToArray;
+   end String_To_Array;
 
 
 end Hermes.OID;
