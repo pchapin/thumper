@@ -123,7 +123,9 @@ Several of my students have assisted in the development of Thumper. Specifically
 
 + Luke Alden: Unit testing.
 + Nathan Brown: Interfacing to OpenSSL.
++ Andrew Clark: Setting up digital signatures using OpenSSL.
 + Tim Cross: Primitive encoding/decoding subprograms in Hermes.
++ Michael Green: Implementatin of SHA-256 in Ada/SPARK.
 + Nicole Hurley: Interfacing to OpenSSL.
 + Nancy Mai: Client side GUI.
 + Carter Ransom: Primitive encoding/decoding subprograms in Hermes.

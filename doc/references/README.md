@@ -27,6 +27,13 @@ There are several RFCs of interest.
 
 + [RFC-5816](http://www.rfc-editor.org/rfc/rfc5816.txt) ESSCertIDv2 Update for RFC 3161.
 
+Formal specifications of cryptographic algorithms used by Thumper.
+
++ Thumper uses the [SHA256](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf) hash
+  function.
+
+Information about ASN.1.
+
 + ASN.1-Communication-Between-Hetero-Systems.pdf. A book on ASN.1 by Olivier Dubuisson. This
   book can be
   [freely downloaded](http://www.oss.com/asn1/resources/books-whitepapers-pubs/dubuisson-asn1-book.PDF)
@@ -64,5 +71,16 @@ Here are some papers related to this project.
 + [Design and Implementation of a RFC3161-Enhanced Time-Stamping Service](http://crypto.nknu.edu.tw/publications/2004IWAP.pdf)
   by Chung-Huang Yang, Chih-Ching Yeh, and Fang-Dar Chu.
 
+Here is some documentation about AdaCore's products/libraries that Thumper uses (GtkAda and
+AWS).
+
++ Documentation about [GtkAda](https://docs.adacore.com/gtkada-docs/gtkada_ug/_build/html/) on
+  AdaCore's site. AdaCore also has a [Getting Started with
+  GtkAda](https://docs.adacore.com/live/wave/gtkada/html/gtkada_ug/getting_started.html)
+  document.
+
 + [Developing a Web Server in Ada with
   AWS](https://silo.tips/download/developing-a-web-server-in-ada-with-aws) by J-P. Rosen.
+
++ Documentation about the [Ada Web Server](https://docs.adacore.com/aws-docs/aws/) on AdaCore's
+  site.
