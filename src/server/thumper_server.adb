@@ -13,18 +13,20 @@
 with Ada.Exceptions;
 with Ada.Strings.Unbounded;
 with Ada.Text_IO;
+with Server_Logger;
 
 with Cryptographic_Services;
 with Data_Storage;
 with Network.Addresses;
 with Network.Socket;
---with Remote_Access;
+with Remote_Access;
 with Server_SPARK_Boundary;
 with Thumper_Switches;
 
 use Ada.Exceptions;
 use Ada.Strings.Unbounded;
 use Thumper_Switches;
+use Remote_Access;
 
 procedure Thumper_Server is
    use type Cryptographic_Services.Status_Type;
@@ -53,7 +55,11 @@ begin
 
    -- Initialize the remote access. This procedure raises an exception if it fails.
    -- TODO: Handle the exception raised (or maybe change the procedure to return a status code).
-   --Remote_Access.Initialize;
+   begin Remote_Access.Initialize;
+      exception
+   when others =>
+         Server_Logger.Write_Error ("Unable to start web server");
+         end;
 
    -- Set up the socket. This initializes the network streams (both input and output).
    Network.Socket.Create_And_Bind_Socket(Network.Addresses.Port_Type'Value(Get_Switch(Port)));

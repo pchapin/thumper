@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+	<title>Admin Pannel</title>
+</head>
+<body>
+
+	
+<!-- 
+	<form action="/login" method="POST">
+	<input type="text" name="login">
+	<input type="password" name="password">
+	<input type="submit" value="Submit">
+</form> -->
+
+
+<h1>Welcome Admin, Select the date range you want to see info for.</h1>
+
+
+<div class="container">
+
+<form action="/submit.html" method="POST">
+
+<input type="submit" value="Submit">
+<input type="text" name="datetimes" />
+
+<script>
+$(function() {
+  $('input[name="datetimes"]').daterangepicker({
+    timePicker: true,
+    startDate: moment().startOf('hour'),
+    endDate: moment().startOf('hour').add(32, 'hour'),
+    locale: {
+      format: 'M/DD hh:mm A'
+    }
+  });
+});
+</script>
+
+   </form>
+
+ 
+
+</div>
+
+
+</body>
+</html>
