@@ -23,7 +23,6 @@ with Server_Logger;
 with Server_SPARK_Boundary;
 with Thumper_Switches;
 
-
 use Ada.Exceptions;
 use Ada.Strings.Unbounded;
 use Thumper_Switches;

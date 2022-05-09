@@ -44,20 +44,13 @@ package Hermes.OID is
 
    -- Converts a Component Array to an OID String (eg "2.6.3.7.23.122.6")
    procedure OID_To_String
-      (Comp : in Hermes.OID.Component_Array;
-       Str  : out String);
+      (Separates  : in  Hermes.OID.Component_Array;
+       OID_String : out String);
 
-   -- Converts a String to a Component_Type (Hermes.OID)
-   procedure String_To_Component
-      (Text       : in String; 
-       Num        : in out Natural;
-       Component  : out Hermes.OID.Component_Type);
-
-   -- Converts an OID String (eg "1.5.77.3.6.3.9") into a Component Array (Hermes.OID) 
-   procedure String_To_Array
-      (Text    : in String;
-       Result  : out Hermes.OID.Component_Array);
-
+   -- Converts an OID String (eg "1.5.77.3.6.3.9") into a Component Array (Hermes.OID)
+   procedure String_To_OID
+      (OID_String : in  String;
+       Separates  : out Hermes.OID.Component_Array);
 
 private
 

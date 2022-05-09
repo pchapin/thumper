@@ -88,3 +88,9 @@ AWS).
   site.
 
 + The [GitHub site for AWS](https://github.com/AdaCore/aws) is also interesting.
+
+Here is some information about the database used by Thumper.
+
++ The [PostgreSQL](https://www.postgresql.org/) main site. Look for the documentation link at
+  the top of the page.
+  

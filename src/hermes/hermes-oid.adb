@@ -88,77 +88,76 @@ package body Hermes.OID is
    end To_Separates;
 
 
-   procedure OID_To_String(Comp : in Hermes.OID.Component_Array; Str : out String) is
-      SIndex   : Natural            := Str'First;
-      len      : Natural;
-      blank    : constant Character := ' ';
+   procedure OID_To_String(Separates : in Hermes.OID.Component_Array; OID_String : out String) is
+      String_Index : Natural            := OID_String'First;
+      Length       : Natural;
+      Blank        : constant Character := ' ';
    begin
-      for I in Comp'Range loop
+      for I in Separates'Range loop
          declare
-            ct  : constant Hermes.OID.Component_Type := Comp(I); 
+            CT  : constant Hermes.OID.Component_Type := Separates(I);
          begin
-            len := 0;
-            -- Debug: Ada.Text_IO.Put_Line(ct'Image);
-            for K in ct'Image'Range loop
-               len := len + 1;
+            Length := 0;
+            for K in CT'Image'Range loop
+               Length := Length + 1;
             end loop;
          end;
+
          declare
-            num : String(1..len);
+            Number : String(1 .. Length);
          begin
-            num := Comp(I)'Image;
-            for J in num'Range loop
-               if num(J) /= blank then
-                  Str(SIndex) := num(J);
-                  SIndex := SIndex + 1;
+            Number := Separates(I)'Image;
+            for J in Number'Range loop
+               if Number(J) /= Blank then
+                  OID_String(String_Index) := Number(J);
+                  String_Index := String_Index + 1;
                end if;
             end loop;
-         end; 
-         if I = Comp'Last then
-            for L in SIndex..Str'Last loop
-               Str(L) := blank;
+         end;
+         if I = Separates'Last then
+            for L in String_Index .. OID_String'Last loop
+               OID_String(L) := Blank;
             end loop;
             exit;
          end if;
-         Str(SIndex) := '.';
-         SIndex := SIndex + 1;
+         OID_String(String_Index) := '.';
+         String_Index := String_Index + 1;
       end loop;
-      -- Debug: Ada.Text_IO.Put_Line (Str);
    end OID_To_String;
 
 
    procedure String_To_Component
-      (Text       : in String; 
-       Num        : in out Natural;
-       Component  : out Hermes.OID.Component_Type) is  
+      (Text       : in String;
+       Number     : in out Natural;
+       Component  : out Hermes.OID.Component_Type) is
    begin
       Component := Hermes.OID.Component_Type'Value(Text);
-      Num := Num + 1;
-      -- Debug: Ada.Text_IO.Put_Line(Text);
+      Number := Number + 1;
    end String_To_Component;
-   
 
-   procedure String_To_Array(Text : in String; Result : out Hermes.OID.Component_Array) is
-      num       : Natural := 0;         -- Component_Array index value
-      component : Hermes.OID.Component_Type;
-      alpha     : constant Character_Set := To_Set(Singleton => '.');
-      iter      : Natural := 1;         --iterator
-      lower     : Positive;             --lower index location for numbers
-      upper     : Natural;              --upper index location for numbers
+
+   procedure String_To_OID(OID_String : in String; Separates : out Hermes.OID.Component_Array) is
+      Number    : Natural := 0;  -- Component_Array index value
+      Component : Hermes.OID.Component_Type;
+      Alpha     : constant Character_Set := To_Set(Singleton => '.');
+      Iterator  : Natural := 1;
+      Lower     : Positive;      -- Lower index location for numbers
+      Upper     : Natural;       -- Upper index location for numbers
    begin
-      while iter in Text'Range loop
-         Find_Token (Source => Text, 
-                     Set => alpha,
-                     From => iter,
-                     Test => Outside, 
-                     First => lower, 
-                     Last => upper);
-      exit when upper = 0;
-         String_To_Component(Text(lower..upper), num, component);
-         Result(num) := component; 
-         iter := upper + 1;
+      while Iterator in OID_String'Range loop
+         Find_Token
+           (Source => OID_String,
+            Set    => Alpha,
+            From   => Iterator,
+            Test   => Outside,
+            First  => Lower,
+            Last   => Upper);
+      exit when Upper = 0;
+         String_To_Component(OID_String(Lower .. Upper), Number, Component);
+         Separates(Number) := Component;
+         Iterator := Upper + 1;
       end loop;
-   end String_To_Array;
+   end String_To_OID;
 
 
 end Hermes.OID;

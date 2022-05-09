@@ -43,31 +43,7 @@ package body Client_SPARK_Boundary is
    end Read_Document_File;
 
 
-   -- TODO: This is a useful function. Put it in a common library somewhere?
-   function Octets_To_String (Octets : in Hermes.Octet_Array) return String is
-      Returned_String : String(1 .. 3  * Octets'Length - 1) := (others => ' ');
-      Lookup_Array    : constant array(Octet range 0 .. 15) of Character :=
-        ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F');
-      Octet_Value : Hermes.Octet;
-      Temp_Value  : Hermes.Octet;
-      J           : Positive := 1;
-   begin
-      for I in Octets'Range loop
-         Octet_Value := Octets(I);
-
-         Temp_Value := Octet_Value / 16;
-         Returned_String(J) := Lookup_Array(Temp_Value);
-         J := J + 1;
-
-         Temp_Value := Octet_Value rem 16;
-         Returned_String(J) := Lookup_Array(Temp_Value);
-         J := J + 2;
-      end loop;
-      return Returned_String;
-   end Octets_To_String;
-
-
-   procedure Fetch_Timestamp (Document_File_Name : in String; Timestamp_File_Name : in String) is
+   procedure Fetch_Timestamp(Document_File_Name : in String; Timestamp_File_Name : in String) is
       pragma Unreferenced(Timestamp_File_Name); -- TODO: Finish this procedure!
 
       File_Hash    : constant SHA256_Hash_Type := Read_Document_File(Document_File_Name);

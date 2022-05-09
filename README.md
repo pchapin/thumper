@@ -136,13 +136,14 @@ Several of my students have assisted in the development of Thumper. Specifically
 + Nathan Brown: Interfacing to OpenSSL.
 + Andrew Clark: Setting up digital signatures using OpenSSL.
 + Tim Cross: Primitive encoding/decoding subprograms in Hermes.
-+ Michael Green: Implementatin of SHA-256 in Ada/SPARK.
++ Michael Green: Implementation of SHA-256 in Ada/SPARK.
 + Nicole Hurley: Interfacing to OpenSSL.
 + Nancy Mai: Client side GUI.
++ Elizabeth Nittler: Database access.
 + Carter Ransom: Primitive encoding/decoding subprograms in Hermes.
 + Ian Schulze: Providing AWS support for remote access to the server.
 + Falit Sehgal: Providing AWS support for remote access to the server.
-+ Stirling Sidaway: Primitive encoding/decoding subprograms in Hermes.
++ Stirling Sidaway: Client file hashing.
 
 Peter C. Chapin  
 pchapin@vtc.edu
