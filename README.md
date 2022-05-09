@@ -105,10 +105,10 @@ file `/etc/postgresql/[VERSION]/main/pg_hba.conf` to contain the following lines
 significant):
 
     # "local" is for Unix domain socket connections only
-    local   ThumperServer   thumper        md5
+    local   ThumperDB       thumper        md5
     local   all             all            peer
 
-This allows the user thumper to attach to the ThumperServer database via md5-style passwords,
+This allows the user thumper to attach to the ThumperDB database via md5-style passwords,
 even when connecting from the local system. Peer authentication won't work because there is
 (probably) no thumper user on the overall Linux system. The order of the lines matter because if
 they were in the opposite order, the "all all" will match every database and every user before
