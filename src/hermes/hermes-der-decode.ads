@@ -1,18 +1,18 @@
 ---------------------------------------------------------------------------
 -- FILE    : hermes-der-decode.ads
 -- SUBJECT : Specification of a package for decoding DER encoded data.
--- AUTHOR  : (C) Copyright 2015 by Peter Chapin
+-- AUTHOR  : (C) Copyright 2022 by Peter Chapin
 --
 -- Please send comments or bug reports to
 --
---      Peter Chapin <chapinp@acm.org>
+--      Peter Chapin <pchapin@vtc.edu>
 ---------------------------------------------------------------------------
 pragma SPARK_Mode(On);
 
 with Hermes.OID;
 
 package Hermes.DER.Decode is
-   
+
    -- Splits a leading identifier octet into its constituent parts. Fails with
    -- DER.Bad_Identifier if Value is an invalid first identifier octet.
    --
@@ -25,7 +25,7 @@ package Hermes.DER.Decode is
      with
        Depends => ( (Tag_Class, Structured_Flag, Tag, Status) => Value);
 
-   
+
    -- Examines the Message starting at position Start looking for a DER encoded length.
    --
    -- Message => The message to examine.
@@ -77,7 +77,7 @@ package Hermes.DER.Decode is
        Depends => ( (Stop, value, Status) => (Message, Start) ),
        Pre => Start in Message'Range,
        Post => Stop in Start .. Message'Last;
-   
+
 
    -- Examines the Message starting at position Start looking for a DER encoded integer.
    --
@@ -105,17 +105,16 @@ package Hermes.DER.Decode is
        Pre => Start in Message'Range,
        Post => Stop in Start .. Message'Last;
 
-   -- Examines the Message starting at position Start looking for a DER encoded integer.
+   -- Examines the Message starting at position Start looking for a DER encoded object identifier.
    --
    -- Message => The message to examine.
-   -- Start   => The starting position in the message where the integer is to be extracted.
-   -- Stop    => The last position in the message used by the encoded integer.
-   -- Value   => The extracted Component Array.
+   -- Start   => The starting position in the message where the OID is to be extracted.
+   -- Stop    => The last position in the message used by the encoded OID.
+   -- Value   => The extracted object identifier.
    -- Status  => The status of the extraction (success/failure, etc).
    --
-   -- Decodes a DER encoded object identifier vaule.
-   -- 
-      
+   -- Decodes a DER encoded object identifier value.
+   --
    procedure Get_OID_Value
      (Message : in  Octet_Array;
       Start   : in  Natural;

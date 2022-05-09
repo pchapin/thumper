@@ -1,11 +1,11 @@
 ---------------------------------------------------------------------------
 -- FILE    : check_der_decode.adb
 -- SUBJECT : Package containing tests of ASN.1 DER decoding.
--- AUTHOR  : (C) Copyright 2015 by Peter Chapin
+-- AUTHOR  : (C) Copyright 2022 by Peter Chapin
 --
 -- Please send comments or bug reports to
 --
---      Peter Chapin <chapinp@acm.org>
+--      Peter Chapin <pchapin@vtc.edu>
 ---------------------------------------------------------------------------
 with AUnit.Assertions;
 with Hermes.DER.Decode;
@@ -263,10 +263,10 @@ package body Check_DER_Decode is
       end loop;
    end Test_Get_Integer;
 
+
    procedure Test_Get_OID(T : in out AUnit.Test_Cases.Test_Case'Class) is
       pragma Unreferenced(T);
-      A: Hermes.OID.Component_Array(1 .. 9);
-      B: Hermes.OID.Component_Count_Type;
+
       type Input_Record is
          record
             Data  : Octet_Array_Access;
@@ -289,15 +289,20 @@ package body Check_DER_Decode is
       subtype Array_1_Type is Octet_Array(1 .. 11);
 
       Test_Cases : constant array(1 .. 1) of Test_Case :=
-        (1 => (Input => (Data => new Array_1_Type'(16#06#, 16#09#, 16#60#,
-                                 16#86#, 16#48#, 16#01#,16#65#,
-                                 16#03#, 16#04#, 16#02#, 16#01#), Start => 1),
-               Expected => (Stop => 9, Value => (2,16,840,1,101,3,4,2,1),
-               Status => Success)));
+        (1 => (Input => (Data => new Array_1_Type'
+                           (16#06#, 16#09#, 16#60#, 16#86#,
+                            16#48#, 16#01#, 16#65#, 16#03#,
+                            16#04#, 16#02#, 16#01#),
+                         Start => 1),
+               Expected => (Stop   => 9,
+                            Value  => (2, 16, 840, 1, 101, 3, 4, 2, 1),
+                            Status => Success)));
 
-      Test_Stop   : Natural;
-      Test_Value  : Hermes.OID.Object_Identifier;
-      Test_Status : Hermes.DER.Status_Type;
+      Test_Stop           : Natural;
+      Test_Value          : Hermes.OID.Object_Identifier;
+      Test_Components     : Hermes.OID.Component_Array(1 .. 9);
+      Test_Component_Count: Hermes.OID.Component_Count_Type;
+      Test_Status         : Hermes.DER.Status_Type;
    begin
       for I in Test_Cases'Range loop
          Get_OID_Value
@@ -306,14 +311,16 @@ package body Check_DER_Decode is
             Test_Stop,
             Test_Value,
             Test_Status);
-         Hermes.OID.To_Separates(Test_Value,A,B);
+
+         Hermes.OID.To_Separates(Test_Value, Test_Components, Test_Component_Count);
          Assert
-           (Test_Stop   = Test_Cases(I).Expected.Stop   and
-            A(1 .. B)   = Test_Cases(I).Expected.Value  and
-            Test_Status = Test_Cases(I).Expected.Status,
+           (Test_Stop                                  = Test_Cases(I).Expected.Stop   and
+            Test_Components(1 .. Test_Component_Count) = Test_Cases(I).Expected.Value  and
+            Test_Status                                = Test_Cases(I).Expected.Status,
             "Test case #" & Integer'Image(I) & " failed");
       end loop;
    end Test_Get_OID;
+
 
    procedure Register_Tests(T : in out DER_Decode_Test) is
    begin

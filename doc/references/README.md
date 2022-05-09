@@ -86,3 +86,5 @@ AWS).
 
 + Documentation about the [Ada Web Server](https://docs.adacore.com/aws-docs/aws/) on AdaCore's
   site.
+
++ The [GitHub site for AWS](https://github.com/AdaCore/aws) is also interesting.
