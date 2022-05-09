@@ -23,6 +23,7 @@ with Server_Logger;
 with Server_SPARK_Boundary;
 with Thumper_Switches;
 
+
 use Ada.Exceptions;
 use Ada.Strings.Unbounded;
 use Thumper_Switches;
@@ -33,6 +34,7 @@ procedure Thumper_Server is
    Command_Line_Okay : Boolean;
    Error_Message : Unbounded_String;
    Crypto_Status : Cryptographic_Services.Status_Type;
+
 begin
    -- Be sure the command line makes sense.
    Thumper_Switches.Validate(Thumper_Switches.Server, Command_Line_Okay, Error_Message);
